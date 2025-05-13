@@ -6,107 +6,128 @@
   <title>Customize Your PlugBot</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #0a0a0a;
-      color: #f4f4f4;
-      padding: 2rem;
+      background-color: #0b0b0b;
+      color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
+      padding: 2rem;
     }
-    .container {
-      max-width: 720px;
-      background: rgba(20, 20, 20, 0.98);
-      padding: 3rem;
-      border-radius: 18px;
-      box-shadow: 0 0 60px rgba(255, 255, 255, 0.05);
+
+    .wrapper {
+      max-width: 460px;
+      width: 100%;
+      background: #111;
+      padding: 3rem 2rem;
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.05);
       animation: fadeIn 1s ease-in-out;
     }
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 1.8rem;
+      font-weight: 700;
+    }
+
+    label {
+      font-weight: 600;
+      margin-top: 1.3rem;
+      display: block;
+      font-size: 0.95rem;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 0.9rem;
+      margin-top: 0.4rem;
+      border-radius: 14px;
+      background: #1c1c1c;
+      color: #f1f1f1;
+      border: 1px solid #333;
+      font-size: 1rem;
+    }
+
+    .checkbox-group {
+      margin-top: 0.5rem;
+    }
+
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      font-weight: 400;
+      margin: 0.4rem 0;
+    }
+
+    .checkbox-group input {
+      margin-right: 0.7rem;
+    }
+
+    button {
+      margin-top: 2rem;
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      background: linear-gradient(135deg, #ffffff, #cccccc);
+      color: #111;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.03);
+      background: linear-gradient(135deg, #eaeaea, #c0c0c0);
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    h1 {
-      text-align: center;
-      font-size: 2.8rem;
-      font-weight: 700;
-      margin-bottom: 2rem;
-    }
-    label {
-      display: block;
-      margin-top: 1.5rem;
-      font-weight: 600;
-      font-size: 1.05rem;
-      color: #ccc;
-    }
-    input, select, textarea {
-      width: 100%;
-      margin-top: 0.4rem;
-      padding: 0.9rem;
-      border-radius: 12px;
-      border: none;
-      font-size: 1rem;
-      background-color: #1a1a1a;
-      color: #f4f4f4;
-    }
-    .checkbox-group {
-      margin-top: 0.5rem;
-    }
-    .checkbox-group label {
-      font-weight: 400;
-      display: flex;
-      align-items: center;
-      margin-bottom: 0.5rem;
-      cursor: pointer;
-    }
-    .checkbox-group input {
-      margin-right: 0.6rem;
-    }
-    button {
-      margin-top: 2.2rem;
-      padding: 1rem 2rem;
-      font-size: 1.2rem;
-      font-weight: bold;
-      border: none;
-      border-radius: 14px;
-      background: linear-gradient(to right, #ffffff, #cfcfcf);
-      color: #000;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover {
-      transform: scale(1.05);
-      background: linear-gradient(to right, #eaeaea, #d0d0d0);
+
+    @media screen and (max-width: 500px) {
+      .wrapper {
+        padding: 2rem 1.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Customize Your PlugBot</h1>
+  <div class="wrapper">
+    <h1>PlugBot Customizer</h1>
     <form id="plugbotForm">
-      <label for="brand">Your Brand Name</label>
-      <input type="text" name="brand" required />
+      <label for="brand">Brand Name</label>
+      <input type="text" name="brand" required>
 
       <label for="offer">Describe Your Offer</label>
       <textarea name="offer" rows="4" required></textarea>
 
-      <label for="cta">Main Call To Action</label>
-      <input type="text" name="cta" placeholder="e.g. Book your free call now" required />
+      <label for="cta">Main Call to Action</label>
+      <input type="text" name="cta" placeholder="e.g. Book your free call now" required>
 
-      <label for="platforms">Where Will You Use This Bot?</label>
+      <label>Where Will You Use It?</label>
       <div class="checkbox-group">
         <label><input type="checkbox" name="platforms[]" value="Instagram Bio"> Instagram Bio</label>
         <label><input type="checkbox" name="platforms[]" value="Sales Funnel"> Sales Funnel</label>
         <label><input type="checkbox" name="platforms[]" value="Email Signature"> Email Signature</label>
-        <label><input type="checkbox" name="platforms[]" value="TikTok Link-in-Bio"> TikTok Link-in-Bio</label>
-        <label><input type="checkbox" name="platforms[]" value="WhatsApp Link"> WhatsApp Link</label>
+        <label><input type="checkbox" name="platforms[]" value="TikTok"> TikTok Link-in-Bio</label>
+        <label><input type="checkbox" name="platforms[]" value="WhatsApp"> WhatsApp Link</label>
         <label><input type="checkbox" name="platforms[]" value="QR Code"> QR Code (Posters/Merch)</label>
       </div>
 
-      <label for="tone">Choose a Voice Style</label>
+      <label for="tone">Choose a Voice</label>
       <select name="tone" required>
         <option value="Boss Woman">Boss Woman</option>
         <option value="Chill Bro">Chill Bro</option>
@@ -116,17 +137,16 @@
         <option value="Playful Genius">Playful Genius</option>
       </select>
 
-      <label for="link">Your Booking Link (optional)</label>
-      <input type="url" name="link" placeholder="https://yourcalendly.com/..." />
+      <label for="link">Booking Link (optional)</label>
+      <input type="url" name="link" placeholder="https://yourcalendly.com/...">
 
-      <button type="submit">⚡ Generate My Bot</button>
+      <button type="submit">✨ Generate My Bot</button>
     </form>
   </div>
 
   <script>
     document.getElementById('plugbotForm').addEventListener('submit', async function (e) {
       e.preventDefault();
-
       const formData = new FormData(this);
       const payload = {};
       formData.forEach((value, key) => {
@@ -147,7 +167,6 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
-
         window.location.href = "/activate.html";
       } catch (err) {
         alert("Something went wrong. Try again.");
