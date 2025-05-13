@@ -1,13 +1,16 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Activate Your PlugBot</title>
   <script src="https://js.stripe.com/v3/"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Helvetica+Neue&display=swap">
   <style>
+    * { box-sizing: border-box; }
     body {
+      margin: 0;
+      padding: 0;
       background: #000;
       color: #fff;
       font-family: 'Helvetica Neue', sans-serif;
@@ -15,55 +18,65 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      margin: 0;
     }
-    .container {
-      background: #111;
-      padding: 50px;
+
+    .card {
+      background: #121212;
+      padding: 3rem;
       border-radius: 20px;
-      box-shadow: 0 0 40px rgba(255, 255, 255, 0.06);
-      width: 100%;
-      max-width: 600px;
+      max-width: 480px;
+      width: 90%;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
       text-align: center;
     }
+
     h1 {
       font-size: 2rem;
-      margin-bottom: 20px;
+      margin-bottom: 0.5rem;
+      color: #fff;
     }
+
     p {
       font-size: 1rem;
-      color: #ccc;
-      margin-bottom: 40px;
+      color: #aaa;
+      margin-bottom: 2rem;
     }
+
     #payment-element {
-      margin-bottom: 20px;
+      margin-bottom: 1.5rem;
     }
+
     button {
-      padding: 15px 30px;
       background: #fff;
       color: #000;
-      font-weight: 600;
       border: none;
-      border-radius: 10px;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1rem;
       cursor: pointer;
-      transition: 0.3s ease;
+      transition: all 0.3s ease;
     }
+
     button:hover {
       background: #0f0;
+      color: #000;
     }
+
     #error-message {
-      color: #f55;
-      margin-top: 15px;
+      color: #ff4f4f;
+      margin-top: 1rem;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="card">
     <h1>Activate Your PlugBot</h1>
-    <p>Finish your $97/month subscription to launch your bot.</p>
+    <p>Secure your $97/month subscription to finish building your bot.</p>
 
     <form id="payment-form">
-      <div id="payment-element"><!--Stripe.js injects here--></div>
+      <div id="payment-element"><!--Stripe will embed form here--></div>
       <button id="submit">Submit Payment</button>
       <div id="error-message"></div>
     </form>
