@@ -97,7 +97,7 @@
 <body>
   <div class="container">
     <h1>Customize Your PlugBot</h1>
-    <form action="https://hook.us2.make.com/28pb73d36ybmc4urrpm2cj4lyvr3qjyg" method="POST" onsubmit="setTimeout(() => window.location.href = '/activate.html', 500);">
+    <form id="customForm">
       <label for="brandName">Brand or Creator Name</label>
       <input type="text" id="brandName" name="brandName" required />
 
@@ -159,5 +159,22 @@
       <button type="submit">Submit & Build My Bot</button>
     </form>
   </div>
+
+  <script>
+    document.getElementById('customForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
+
+      fetch('https://hook.us2.make.com/28pb73d36ybmc4urrpm2cj4lyvr3qjyg', {
+        method: 'POST',
+        body: data
+      }).then(() => {
+        window.location.href = '/activate.html';
+      }).catch(() => {
+        alert("Something went wrong. Please try again.");
+      });
+    });
+  </script>
 </body>
 </html>
