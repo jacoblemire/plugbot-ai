@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Customize Your PlugBot</title>
   <style>
     body {
@@ -19,13 +19,13 @@
     }
     .container {
       width: 90%;
-      max-width: 600px;
+      max-width: 700px;
       background: #111;
       padding: 40px;
       border-radius: 20px;
       box-shadow: 0 0 60px rgba(255, 255, 255, 0.05);
     }
-    h1 {
+    h1, h2 {
       text-align: center;
       font-size: 2rem;
       margin-bottom: 1rem;
@@ -40,7 +40,9 @@
       font-weight: 600;
     }
     input[type="text"],
-    input[type="url"] {
+    input[type="url"],
+    select,
+    textarea {
       padding: 12px;
       border: none;
       border-radius: 8px;
@@ -79,6 +81,12 @@
       background: #0f0;
       color: #000;
     }
+    .warning {
+      font-size: 0.9rem;
+      color: #ccc;
+      margin-top: -15px;
+      margin-bottom: 30px;
+    }
   </style>
 </head>
 <body>
@@ -100,6 +108,48 @@
         <label><input type="checkbox" name="features" value="DM Automation" /> DM Automation</label>
         <label><input type="checkbox" name="features" value="Custom FAQ Flow" /> Custom FAQ Flow</label>
       </div>
+
+      <h2>Optional (Recommended for Best Performance)</h2>
+
+      <label for="botTone">Bot Personality Tone</label>
+      <select id="botTone" name="botTone">
+        <option value="">Select a tone</option>
+        <option value="Professional">Professional</option>
+        <option value="Hype">Hype</option>
+        <option value="Casual">Casual</option>
+        <option value="Luxury">Luxury</option>
+        <option value="Spiritual">Spiritual</option>
+        <option value="Funny">Funny</option>
+      </select>
+
+      <label for="greetingMessage">Custom Bot Greeting</label>
+      <input type="text" id="greetingMessage" name="greetingMessage" placeholder="Hey 👋 Ready to learn more?" />
+
+      <label for="leadQuestion">Qualifying Question (optional)</label>
+      <input type="text" id="leadQuestion" name="leadQuestion" placeholder="What's your current monthly revenue?" />
+
+      <label for="disqualifier">Red Flag Answer</label>
+      <input type="text" id="disqualifier" name="disqualifier" placeholder="e.g. I don't want to invest" />
+
+      <label for="bookingLink">Booking Link (Calendly, etc.)</label>
+      <input type="url" id="bookingLink" name="bookingLink" placeholder="https://calendly.com/yourname" />
+
+      <label for="instagram">Instagram Handle</label>
+      <input type="text" id="instagram" name="instagram" placeholder="@yourhandle" />
+
+      <label for="tiktok">TikTok Link</label>
+      <input type="url" id="tiktok" name="tiktok" />
+
+      <label for="discord">Discord/Community Link</label>
+      <input type="url" id="discord" name="discord" />
+
+      <label for="website">Website or Funnel Link</label>
+      <input type="url" id="website" name="website" />
+
+      <label for="faqSource">FAQ Source (Google Doc or Notion)</label>
+      <input type="url" id="faqSource" name="faqSource" />
+
+      <div class="warning">⚠️ To make changes later, you must resubmit this form.</div>
 
       <button type="submit">Submit & Build My Bot</button>
     </form>
