@@ -3,131 +3,120 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Customize Your PlugBot</title>
+  <title>PlugBot Customizer</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Poppins', sans-serif;
       background-color: #0a0a0a;
-      color: #ffffff;
+      color: #f4f4f4;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
+      padding: 3rem 1rem;
       min-height: 100vh;
-      padding: 2rem;
     }
     .container {
-      background: #0e0e0e;
-      border-radius: 20px;
-      padding: 3rem;
-      max-width: 720px;
       width: 100%;
-      box-shadow: 0 0 40px rgba(255, 255, 255, 0.04);
-      transition: all 0.3s ease;
+      max-width: 800px;
+      background: rgba(20, 20, 20, 0.98);
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 0 60px rgba(255, 255, 255, 0.05);
     }
     h1 {
-      text-align: center;
-      font-size: 2.8rem;
+      font-size: 2.5rem;
       font-weight: 700;
-      margin-bottom: 2.5rem;
-      color: #ffffff;
+      margin-bottom: 2rem;
+      text-align: center;
     }
     label {
       display: block;
-      margin-top: 1.6rem;
+      margin-top: 1.5rem;
       font-weight: 600;
       font-size: 1rem;
-      color: #cccccc;
+      color: #ccc;
     }
-    input, select, textarea {
+    input[type="text"], input[type="url"], select, textarea {
       width: 100%;
       margin-top: 0.5rem;
-      padding: 1rem;
-      border-radius: 14px;
-      border: none;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
       background: #1a1a1a;
-      color: #ffffff;
+      color: #fff;
+      border: 1px solid #2a2a2a;
       font-size: 1rem;
-      transition: background 0.2s ease;
     }
-    input:focus, select:focus, textarea:focus {
-      background: #222222;
-      outline: none;
+    textarea {
+      resize: none;
     }
-    .platforms-grid {
+    .platform-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.2rem;
+      gap: 1rem;
       margin-top: 1rem;
     }
-    .platforms-grid label {
+    .checkbox-tile {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      font-size: 0.95rem;
-      font-weight: 500;
       background: #1a1a1a;
-      padding: 0.9rem 1rem;
+      padding: 1rem;
       border-radius: 14px;
-      transition: background 0.3s ease;
-      box-shadow: 0 0 6px rgba(255, 255, 255, 0.03);
     }
-    .platforms-grid label:hover {
-      background: #2a2a2a;
+    .checkbox-tile input[type="checkbox"] {
+      width: 1.2rem;
+      height: 1.2rem;
+      accent-color: #fff;
+    }
+    .checkbox-tile span {
+      font-size: 0.95rem;
+      color: #eee;
     }
     button {
       margin-top: 2.5rem;
       width: 100%;
-      padding: 1.2rem;
-      font-size: 1.15rem;
-      font-weight: 700;
-      border: none;
+      padding: 1rem;
+      font-size: 1.2rem;
+      font-weight: bold;
       border-radius: 16px;
-      background: linear-gradient(to right, #ffffff, #e0e0e0);
-      color: #000000;
+      background: linear-gradient(to right, #fff, #ccc);
+      color: #000;
+      border: none;
       cursor: pointer;
-      transition: transform 0.3s ease;
+      transition: all 0.3s ease;
     }
     button:hover {
       transform: scale(1.03);
-      background: linear-gradient(to right, #f0f0f0, #cfcfcf);
-    }
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 2.1rem;
-      }
+      background: linear-gradient(to right, #eee, #bbb);
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Customize Your PlugBot</h1>
+    <h1>PlugBot Customizer</h1>
     <form id="plugbotForm">
-      <label for="brand">Brand Name</label>
-      <input type="text" name="brand" placeholder="Your business or creator name" required />
+      <label>Brand Name</label>
+      <input type="text" name="brand" required />
 
-      <label for="offer">What does your bot offer?</label>
-      <textarea name="offer" rows="4" placeholder="Describe your offer or service..." required></textarea>
+      <label>Describe Your Offer</label>
+      <textarea name="offer" rows="4" required></textarea>
 
-      <label for="cta">Main Call to Action</label>
+      <label>Main Call to Action</label>
       <input type="text" name="cta" placeholder="e.g. Book your free call now" required />
 
-      <label for="platforms">Where Will You Use It?</label>
-      <div class="platforms-grid">
-        <label><input type="checkbox" name="platforms[]" value="Instagram Bio"> Instagram Bio</label>
-        <label><input type="checkbox" name="platforms[]" value="Sales Funnel"> Sales Funnel</label>
-        <label><input type="checkbox" name="platforms[]" value="Email Signature"> Email Signature</label>
-        <label><input type="checkbox" name="platforms[]" value="TikTok Link-in-Bio"> TikTok Link-in-Bio</label>
-        <label><input type="checkbox" name="platforms[]" value="WhatsApp Link"> WhatsApp Link</label>
-        <label><input type="checkbox" name="platforms[]" value="QR Code"> QR Code (Posters/Merch)</label>
+      <label>Where Will You Use It?</label>
+      <div class="platform-grid">
+        <label class="checkbox-tile"><input type="checkbox" name="platforms[]" value="Instagram Bio"><span>Instagram Bio</span></label>
+        <label class="checkbox-tile"><input type="checkbox" name="platforms[]" value="Sales Funnel"><span>Sales Funnel</span></label>
+        <label class="checkbox-tile"><input type="checkbox" name="platforms[]" value="Email Signature"><span>Email Signature</span></label>
+        <label class="checkbox-tile"><input type="checkbox" name="platforms[]" value="TikTok Link-in-Bio"><span>TikTok Link-in-Bio</span></label>
+        <label class="checkbox-tile"><input type="checkbox" name="platforms[]" value="WhatsApp Link"><span>WhatsApp Link</span></label>
+        <label class="checkbox-tile"><input type="checkbox" name="platforms[]" value="QR Code"><span>QR Code (Posters/Merch)</span></label>
       </div>
 
-      <label for="tone">Choose a Voice Style</label>
+      <label>Choose a Voice Style</label>
       <select name="tone" required>
         <option value="Boss Woman">Boss Woman</option>
         <option value="Chill Bro">Chill Bro</option>
@@ -137,41 +126,11 @@
         <option value="Playful Genius">Playful Genius</option>
       </select>
 
-      <label for="link">Booking Link (Optional)</label>
+      <label>Your Booking Link (Optional)</label>
       <input type="url" name="link" placeholder="https://yourcalendly.com/..." />
 
-      <button type="submit">⚡ Generate My Bot</button>
+      <button type="submit">⚡ Generate My PlugBot</button>
     </form>
   </div>
-
-  <script>
-    document.getElementById('plugbotForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
-      const formData = new FormData(this);
-      const payload = {};
-      formData.forEach((value, key) => {
-        if (payload[key]) {
-          if (Array.isArray(payload[key])) {
-            payload[key].push(value);
-          } else {
-            payload[key] = [payload[key], value];
-          }
-        } else {
-          payload[key] = value;
-        }
-      });
-      try {
-        await fetch("https://hook.us2.make.com/28pb73d36ybmc4urrpm2cj4lyvr3qjyg", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-        window.location.href = "/activate.html";
-      } catch (err) {
-        alert("Something went wrong. Try again.");
-        console.error(err);
-      }
-    });
-  </script>
 </body>
 </html>
