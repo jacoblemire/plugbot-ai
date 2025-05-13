@@ -1,135 +1,107 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlugBot Customizer</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Customize Your PlugBot</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #0a0a0a;
-      color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      font-family: 'Helvetica Neue', sans-serif;
+      background-color: #000;
+      color: #fff;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
-      padding: 3rem 1rem;
+      align-items: center;
       min-height: 100vh;
     }
     .container {
-      width: 100%;
-      max-width: 800px;
-      background: rgba(20, 20, 20, 0.98);
-      padding: 2.5rem;
+      width: 90%;
+      max-width: 600px;
+      background: #111;
+      padding: 40px;
       border-radius: 20px;
       box-shadow: 0 0 60px rgba(255, 255, 255, 0.05);
     }
     h1 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 2rem;
       text-align: center;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      letter-spacing: 1px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
     }
     label {
-      display: block;
-      margin-top: 1.5rem;
+      margin: 10px 0 5px;
       font-weight: 600;
-      font-size: 1rem;
-      color: #ccc;
     }
-    input[type="text"], input[type="url"], select, textarea {
-      width: 100%;
-      margin-top: 0.5rem;
-      padding: 0.85rem 1rem;
-      border-radius: 12px;
-      background: #1a1a1a;
+    input[type="text"],
+    input[type="url"] {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #222;
       color: #fff;
-      border: 1px solid #2a2a2a;
       font-size: 1rem;
+      margin-bottom: 20px;
     }
-    textarea {
-      resize: none;
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
     }
-    .platform-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-    .checkbox-tile {
+    .checkbox-group label {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      background: #1a1a1a;
-      padding: 1rem;
-      border-radius: 14px;
+      font-weight: 400;
     }
-    .checkbox-tile input[type="checkbox"] {
-      width: 1.2rem;
-      height: 1.2rem;
-      accent-color: #fff;
-    }
-    .checkbox-tile span {
-      font-size: 0.95rem;
-      color: #eee;
+    .checkbox-group input[type="checkbox"] {
+      accent-color: #0f0;
+      margin-right: 10px;
+      transform: scale(1.2);
     }
     button {
-      margin-top: 2.5rem;
-      width: 100%;
-      padding: 1rem;
-      font-size: 1.2rem;
-      font-weight: bold;
-      border-radius: 16px;
-      background: linear-gradient(to right, #fff, #ccc);
+      padding: 15px;
+      background: #fff;
       color: #000;
       border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
     }
     button:hover {
-      transform: scale(1.03);
-      background: linear-gradient(to right, #eee, #bbb);
+      background: #0f0;
+      color: #000;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>PlugBot Customizer</h1>
-    <form id="plugbotForm">
-      <label>Brand Name</label>
-      <input type="text" name="brand" required />
+    <h1>Customize Your PlugBot</h1>
+    <form action="https://hook.us2.make.com/28pb73d36ybmc4urrpm2cj4lyvr3qjyg" method="POST">
+      <label for="brandName">Brand or Creator Name</label>
+      <input type="text" id="brandName" name="brandName" required />
 
-      <label>Describe Your Offer</label>
-      <textarea name="offer" rows="4" required></textarea>
+      <label for="mainPlatform">Main Platform URL</label>
+      <input type="url" id="mainPlatform" name="mainPlatform" placeholder="https://yourlink.com" required />
 
-      <label>Main Call to Action</label>
-      <input type="text" name="cta" placeholder="e.g. Book your free call now" required />
+      <label for="targetAudience">Who is your ideal customer?</label>
+      <input type="text" id="targetAudience" name="targetAudience" required />
 
-      <label>Where Will You Use It?</label>
-      <div class="platform-grid">
-        <label class="checkbox-tile"><input type="checkbox" name="platforms[]" value="Instagram Bio"><span>Instagram Bio</span></label>
-        <label class="checkbox-tile"><input type="checkbox" name="platforms[]" value="Sales Funnel"><span>Sales Funnel</span></label>
-        <label class="checkbox-tile"><input type="checkbox" name="platforms[]" value="Email Signature"><span>Email Signature</span></label>
-        <label class="checkbox-tile"><input type="checkbox" name="platforms[]" value="TikTok Link-in-Bio"><span>TikTok Link-in-Bio</span></label>
-        <label class="checkbox-tile"><input type="checkbox" name="platforms[]" value="WhatsApp Link"><span>WhatsApp Link</span></label>
-        <label class="checkbox-tile"><input type="checkbox" name="platforms[]" value="QR Code"><span>QR Code (Posters/Merch)</span></label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="features" value="Appointment Booking" /> Appointment Booking</label>
+        <label><input type="checkbox" name="features" value="Lead Capture" /> Lead Capture</label>
+        <label><input type="checkbox" name="features" value="DM Automation" /> DM Automation</label>
+        <label><input type="checkbox" name="features" value="Custom FAQ Flow" /> Custom FAQ Flow</label>
       </div>
 
-      <label>Choose a Voice Style</label>
-      <select name="tone" required>
-        <option value="Boss Woman">Boss Woman</option>
-        <option value="Chill Bro">Chill Bro</option>
-        <option value="Luxury Pro">Luxury Pro</option>
-        <option value="Hype Coach">Hype Coach</option>
-        <option value="Smooth Closer">Smooth Closer</option>
-        <option value="Playful Genius">Playful Genius</option>
-      </select>
-
-      <label>Your Booking Link (Optional)</label>
-      <input type="url" name="link" placeholder="https://yourcalendly.com/..." />
-
-      <button type="submit">⚡ Generate My PlugBot</button>
+      <button type="submit">Submit & Build My Bot</button>
     </form>
   </div>
 </body>
