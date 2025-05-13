@@ -4,49 +4,71 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Activate Your PlugBot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
       background: #000;
       color: #fff;
-      font-family: 'Helvetica Neue', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
+      min-height: 100vh;
+      padding: 2rem;
+      background: radial-gradient(circle at top, rgba(255,255,255,0.02), transparent 60%);
     }
 
     .card {
       background: #121212;
-      padding: 3rem;
+      padding: 2.5rem;
       border-radius: 20px;
-      box-shadow: 0 0 60px rgba(255, 255, 255, 0.05);
-      text-align: center;
-      max-width: 440px;
-      width: 90%;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.05);
+      animation: fadeIn 1s ease-out;
     }
 
     h1 {
       font-size: 2rem;
+      text-align: center;
       margin-bottom: 1rem;
     }
 
-    p {
-      font-size: 1rem;
+    p.subtext {
+      text-align: center;
       color: #ccc;
+      font-size: 1rem;
       margin-bottom: 2rem;
     }
 
+    .summary {
+      background: #1c1c1c;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: inset 0 0 10px rgba(255,255,255,0.02);
+    }
+
+    .summary-item {
+      margin-bottom: 1rem;
+    }
+
+    .summary-item strong {
+      color: #eee;
+    }
+
     a.button {
+      display: block;
+      text-align: center;
       background: #fff;
       color: #000;
-      padding: 14px 28px;
-      border-radius: 12px;
+      padding: 1rem 2rem;
+      border-radius: 10px;
       font-weight: 600;
-      font-size: 1rem;
       text-decoration: none;
-      display: inline-block;
-      transition: background 0.3s ease;
+      transition: 0.3s;
+      font-size: 1rem;
     }
 
     a.button:hover {
@@ -55,18 +77,62 @@
     }
 
     .note {
+      margin-top: 1.5rem;
       font-size: 0.85rem;
       color: #888;
-      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 1.5rem; }
     }
   </style>
 </head>
 <body>
   <div class="card">
     <h1>Activate Your PlugBot</h1>
-    <p>Secure your <strong>$97/month</strong> subscription to unlock your custom bot.</p>
+    <p class="subtext">Review your setup and proceed to payment.</p>
+
+    <div class="summary" id="formSummary">
+      <!-- Auto-filled with user input -->
+      <div class="summary-item"><strong>Brand Name:</strong> <span id="brandName"></span></div>
+      <div class="summary-item"><strong>Main Platform:</strong> <span id="mainPlatform"></span></div>
+      <div class="summary-item"><strong>Audience:</strong> <span id="targetAudience"></span></div>
+      <div class="summary-item"><strong>Features:</strong> <span id="features"></span></div>
+      <div class="summary-item"><strong>Bot Tone:</strong> <span id="botTone"></span></div>
+      <div class="summary-item"><strong>Greeting:</strong> <span id="greetingMessage"></span></div>
+      <div class="summary-item"><strong>Qualifying Question:</strong> <span id="leadQuestion"></span></div>
+      <div class="summary-item"><strong>Disqualifier:</strong> <span id="disqualifier"></span></div>
+      <div class="summary-item"><strong>Instagram:</strong> <span id="instagram"></span></div>
+      <div class="summary-item"><strong>TikTok:</strong> <span id="tiktok"></span></div>
+      <div class="summary-item"><strong>Discord:</strong> <span id="discord"></span></div>
+      <div class="summary-item"><strong>Website:</strong> <span id="website"></span></div>
+      <div class="summary-item"><strong>FAQ Source:</strong> <span id="faqSource"></span></div>
+    </div>
+
     <a href="https://buy.stripe.com/cN2cN33ev31h0923ch" class="button">Submit Payment</a>
-    <div class="note">You’ll receive your PlugBot setup link by email after payment.</div>
+
+    <div class="note">Once payment is complete, your bot will be generated and delivered to your email.</div>
   </div>
+
+  <script>
+    // Grab data from localStorage and show it
+    const fields = [
+      'brandName', 'mainPlatform', 'targetAudience', 'features', 'botTone',
+      'greetingMessage', 'leadQuestion', 'disqualifier', 'instagram', 'tiktok',
+      'discord', 'website', 'faqSource'
+    ];
+
+    fields.forEach(field => {
+      const el = document.getElementById(field);
+      const val = localStorage.getItem(field);
+      el.textContent = val ? val : '-';
+    });
+  </script>
 </body>
 </html>
