@@ -3,107 +3,116 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlugBot Customizer</title>
+  <title>Customize Your PlugBot</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     body {
       font-family: 'Poppins', sans-serif;
       background-color: #0a0a0a;
-      color: #f4f4f4;
-      padding: 2rem;
+      color: #ffffff;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
+      padding: 2rem;
     }
     .container {
-      width: 100%;
-      max-width: 720px;
-      background: #141414;
+      background: #0e0e0e;
+      border-radius: 20px;
       padding: 3rem;
-      border-radius: 18px;
-      box-shadow: 0 0 60px rgba(255, 255, 255, 0.05);
+      max-width: 720px;
+      width: 100%;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.04);
+      transition: all 0.3s ease;
     }
     h1 {
       text-align: center;
-      font-size: 2.6rem;
+      font-size: 2.8rem;
       font-weight: 700;
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
+      color: #ffffff;
     }
     label {
       display: block;
       margin-top: 1.6rem;
       font-weight: 600;
       font-size: 1rem;
-      color: #ccc;
+      color: #cccccc;
     }
     input, select, textarea {
       width: 100%;
-      margin-top: 0.4rem;
-      padding: 0.9rem;
-      border-radius: 12px;
+      margin-top: 0.5rem;
+      padding: 1rem;
+      border-radius: 14px;
       border: none;
+      background: #1a1a1a;
+      color: #ffffff;
       font-size: 1rem;
-      background-color: #1a1a1a;
-      color: #f4f4f4;
+      transition: background 0.2s ease;
+    }
+    input:focus, select:focus, textarea:focus {
+      background: #222222;
+      outline: none;
     }
     .platforms-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1rem;
+      gap: 1.2rem;
       margin-top: 1rem;
     }
     .platforms-grid label {
       display: flex;
       align-items: center;
+      gap: 0.75rem;
       font-size: 0.95rem;
       font-weight: 500;
-      gap: 0.6rem;
-      background-color: #1e1e1e;
-      padding: 0.75rem 1rem;
-      border-radius: 12px;
-      box-shadow: 0 0 8px rgba(255,255,255,0.03);
-      transition: all 0.3s ease;
-      cursor: pointer;
+      background: #1a1a1a;
+      padding: 0.9rem 1rem;
+      border-radius: 14px;
+      transition: background 0.3s ease;
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.03);
     }
     .platforms-grid label:hover {
-      background-color: #2a2a2a;
+      background: #2a2a2a;
     }
     button {
-      margin-top: 2rem;
-      padding: 1rem 2rem;
-      font-size: 1.2rem;
-      font-weight: bold;
-      border: none;
-      border-radius: 14px;
-      background: linear-gradient(to right, #ffffff, #cfcfcf);
-      color: #000;
-      cursor: pointer;
-      transition: all 0.3s ease;
+      margin-top: 2.5rem;
       width: 100%;
+      padding: 1.2rem;
+      font-size: 1.15rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 16px;
+      background: linear-gradient(to right, #ffffff, #e0e0e0);
+      color: #000000;
+      cursor: pointer;
+      transition: transform 0.3s ease;
     }
     button:hover {
       transform: scale(1.03);
-      background: linear-gradient(to right, #eaeaea, #d0d0d0);
+      background: linear-gradient(to right, #f0f0f0, #cfcfcf);
     }
-
     @media (max-width: 480px) {
       h1 {
-        font-size: 2rem;
+        font-size: 2.1rem;
       }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>PlugBot Customizer</h1>
+    <h1>Customize Your PlugBot</h1>
     <form id="plugbotForm">
       <label for="brand">Brand Name</label>
-      <input type="text" name="brand" required />
+      <input type="text" name="brand" placeholder="Your business or creator name" required />
 
-      <label for="offer">Describe Your Offer</label>
-      <textarea name="offer" rows="4" required></textarea>
+      <label for="offer">What does your bot offer?</label>
+      <textarea name="offer" rows="4" placeholder="Describe your offer or service..." required></textarea>
 
       <label for="cta">Main Call to Action</label>
       <input type="text" name="cta" placeholder="e.g. Book your free call now" required />
@@ -128,7 +137,7 @@
         <option value="Playful Genius">Playful Genius</option>
       </select>
 
-      <label for="link">Your Booking Link (optional)</label>
+      <label for="link">Booking Link (Optional)</label>
       <input type="url" name="link" placeholder="https://yourcalendly.com/..." />
 
       <button type="submit">⚡ Generate My Bot</button>
@@ -151,17 +160,16 @@
           payload[key] = value;
         }
       });
-
       try {
         await fetch("https://hook.us2.make.com/28pb73d36ybmc4urrpm2cj4lyvr3qjyg", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
+          body: JSON.stringify(payload),
         });
         window.location.href = "/activate.html";
       } catch (err) {
-        console.error("Submission error:", err);
-        alert("Something went wrong. Please try again.");
+        alert("Something went wrong. Try again.");
+        console.error(err);
       }
     });
   </script>
