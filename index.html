@@ -3,157 +3,151 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlugBot AI – Luxury Appointment Setter</title>
+  <title>PlugBot AI – Next-Gen Appointment Setter</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --accent: #00ffe1;
+      --bg: #0a0a0a;
+      --text: #e4e4e4;
+      --dim: #888;
+    }
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    body {
+    html, body {
       font-family: 'Poppins', sans-serif;
-      background-color: #0a0a0a;
-      color: #f2f2f2;
+      background-color: var(--bg);
+      color: var(--text);
       overflow-x: hidden;
     }
-    .background {
+    body::before {
+      content: "";
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05), rgba(0,0,0,0.95));
-      z-index: -1;
-      animation: backgroundGlow 10s infinite alternate ease-in-out;
+      top: -30%; left: -30%; width: 160%; height: 160%;
+      background: radial-gradient(circle, rgba(0,255,255,0.03), transparent 70%);
+      animation: rotateGlow 60s linear infinite;
+      z-index: -10;
     }
-    @keyframes backgroundGlow {
-      0% { filter: blur(80px) brightness(1); }
-      100% { filter: blur(100px) brightness(1.2); }
+    @keyframes rotateGlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
     .container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 6rem 1.5rem;
+      max-width: 1000px;
+      margin: auto;
+      padding: 6rem 2rem;
       text-align: center;
-      animation: fadeIn 1.2s ease;
+      animation: fadeInUp 1.2s ease;
     }
     h1 {
-      font-size: 3.5rem;
+      font-size: 4rem;
       font-weight: 700;
-      margin-bottom: 1rem;
-      letter-spacing: -1px;
-      animation: typeIn 2.5s steps(22);
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 2px solid #fff;
-    }
-    @keyframes typeIn {
-      from { width: 0; }
-      to { width: 100%; }
+      background: linear-gradient(90deg, var(--accent), #fff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1.5rem;
     }
     p {
       font-size: 1.25rem;
-      margin-bottom: 2.5rem;
-      color: #bdbdbd;
+      color: var(--dim);
       max-width: 720px;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 0 auto 2.5rem;
     }
     .cta-button {
-      display: inline-block;
-      padding: 1rem 2.5rem;
-      font-size: 1.125rem;
+      background: linear-gradient(to right, var(--accent), #00aaff);
+      color: #000;
+      padding: 1.1rem 3rem;
+      font-size: 1.2rem;
       font-weight: 600;
-      background: linear-gradient(to right, #ffffff, #cfcfcf);
-      color: #0a0a0a;
-      border: none;
-      border-radius: 14px;
-      cursor: pointer;
+      border-radius: 100px;
+      text-decoration: none;
+      box-shadow: 0 0 25px rgba(0,255,255,0.3);
       transition: all 0.3s ease;
+      display: inline-block;
     }
     .cta-button:hover {
       transform: scale(1.05);
-      background: linear-gradient(to right, #eaeaea, #d0d0d0);
+      box-shadow: 0 0 35px rgba(0,255,255,0.6);
     }
     .features {
-      margin-top: 5rem;
-      text-align: left;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .features h2 {
-      font-size: 2.2rem;
-      margin-bottom: 1.5rem;
-      font-weight: 600;
+      margin-top: 6rem;
+      display: grid;
+      gap: 2.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     }
     .feature-item {
-      font-size: 1.1rem;
-      margin-bottom: 1.5rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 2rem;
+      border-radius: 1rem;
+      transition: all 0.3s ease;
       position: relative;
-      padding-left: 2rem;
-      color: #ccc;
+    }
+    .feature-item:hover {
+      background: rgba(0,255,255,0.05);
+      border-color: rgba(0,255,255,0.3);
     }
     .feature-item::before {
-      content: '✦';
+      content: '🚀';
       position: absolute;
-      left: 0;
-      color: #f2f2f2;
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(0,0,0,0.85);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-    }
-    .modal-content {
-      background: #111;
-      border-radius: 12px;
-      padding: 2rem;
-      max-width: 600px;
-      width: 100%;
-      text-align: left;
-      box-shadow: 0 0 60px rgba(255,255,255,0.05);
-    }
-    .modal-content h3 {
-      margin-bottom: 1rem;
-      font-size: 1.5rem;
-    }
-    .modal-close {
-      text-align: right;
-      margin-bottom: 1rem;
+      top: -1.2rem;
+      left: -1.2rem;
+      background: var(--accent);
+      color: #000;
       font-size: 1.2rem;
-      cursor: pointer;
-      color: #aaa;
+      padding: 0.5rem;
+      border-radius: 50%;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
+    .feature-item h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+    }
+    .feature-item p {
+      font-size: 1rem;
+      color: #bbb;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+    footer {
+      text-align: center;
+      padding: 4rem 1rem 2rem;
+      color: #444;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
-  <div class="background"></div>
   <div class="container">
     <h1>PlugBot AI</h1>
-    <p>Your fully branded AI appointment setter – built in minutes, powered by your voice, and ready to close leads 24/7.</p>
-    <a class="cta-button" onclick="document.querySelector('.modal').style.display='flex'">Build My Bot</a>
+    <p>Your futuristic AI appointment setter – trained in your tone, branded to your identity, and deployed in seconds.</p>
+    <a href="customize.html" class="cta-button">⚡ Build My Bot</a>
 
     <div class="features">
-      <h2>How It Works</h2>
-      <div class="feature-item">Customize your AI bot’s tone, flow, and booking logic in minutes.</div>
-      <div class="feature-item">Instantly generate a branded sales assistant built for conversion.</div>
-      <div class="feature-item">Plug it into your funnel or bio – and let it qualify, book, and convert leads.</div>
+      <div class="feature-item">
+        <h3>Real-Time Customization</h3>
+        <p>Fully interactive bot builder with instant preview — your voice, your message, your flow.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Lead Automation Engine</h3>
+        <p>Qualify leads, answer DMs, and book calls — all on autopilot. Perfect for high-ticket funnels.</p>
+      </div>
+      <div class="feature-item">
+        <h3>No Code. No Delay.</h3>
+        <p>Just click, customize, and copy-paste. PlugBot works wherever your audience is.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Built for Closers</h3>
+        <p>From influencers to closers — PlugBot is designed to convert conversations into cash.</p>
+      </div>
     </div>
   </div>
-
-  <div class="modal">
-    <div class="modal-content">
-      <div class="modal-close" onclick="document.querySelector('.modal').style.display='none'">✕</div>
-      <h3>Build Your Bot</h3>
-      <p>Form wizard will go here – coming soon with full custom builder.</p>
-    </div>
-  </div>
+  <footer>
+    &copy; 2025 PlugBot AI · Powered by MXD Enterprises · Future Mode Enabled
+  </footer>
 </body>
 </html>
