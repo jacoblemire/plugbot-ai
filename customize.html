@@ -86,7 +86,7 @@
 <body>
   <div class="container">
     <h1>Customize Your PlugBot</h1>
-    <form action="https://hook.us2.make.com/28pb73d36ybmc4urrpm2cj4lyvr3qjyg" method="POST">
+    <form id="plugbotForm">
       <label for="brand">Your Brand Name</label>
       <input type="text" name="brand" required />
 
@@ -122,5 +122,38 @@
       <button type="submit">⚡ Generate My Bot</button>
     </form>
   </div>
+
+  <script>
+    document.getElementById('plugbotForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const payload = {};
+      formData.forEach((value, key) => {
+        if (payload[key]) {
+          if (Array.isArray(payload[key])) {
+            payload[key].push(value);
+          } else {
+            payload[key] = [payload[key], value];
+          }
+        } else {
+          payload[key] = value;
+        }
+      });
+
+      try {
+        await fetch("https://hook.us2.make.com/28pb73d36ybmc4urrpm2cj4lyvr3qjyg", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        window.location.href = "/activate.html";
+      } catch (err) {
+        alert("Something went wrong. Try again.");
+        console.error(err);
+      }
+    });
+  </script>
 </body>
 </html>
