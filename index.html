@@ -25,47 +25,23 @@
       color: var(--text);
       line-height: 1.6;
       overflow-x: hidden;
-      position: relative;
-    }
-    body::before {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      background: radial-gradient(circle at 50% 50%, rgba(0,0,0,0.03), transparent 80%);
-      animation: backgroundPulse 8s infinite ease-in-out;
-      z-index: -1;
-    }
-    @keyframes backgroundPulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.05); opacity: 0.95; }
     }
     .section {
+      max-width: 1200px;
+      margin: 0 auto;
       padding: 4rem 1.5rem;
       text-align: center;
     }
     .hero h1 {
-      font-size: 3rem;
+      font-size: 4rem;
       font-weight: 700;
       margin-bottom: 1rem;
-      animation: typeIn 1.8s steps(20, end);
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 3px solid var(--accent);
-      display: inline-block;
-    }
-    @keyframes typeIn {
-      from { width: 0 }
-      to { width: 100% }
     }
     .hero p {
       max-width: 700px;
       margin: 0 auto 2rem;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       color: var(--dim);
-      animation: fadeIn 2s ease-in;
     }
     .cta-button {
       background: var(--accent);
@@ -85,12 +61,12 @@
     }
     .features {
       display: flex;
-      flex-direction: column;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 2rem;
-      max-width: 900px;
-      margin: 0 auto;
     }
     .feature-box {
+      width: 45%;
       padding: 2rem;
       background-color: #f7f7f7;
       border-radius: 12px;
@@ -107,17 +83,18 @@
     }
     .how-it-works {
       background-color: #f2f2f2;
-      padding: 4rem 1.5rem;
     }
-    .how-it-works h2 {
+    .how-it-works h2,
+    .why-section h2,
+    .audience-section h2 {
       font-size: 2rem;
       margin-bottom: 2rem;
     }
     .steps {
-      max-width: 700px;
-      margin: 0 auto;
       display: grid;
       gap: 1.5rem;
+      max-width: 700px;
+      margin: 0 auto;
     }
     .step {
       background-color: #fff;
@@ -125,10 +102,6 @@
       border-left: 5px solid var(--accent);
       border-radius: 8px;
       text-align: left;
-      transition: all 0.3s ease;
-    }
-    .step:hover {
-      background-color: #f0f0f0;
     }
     footer {
       text-align: center;
@@ -142,64 +115,78 @@
       margin: 1rem auto 0;
       color: #999;
     }
-    @media (min-width: 768px) {
-      .features {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
+    @media (max-width: 768px) {
       .feature-box {
-        width: 45%;
+        width: 100%;
       }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
     }
   </style>
 </head>
 <body>
   <section class="section hero">
     <h1>PlugBot AI</h1>
-    <p>Train your AI appointment setter in your voice, brand, and tone. Automate lead flow and close deals on autopilot — zero code needed.</p>
+    <p>Save hours in DMs and close more deals — your AI appointment setter runs your brand 24/7.</p>
     <a href="customize.html" class="cta-button">Build My Bot</a>
   </section>
 
-  <section class="section">
+  <section class="section why-section">
+    <h2>Why Creators Use PlugBot</h2>
     <div class="features">
       <div class="feature-box">
-        <h3>Custom-Branded Tone</h3>
-        <p>PlugBot adapts to your unique voice and brand identity, responding like you would.</p>
+        <h3>⚡ Save Time</h3>
+        <p>No more repeating yourself in DMs. PlugBot handles convos so you can focus on content.</p>
       </div>
       <div class="feature-box">
-        <h3>Autopilot Conversations</h3>
-        <p>Handles objections, qualifies leads, drops booking links — all hands-off.</p>
+        <h3>🎯 Qualify Instantly</h3>
+        <p>Your bot filters bad leads and sends real buyers straight to your calendar or closer.</p>
       </div>
       <div class="feature-box">
-        <h3>Zero-Code Setup</h3>
-        <p>No tech needed. Answer a few quick prompts and your bot launches in minutes.</p>
+        <h3>🎤 On-Brand Replies</h3>
+        <p>Trained in your voice, brand, and flow — no generic scripts or AI cringe.</p>
       </div>
       <div class="feature-box">
-        <h3>Instant Link Delivery</h3>
-        <p>Your bot is built and emailed to you within minutes of activation.</p>
+        <h3>❌ No Tech Stress</h3>
+        <p>Answer a few prompts. No Zapier, no coding, no setup headaches. Delivered in minutes.</p>
       </div>
     </div>
   </section>
 
-  <section class="how-it-works">
+  <section class="section how-it-works">
     <h2>How It Works</h2>
     <div class="steps">
       <div class="step">
         <strong>1. Customize</strong><br>
-        Use our quick builder to choose your features, tone, and linked platforms.
+        Choose your voice, tone, platform links, and lead flow style.
       </div>
       <div class="step">
         <strong>2. Activate</strong><br>
-        Complete payment and secure your subscription through Stripe checkout.
+        Complete checkout — we start building instantly.
       </div>
       <div class="step">
         <strong>3. Receive</strong><br>
-        Your custom bot is generated and delivered via email within minutes.
+        Your bot is emailed within minutes, ready to use.
+      </div>
+    </div>
+  </section>
+
+  <section class="section audience-section">
+    <h2>Perfect For</h2>
+    <div class="features">
+      <div class="feature-box">
+        <h3>📱 Content Creators</h3>
+        <p>Turn your DMs into passive income — even while you sleep.</p>
+      </div>
+      <div class="feature-box">
+        <h3>🧠 Coaches & Experts</h3>
+        <p>Pre-qualify leads and book serious clients on autopilot.</p>
+      </div>
+      <div class="feature-box">
+        <h3>💼 Service Providers</h3>
+        <p>Never miss a lead — your PlugBot sells while you work.</p>
+      </div>
+      <div class="feature-box">
+        <h3>🎥 Influencers & Closers</h3>
+        <p>Automate your funnel. Plug your calendar. Scale your brand.</p>
       </div>
     </div>
   </section>
