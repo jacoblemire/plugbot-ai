@@ -3,84 +3,91 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Customize Your PlugBot</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <title>PlugBot Customizer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Poppins', sans-serif;
       background-color: #0a0a0a;
       color: #f4f4f4;
       padding: 2rem;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       min-height: 100vh;
     }
     .container {
-      width: 100%;
       max-width: 720px;
-      background: rgba(20, 20, 20, 0.98);
+      width: 100%;
+      background: #141414;
       padding: 3rem;
       border-radius: 18px;
-      box-shadow: 0 0 80px rgba(255, 255, 255, 0.03);
-      animation: fadeIn 0.9s ease-in-out;
+      box-shadow: 0 0 60px rgba(255, 255, 255, 0.05);
     }
     h1 {
       text-align: center;
-      font-size: 2.4rem;
-      margin-bottom: 2.5rem;
+      font-size: 2.5rem;
       font-weight: 700;
+      margin-bottom: 2rem;
     }
     label {
+      display: block;
+      margin-top: 1.5rem;
       font-weight: 600;
       font-size: 1rem;
-      margin-top: 1.5rem;
-      display: block;
       color: #ccc;
     }
     input, select, textarea {
       width: 100%;
       margin-top: 0.5rem;
-      padding: 0.85rem 1rem;
+      padding: 0.9rem;
       border-radius: 12px;
-      background-color: #1a1a1a;
       border: none;
-      color: #f4f4f4;
       font-size: 1rem;
+      background-color: #1a1a1a;
+      color: #f4f4f4;
     }
-    .checkbox-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem 2rem;
+    .checkbox-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
       margin-top: 1rem;
     }
-    .checkbox-grid label {
+    .checkbox-column {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .checkbox-column label {
       display: flex;
       align-items: center;
       gap: 0.6rem;
-      font-weight: 400;
+      font-size: 1rem;
     }
     button {
+      margin-top: 2rem;
       width: 100%;
-      margin-top: 2.5rem;
       padding: 1rem;
-      font-size: 1.1rem;
-      font-weight: 600;
-      background: linear-gradient(to right, #fff, #cfcfcf);
-      color: #000;
+      font-size: 1.2rem;
+      font-weight: bold;
       border: none;
       border-radius: 14px;
+      background: linear-gradient(to right, #ffffff, #cfcfcf);
+      color: #000;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: 0.3s;
     }
     button:hover {
-      transform: scale(1.03);
-      background: linear-gradient(to right, #e5e5e5, #bfbfbf);
+      transform: scale(1.05);
+      background: linear-gradient(to right, #eaeaea, #d0d0d0);
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
+    @media screen and (max-width: 768px) {
+      .checkbox-container {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   </style>
 </head>
@@ -98,13 +105,17 @@
       <input type="text" name="cta" placeholder="e.g. Book your free call now" required />
 
       <label>Where Will You Use It?</label>
-      <div class="checkbox-grid">
-        <label><input type="checkbox" name="platforms[]" value="Instagram Bio"> Instagram Bio</label>
-        <label><input type="checkbox" name="platforms[]" value="Sales Funnel"> Sales Funnel</label>
-        <label><input type="checkbox" name="platforms[]" value="Email Signature"> Email Signature</label>
-        <label><input type="checkbox" name="platforms[]" value="TikTok Link-in-Bio"> TikTok Link-in-Bio</label>
-        <label><input type="checkbox" name="platforms[]" value="WhatsApp Link"> WhatsApp Link</label>
-        <label><input type="checkbox" name="platforms[]" value="QR Code"> QR Code (Posters/Merch)</label>
+      <div class="checkbox-container">
+        <div class="checkbox-column">
+          <label><input type="checkbox" name="platforms[]" value="Instagram Bio">Instagram Bio</label>
+          <label><input type="checkbox" name="platforms[]" value="Email Signature">Email Signature</label>
+          <label><input type="checkbox" name="platforms[]" value="WhatsApp Link">WhatsApp Link</label>
+        </div>
+        <div class="checkbox-column">
+          <label><input type="checkbox" name="platforms[]" value="Sales Funnel">Sales Funnel</label>
+          <label><input type="checkbox" name="platforms[]" value="TikTok Link-in-Bio">TikTok Link-in-Bio</label>
+          <label><input type="checkbox" name="platforms[]" value="QR Code">QR Code (Posters/Merch)</label>
+        </div>
       </div>
 
       <label for="tone">Choose a Voice Style</label>
@@ -117,10 +128,10 @@
         <option value="Playful Genius">Playful Genius</option>
       </select>
 
-      <label for="link">Your Booking Link (Optional)</label>
+      <label for="link">Your Booking Link (optional)</label>
       <input type="url" name="link" placeholder="https://yourcalendly.com/..." />
 
-      <button type="submit">⚡ Generate My PlugBot</button>
+      <button type="submit">⚡ Generate My Bot</button>
     </form>
   </div>
 
@@ -151,7 +162,7 @@
 
         window.location.href = "/activate.html";
       } catch (err) {
-        alert("Something went wrong. Please try again.");
+        alert("Something went wrong. Try again.");
         console.error(err);
       }
     });
