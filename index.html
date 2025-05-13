@@ -13,6 +13,7 @@
       --accent: #000;
       --glow: rgba(0, 0, 0, 0.05);
       --glow-animated: 0 0 25px rgba(0, 0, 0, 0.15);
+      --neon: #00f5ff;
     }
     * {
       margin: 0;
@@ -36,6 +37,43 @@
       font-size: 4rem;
       font-weight: 700;
       margin-bottom: 1rem;
+      color: var(--accent);
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid var(--accent);
+      width: 0;
+      animation: typing 2.5s steps(20, end) forwards, blink 0.7s step-end infinite;
+    }
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+    .hero h1::after {
+      content: '';
+      display: inline-block;
+    }
+    .hero {
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 2px;
+      background: var(--neon);
+      box-shadow: 0 0 20px var(--neon);
+      opacity: 0.6;
+      animation: pulseGlow 2s ease-in-out infinite;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; box-shadow: 0 0 40px var(--neon); }
     }
     .hero p {
       max-width: 700px;
@@ -53,11 +91,12 @@
       text-decoration: none;
       display: inline-block;
       transition: all 0.3s ease;
-      box-shadow: var(--glow-animated);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     }
     .cta-button:hover {
       background-color: #222;
       transform: scale(1.03);
+      box-shadow: 0 0 25px var(--neon);
     }
     .features {
       display: flex;
@@ -71,10 +110,11 @@
       background-color: #f7f7f7;
       border-radius: 12px;
       box-shadow: var(--glow-animated);
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .feature-box:hover {
       transform: translateY(-4px);
+      box-shadow: 0 0 20px var(--neon);
     }
     .feature-box h3 {
       font-size: 1.5rem;
@@ -128,6 +168,8 @@
     <p>Save hours in DMs and close more deals — your AI appointment setter runs your brand 24/7.</p>
     <a href="customize.html" class="cta-button">Build My Bot</a>
   </section>
+
+  <!-- Rest of your sections remain unchanged -->
 
   <section class="section why-section">
     <h2>Why Creators Use PlugBot</h2>
