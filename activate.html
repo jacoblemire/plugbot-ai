@@ -3,58 +3,84 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlugBot Activated</title>
+  <title>Activating Your PlugBot</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #0a0a0a;
-      color: #f4f4f4;
+      background: radial-gradient(circle at top left, #111, #000);
+      color: #fff;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      padding: 2rem;
+      overflow: hidden;
     }
     .card {
-      background-color: #151515;
-      border-radius: 18px;
+      background: #111;
+      border-radius: 20px;
       padding: 3rem;
+      box-shadow: 0 0 60px rgba(255, 255, 255, 0.05);
       text-align: center;
-      box-shadow: 0 0 50px rgba(255, 255, 255, 0.05);
-      max-width: 640px;
+      animation: slideUp 1s ease;
+      max-width: 500px;
     }
     h1 {
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       font-weight: 700;
-      margin-bottom: 1.2rem;
+      margin-bottom: 1rem;
     }
     p {
-      font-size: 1.2rem;
-      color: #ccc;
+      font-size: 1.1rem;
+      color: #bbb;
+      margin-bottom: 2rem;
+    }
+    .loading {
+      display: inline-block;
+      width: 48px;
+      height: 48px;
+      border: 3px solid rgba(255,255,255,0.2);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
       margin-bottom: 2rem;
     }
     .btn {
-      display: inline-block;
       padding: 1rem 2rem;
-      font-size: 1.1rem;
+      border: none;
       font-weight: 600;
-      background: linear-gradient(to right, #ffffff, #cfcfcf);
+      background: linear-gradient(to right, #fff, #cfcfcf);
       color: #000;
-      border-radius: 12px;
+      border-radius: 14px;
+      cursor: pointer;
       text-decoration: none;
-      transition: 0.3s;
+      transition: 0.3s ease;
+      display: inline-block;
     }
     .btn:hover {
       transform: scale(1.05);
       background: linear-gradient(to right, #eaeaea, #d0d0d0);
     }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
   </style>
 </head>
 <body>
   <div class="card">
-    <h1>✅ Your PlugBot is Activated</h1>
-    <p>We’ve received your customization and payment. Our system is generating your AI appointment setter now.</p>
-    <p>You’ll get an email shortly with your bot link and embed options. Keep an eye on your inbox.</p>
-    <a class="btn" href="http
+    <div class="loading"></div>
+    <h1>PlugBot Activated</h1>
+    <p>Your custom bot has been generated and is syncing across your selected platforms. Check your inbox for next steps or access your automation dashboard.</p>
+    <a href="https://yourdashboard.mxdenterprises.com" class="btn">Access Dashboard</a>
+  </div>
+</body>
+</html>
