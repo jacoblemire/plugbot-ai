@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlugBot AI – Luxury Appointment Setter</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlugBot AI | Customize Your Bot</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg: #0a0a0a;
+      --primary: #00ffe1;
+      --text: #f5f5f5;
+      --card: #141414;
+      --accent: #00c7b1;
+    }
     * {
       margin: 0;
       padding: 0;
@@ -13,103 +20,113 @@
     }
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #0a0a0a;
-      color: #f2f2f2;
+      background-color: var(--bg);
+      color: var(--text);
+      padding: 2rem;
       overflow-x: hidden;
     }
-    .background {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05), rgba(0,0,0,0.95));
-      z-index: -1;
-      animation: backgroundGlow 10s infinite alternate ease-in-out;
-    }
-    @keyframes backgroundGlow {
-      0% { filter: blur(80px) brightness(1); }
-      100% { filter: blur(100px) brightness(1.2); }
-    }
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 6rem 1.5rem;
-      text-align: center;
-      animation: fadeIn 1.2s ease;
-    }
     h1 {
-      font-size: 3.5rem;
+      text-align: center;
+      font-size: 3rem;
       font-weight: 700;
-      margin-bottom: 1rem;
-      letter-spacing: -1px;
+      background: linear-gradient(to right, var(--primary), #fff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 2rem;
     }
-    p {
-      font-size: 1.25rem;
-      margin-bottom: 2.5rem;
-      color: #bdbdbd;
-      max-width: 720px;
-      margin-left: auto;
-      margin-right: auto;
+    form {
+      max-width: 700px;
+      margin: auto;
+      background: var(--card);
+      border-radius: 16px;
+      padding: 3rem;
+      box-shadow: 0 0 40px rgba(0, 255, 225, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      animation: fadeIn 1s ease forwards;
     }
-    .cta-button {
-      display: inline-block;
-      padding: 1rem 2.5rem;
-      font-size: 1.125rem;
+    label {
       font-weight: 600;
-      background: linear-gradient(to right, #ffffff, #cfcfcf);
-      color: #0a0a0a;
+      margin-bottom: 0.5rem;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
       border: none;
-      border-radius: 14px;
+      background: #1e1e1e;
+      color: var(--text);
+      font-size: 1rem;
+    }
+    input::placeholder, textarea::placeholder {
+      color: #aaa;
+    }
+    button {
+      background: var(--primary);
+      color: #000;
+      padding: 1rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border-radius: 100px;
+      border: none;
       cursor: pointer;
       transition: all 0.3s ease;
-      text-decoration: none;
     }
-    .cta-button:hover {
+    button:hover {
       transform: scale(1.05);
-      background: linear-gradient(to right, #eaeaea, #d0d0d0);
-    }
-    .features {
-      margin-top: 5rem;
-      text-align: left;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .features h2 {
-      font-size: 2.2rem;
-      margin-bottom: 1.5rem;
-      font-weight: 600;
-    }
-    .feature-item {
-      font-size: 1.1rem;
-      margin-bottom: 1.5rem;
-      position: relative;
-      padding-left: 2rem;
-      color: #ccc;
-    }
-    .feature-item::before {
-      content: '✦';
-      position: absolute;
-      left: 0;
-      color: #f2f2f2;
+      background: #00c7b1;
     }
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(40px); }
       to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <div class="background"></div>
-  <div class="container">
-    <h1>PlugBot AI</h1>
-    <p>Your fully branded AI appointment setter – built in minutes, powered by your voice, and ready to close leads 24/7.</p>
-    <a href="customize.html" class="cta-button">Build My Bot</a>
-
-    <div class="features">
-      <h2>How It Works</h2>
-      <div class="feature-item">Customize your AI bot’s tone, flow, and booking logic in minutes.</div>
-      <div class="feature-item">Instantly generate a branded sales assistant built for conversion.</div>
-      <div class="feature-item">Plug it into your funnel or bio – and let it qualify, book, and convert leads.</div>
+  <h1>Customize Your PlugBot</h1>
+  <form action="https://hook.integromat.com/your-make-webhook-url" method="POST">
+    <div>
+      <label for="brandName">Your Brand or Name</label>
+      <input type="text" id="brandName" name="brandName" placeholder="e.g. Jada Mercedes, Sales Closer Pro" required>
     </div>
-  </div>
+
+    <div>
+      <label for="offer">What Are You Selling?</label>
+      <input type="text" id="offer" name="offer" placeholder="High-ticket program, coaching, DMs course..." required>
+    </div>
+
+    <div>
+      <label for="tone">Bot Tone / Voice Style</label>
+      <select id="tone" name="tone">
+        <option value="professional">Professional</option>
+        <option value="friendly">Friendly + Fun</option>
+        <option value="luxury">Luxury / VIP</option>
+        <option value="spicy">Spicy + Bold</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="cta">Primary CTA (What should the bot do?)</label>
+      <input type="text" id="cta" name="cta" placeholder="Book a call, DM me 'READY', etc." required>
+    </div>
+
+    <div>
+      <label for="platform">Where Will You Use This Bot?</label>
+      <select id="platform" name="platform">
+        <option value="instagram">Instagram Bio</option>
+        <option value="salesfunnel">Sales Funnel</option>
+        <option value="email">Email Signature</option>
+        <option value="qr">QR Code</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="calendar">Booking Link or DM Command</label>
+      <input type="text" id="calendar" name="calendar" placeholder="e.g. calendly.com/jada-bookings or 'DM me PLUGBOT'">
+    </div>
+
+    <button type="submit">⚡ Generate My Bot</button>
+  </form>
 </body>
 </html>
