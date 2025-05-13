@@ -1,132 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PlugBot AI | Customize Your Bot</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customize Your PlugBot</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #0a0a0a;
-      --primary: #00ffe1;
-      --text: #f5f5f5;
-      --card: #141414;
-      --accent: #00c7b1;
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
+      background-color: #0a0a0a;
+      color: #f4f4f4;
       padding: 2rem;
-      overflow-x: hidden;
+    }
+    .container {
+      max-width: 680px;
+      margin: auto;
+      background: rgba(20, 20, 20, 0.95);
+      padding: 3rem;
+      border-radius: 18px;
+      box-shadow: 0 0 60px rgba(255, 255, 255, 0.03);
     }
     h1 {
       text-align: center;
-      font-size: 3rem;
+      font-size: 2.8rem;
       font-weight: 700;
-      background: linear-gradient(to right, var(--primary), #fff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
       margin-bottom: 2rem;
     }
-    form {
-      max-width: 700px;
-      margin: auto;
-      background: var(--card);
-      border-radius: 16px;
-      padding: 3rem;
-      box-shadow: 0 0 40px rgba(0, 255, 225, 0.08);
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      animation: fadeIn 1s ease forwards;
-    }
     label {
+      display: block;
+      margin-top: 1.8rem;
       font-weight: 600;
-      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+      color: #ccc;
     }
-    input, textarea, select {
+    input, select, textarea {
       width: 100%;
-      padding: 0.8rem 1rem;
-      border-radius: 10px;
+      margin-top: 0.5rem;
+      padding: 0.8rem;
+      border-radius: 12px;
       border: none;
-      background: #1e1e1e;
-      color: var(--text);
       font-size: 1rem;
+      background-color: #1a1a1a;
+      color: #f4f4f4;
     }
-    input::placeholder, textarea::placeholder {
-      color: #aaa;
+    .checkbox-group {
+      margin-top: 0.8rem;
+    }
+    .checkbox-group label {
+      font-weight: 400;
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+    }
+    .checkbox-group input {
+      width: auto;
+      margin-right: 0.5rem;
     }
     button {
-      background: var(--primary);
-      color: #000;
-      padding: 1rem;
+      margin-top: 2rem;
+      padding: 1rem 2rem;
       font-size: 1.2rem;
-      font-weight: 700;
-      border-radius: 100px;
+      font-weight: bold;
       border: none;
+      border-radius: 14px;
+      background: linear-gradient(to right, #ffffff, #cfcfcf);
+      color: #000;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: 0.3s;
     }
     button:hover {
-      transform: scale(1.05);
-      background: #00c7b1;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
+      transform: scale(1.04);
+      background: linear-gradient(to right, #eaeaea, #d0d0d0);
     }
   </style>
 </head>
 <body>
-  <h1>Customize Your PlugBot</h1>
-  <form action="https://hook.integromat.com/your-make-webhook-url" method="POST">
-    <div>
-      <label for="brandName">Your Brand or Name</label>
-      <input type="text" id="brandName" name="brandName" placeholder="e.g. Jada Mercedes, Sales Closer Pro" required>
-    </div>
+  <div class="container">
+    <h1>Customize Your PlugBot</h1>
+    <form action="https://hook.us1.make.com/your-make-webhook-url" method="POST">
+      <label for="brand">Your Brand Name</label>
+      <input type="text" name="brand" required />
 
-    <div>
-      <label for="offer">What Are You Selling?</label>
-      <input type="text" id="offer" name="offer" placeholder="High-ticket program, coaching, DMs course..." required>
-    </div>
+      <label for="offer">Describe Your Offer</label>
+      <textarea name="offer" rows="4" required></textarea>
 
-    <div>
-      <label for="tone">Bot Tone / Voice Style</label>
-      <select id="tone" name="tone">
-        <option value="professional">Professional</option>
-        <option value="friendly">Friendly + Fun</option>
-        <option value="luxury">Luxury / VIP</option>
-        <option value="spicy">Spicy + Bold</option>
+      <label for="cta">Main Call To Action</label>
+      <input type="text" name="cta" placeholder="e.g. Book your free call now" required />
+
+      <label for="platforms">Where Will You Use This Bot?</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="platforms" value="Instagram Bio"> Instagram Bio</label>
+        <label><input type="checkbox" name="platforms" value="Sales Funnel"> Sales Funnel</label>
+        <label><input type="checkbox" name="platforms" value="Email Signature"> Email Signature</label>
+        <label><input type="checkbox" name="platforms" value="TikTok Link-in-Bio"> TikTok Link-in-Bio</label>
+        <label><input type="checkbox" name="platforms" value="WhatsApp Link"> WhatsApp Link</label>
+        <label><input type="checkbox" name="platforms" value="QR Code"> QR Code (Posters/Merch)</label>
+      </div>
+
+      <label for="tone">Choose a Voice Style</label>
+      <select name="tone" required>
+        <option value="Boss Woman">Boss Woman</option>
+        <option value="Chill Bro">Chill Bro</option>
+        <option value="Luxury Pro">Luxury Pro</option>
+        <option value="Hype Coach">Hype Coach</option>
+        <option value="Smooth Closer">Smooth Closer</option>
+        <option value="Playful Genius">Playful Genius</option>
       </select>
-    </div>
 
-    <div>
-      <label for="cta">Primary CTA (What should the bot do?)</label>
-      <input type="text" id="cta" name="cta" placeholder="Book a call, DM me 'READY', etc." required>
-    </div>
+      <label for="link">Your Booking Link (if any)</label>
+      <input type="url" name="link" placeholder="https://yourcalendly.com/..." />
 
-    <div>
-      <label for="platform">Where Will You Use This Bot?</label>
-      <select id="platform" name="platform">
-        <option value="instagram">Instagram Bio</option>
-        <option value="salesfunnel">Sales Funnel</option>
-        <option value="email">Email Signature</option>
-        <option value="qr">QR Code</option>
-      </select>
-    </div>
-
-    <div>
-      <label for="calendar">Booking Link or DM Command</label>
-      <input type="text" id="calendar" name="calendar" placeholder="e.g. calendly.com/jada-bookings or 'DM me PLUGBOT'">
-    </div>
-
-    <button type="submit">⚡ Generate My Bot</button>
-  </form>
+      <button type="submit">⚡ Generate My Bot</button>
+    </form>
+  </div>
 </body>
 </html>
