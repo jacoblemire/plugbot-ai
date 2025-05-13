@@ -1,86 +1,69 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Activating Your PlugBot</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Activate Your PlugBot</title>
   <style>
-    * {
+    body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: radial-gradient(circle at top left, #111, #000);
+      font-family: 'Helvetica Neue', sans-serif;
+      background-color: #000;
       color: #fff;
-      min-height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
-      overflow: hidden;
+      align-items: center;
+      min-height: 100vh;
     }
-    .card {
-      background: #111;
-      border-radius: 20px;
-      padding: 3rem;
-      box-shadow: 0 0 60px rgba(255, 255, 255, 0.05);
+
+    .container {
       text-align: center;
-      animation: slideUp 1s ease;
-      max-width: 500px;
+      background: linear-gradient(145deg, #111, #1b1b1b);
+      padding: 50px 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 60px rgba(255, 255, 255, 0.05);
+      max-width: 720px;
+      width: 100%;
     }
+
     h1 {
       font-size: 2.2rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
+      margin-bottom: 20px;
+      color: #e0e0e0;
     }
+
     p {
-      font-size: 1.1rem;
-      color: #bbb;
-      margin-bottom: 2rem;
+      font-size: 1.05rem;
+      color: #aaa;
+      line-height: 1.6;
+      margin-bottom: 30px;
     }
-    .loading {
-      display: inline-block;
-      width: 48px;
-      height: 48px;
-      border: 3px solid rgba(255,255,255,0.2);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-bottom: 2rem;
-    }
-    .btn {
-      padding: 1rem 2rem;
+
+    iframe {
+      width: 100%;
+      height: 700px;
       border: none;
-      font-weight: 600;
-      background: linear-gradient(to right, #fff, #cfcfcf);
-      color: #000;
-      border-radius: 14px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: 0.3s ease;
-      display: inline-block;
+      border-radius: 12px;
+      overflow: hidden;
     }
-    .btn:hover {
-      transform: scale(1.05);
-      background: linear-gradient(to right, #eaeaea, #d0d0d0);
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    @keyframes slideUp {
-      from { transform: translateY(30px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+
+    .note {
+      font-size: 0.85rem;
+      color: #777;
+      margin-top: 25px;
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="loading"></div>
-    <h1>PlugBot Activated</h1>
-    <p>Your custom bot has been generated and is syncing across your selected platforms. Check your inbox for next steps or access your automation dashboard.</p>
-    <a href="https://yourdashboard.mxdenterprises.com" class="btn">Access Dashboard</a>
+  <div class="container">
+    <h1>Activate Your PlugBot</h1>
+    <p>You're almost there.<br/>Complete your $97/month subscription below to finish activating your PlugBot.</p>
+
+    <iframe src="https://buy.stripe.com/cN2cN33ev31h0923ch" title="PlugBot Payment"></iframe>
+
+    <p class="note">After payment, your PlugBot will be delivered via email or SMS. To update your bot in the future, simply resubmit the customization form.</p>
   </div>
 </body>
 </html>
