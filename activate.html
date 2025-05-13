@@ -6,11 +6,25 @@
   <title>Activate Your PlugBot</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {
+    :root {
+      --bg: #000;
+      --card-bg: #121212;
+      --text: #fff;
+      --muted: #ccc;
+      --highlight: #0f0;
+      --shadow: rgba(255, 255, 255, 0.05);
+    }
+
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       font-family: 'Poppins', sans-serif;
-      background: #000;
-      color: #fff;
+      background: var(--bg);
+      color: var(--text);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -19,35 +33,34 @@
       background: radial-gradient(circle at top, rgba(255,255,255,0.02), transparent 60%);
     }
 
-    .card {
-      background: #121212;
-      padding: 2.5rem;
-      border-radius: 20px;
+    .container {
       width: 100%;
-      max-width: 600px;
-      box-shadow: 0 0 40px rgba(255, 255, 255, 0.05);
-      animation: fadeIn 1s ease-out;
+      max-width: 640px;
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 3rem 2rem;
+      box-shadow: 0 0 40px var(--shadow);
+      text-align: center;
+      animation: fadeIn 0.8s ease-out;
     }
 
     h1 {
       font-size: 2rem;
-      text-align: center;
       margin-bottom: 1rem;
     }
 
     p.subtext {
-      text-align: center;
-      color: #ccc;
+      color: var(--muted);
       font-size: 1rem;
       margin-bottom: 2rem;
     }
 
     .summary {
       background: #1c1c1c;
-      border-radius: 12px;
-      padding: 1.5rem;
+      border-radius: 14px;
+      padding: 2rem;
       margin-bottom: 2rem;
-      box-shadow: inset 0 0 10px rgba(255,255,255,0.02);
+      text-align: left;
     }
 
     .summary-item {
@@ -58,21 +71,20 @@
       color: #eee;
     }
 
-    a.button {
-      display: block;
-      text-align: center;
+    .button {
+      display: inline-block;
       background: #fff;
       color: #000;
       padding: 1rem 2rem;
       border-radius: 10px;
       font-weight: 600;
       text-decoration: none;
-      transition: 0.3s;
       font-size: 1rem;
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
-    a.button:hover {
-      background: #0f0;
+    .button:hover {
+      background: var(--highlight);
       color: #000;
     }
 
@@ -80,7 +92,6 @@
       margin-top: 1.5rem;
       font-size: 0.85rem;
       color: #888;
-      text-align: center;
     }
 
     @keyframes fadeIn {
@@ -89,17 +100,18 @@
     }
 
     @media (max-width: 480px) {
-      .card { padding: 1.5rem; }
+      .container {
+        padding: 2rem 1rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="card">
+  <div class="container">
     <h1>Activate Your PlugBot</h1>
-    <p class="subtext">Review your setup and proceed to payment.</p>
+    <p class="subtext">Review your custom bot details below, then complete your purchase to go live.</p>
 
     <div class="summary" id="formSummary">
-      <!-- Auto-filled with user input -->
       <div class="summary-item"><strong>Brand Name:</strong> <span id="brandName"></span></div>
       <div class="summary-item"><strong>Main Platform:</strong> <span id="mainPlatform"></span></div>
       <div class="summary-item"><strong>Audience:</strong> <span id="targetAudience"></span></div>
@@ -117,11 +129,10 @@
 
     <a href="https://buy.stripe.com/cN2cN33ev31h0923ch" class="button">Submit Payment</a>
 
-    <div class="note">Once payment is complete, your bot will be generated and delivered to your email.</div>
+    <div class="note">Once payment is complete, your bot will be generated and delivered to your email within minutes.</div>
   </div>
 
   <script>
-    // Grab data from localStorage and show it
     const fields = [
       'brandName', 'mainPlatform', 'targetAudience', 'features', 'botTone',
       'greetingMessage', 'leadQuestion', 'disqualifier', 'instagram', 'tiktok',
