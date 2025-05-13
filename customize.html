@@ -12,14 +12,22 @@
       background-color: #0a0a0a;
       color: #f4f4f4;
       padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
     }
     .container {
-      max-width: 680px;
-      margin: auto;
-      background: rgba(20, 20, 20, 0.95);
+      max-width: 720px;
+      background: rgba(20, 20, 20, 0.98);
       padding: 3rem;
       border-radius: 18px;
-      box-shadow: 0 0 60px rgba(255, 255, 255, 0.03);
+      box-shadow: 0 0 60px rgba(255, 255, 255, 0.05);
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     h1 {
       text-align: center;
@@ -29,15 +37,15 @@
     }
     label {
       display: block;
-      margin-top: 1.8rem;
+      margin-top: 1.5rem;
       font-weight: 600;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       color: #ccc;
     }
     input, select, textarea {
       width: 100%;
-      margin-top: 0.5rem;
-      padding: 0.8rem;
+      margin-top: 0.4rem;
+      padding: 0.9rem;
       border-radius: 12px;
       border: none;
       font-size: 1rem;
@@ -45,7 +53,7 @@
       color: #f4f4f4;
     }
     .checkbox-group {
-      margin-top: 0.8rem;
+      margin-top: 0.5rem;
     }
     .checkbox-group label {
       font-weight: 400;
@@ -55,11 +63,10 @@
       cursor: pointer;
     }
     .checkbox-group input {
-      width: auto;
-      margin-right: 0.5rem;
+      margin-right: 0.6rem;
     }
     button {
-      margin-top: 2rem;
+      margin-top: 2.2rem;
       padding: 1rem 2rem;
       font-size: 1.2rem;
       font-weight: bold;
@@ -71,7 +78,7 @@
       transition: 0.3s;
     }
     button:hover {
-      transform: scale(1.04);
+      transform: scale(1.05);
       background: linear-gradient(to right, #eaeaea, #d0d0d0);
     }
   </style>
@@ -79,7 +86,7 @@
 <body>
   <div class="container">
     <h1>Customize Your PlugBot</h1>
-    <form action="https://hook.us1.make.com/your-make-webhook-url" method="POST">
+    <form action="https://hook.us2.make.com/28pb73d36ybmc4urrpm2cj4lyvr3qjyg" method="POST">
       <label for="brand">Your Brand Name</label>
       <input type="text" name="brand" required />
 
@@ -91,12 +98,12 @@
 
       <label for="platforms">Where Will You Use This Bot?</label>
       <div class="checkbox-group">
-        <label><input type="checkbox" name="platforms" value="Instagram Bio"> Instagram Bio</label>
-        <label><input type="checkbox" name="platforms" value="Sales Funnel"> Sales Funnel</label>
-        <label><input type="checkbox" name="platforms" value="Email Signature"> Email Signature</label>
-        <label><input type="checkbox" name="platforms" value="TikTok Link-in-Bio"> TikTok Link-in-Bio</label>
-        <label><input type="checkbox" name="platforms" value="WhatsApp Link"> WhatsApp Link</label>
-        <label><input type="checkbox" name="platforms" value="QR Code"> QR Code (Posters/Merch)</label>
+        <label><input type="checkbox" name="platforms[]" value="Instagram Bio"> Instagram Bio</label>
+        <label><input type="checkbox" name="platforms[]" value="Sales Funnel"> Sales Funnel</label>
+        <label><input type="checkbox" name="platforms[]" value="Email Signature"> Email Signature</label>
+        <label><input type="checkbox" name="platforms[]" value="TikTok Link-in-Bio"> TikTok Link-in-Bio</label>
+        <label><input type="checkbox" name="platforms[]" value="WhatsApp Link"> WhatsApp Link</label>
+        <label><input type="checkbox" name="platforms[]" value="QR Code"> QR Code (Posters/Merch)</label>
       </div>
 
       <label for="tone">Choose a Voice Style</label>
@@ -109,7 +116,7 @@
         <option value="Playful Genius">Playful Genius</option>
       </select>
 
-      <label for="link">Your Booking Link (if any)</label>
+      <label for="link">Your Booking Link (optional)</label>
       <input type="url" name="link" placeholder="https://yourcalendly.com/..." />
 
       <button type="submit">⚡ Generate My Bot</button>
