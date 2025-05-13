@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Customize Your PlugBot</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Helvetica Neue', sans-serif;
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      width: 95%;
+      max-width: 720px;
+      background: linear-gradient(145deg, #121212, #1a1a1a);
+      padding: 50px;
+      border-radius: 22px;
+      box-shadow: 0 0 80px rgba(255, 255, 255, 0.06);
+    }
+    h1 { text-align: center; font-size: 2.4rem; margin-bottom: 2rem; letter-spacing: 1px; color: #e0e0e0; }
+    h2 { font-size: 1.4rem; color: #ccc; text-align: center; margin: 40px 0 20px; }
+    form { display: flex; flex-direction: column; }
+    label {
+      margin: 12px 0 6px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #ccc;
+    }
+    input[type="text"],
+    input[type="url"],
+    select,
+    textarea {
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #1f1f1f;
+      color: #fff;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+    input:focus, textarea:focus, select:focus {
+      outline: 2px solid #0f0;
+      background-color: #262626;
+    }
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      font-weight: 400;
+      font-size: 0.95rem;
+      color: #ccc;
+      margin-bottom: 8px;
+    }
+    .checkbox-group input[type="checkbox"] {
+      accent-color: #0f0;
+      margin-right: 12px;
+      transform: scale(1.25);
+    }
+    button {
+      padding: 16px;
+      background: #fff;
+      color: #000;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background: #0f0;
+      color: #000;
+    }
+    .warning {
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-top: -10px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Customize Your PlugBot</h1>
+    <form id="customForm">
+      <label for="brandName">Brand or Creator Name</label>
+      <input type="text" id="brandName" name="brandName" required />
+
+      <label for="mainPlatform">Main Platform URL</label>
+      <input type="url" id="mainPlatform" name="mainPlatform" placeholder="https://yourlink.com" required />
+
+      <label for="targetAudience">Who is your ideal customer?</label>
+      <input type="text" id="targetAudience" name="targetAudience" required />
+
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="features" value="Appointment Booking" /> Appointment Booking</label>
+        <label><input type="checkbox" name="features" value="Lead Capture" /> Lead Capture</label>
+        <label><input type="checkbox" name="features" value="DM Automation" /> DM Automation</label>
+        <label><input type="checkbox" name="features" value="Custom FAQ Flow" /> Custom FAQ Flow</label>
+      </div>
+
+      <h2>Optional (Recommended for Best Performance)</h2>
+
+      <label for="botTone">Bot Personality Tone</label>
+      <select id="botTone" name="botTone">
+        <option value="">Select a tone</option>
+        <option value="Professional">Professional</option>
+        <option value="Hype">Hype</option>
+        <option value="Casual">Casual</option>
+        <option value="Luxury">Luxury</option>
+        <option value="Spiritual">Spiritual</option>
+        <option value="Funny">Funny</option>
+      </select>
+
+      <label for="greetingMessage">Custom Bot Greeting</label>
+      <input type="text" id="greetingMessage" name="greetingMessage" placeholder="Hey 👋 Ready to learn more?" />
+
+      <label for="leadQuestion">Qualifying Question (optional)</label>
+      <input type="text" id="leadQuestion" name="leadQuestion" placeholder="What's your current monthly revenue?" />
+
+      <label for="disqualifier">Red Flag Answer</label>
+      <input type="text" id="disqualifier" name="disqualifier" placeholder="e.g. I don't want to invest" />
+
+      <label for="bookingLink">Booking Link (Calendly, etc.)</label>
+      <input type="url" id="bookingLink" name="bookingLink" placeholder="https://calendly.com/yourname" />
+
+      <label for="instagram">Instagram Handle</label>
+      <input type="text" id="instagram" name="instagram" placeholder="@yourhandle" />
+
+      <label for="tiktok">TikTok Link</label>
+      <input type="url" id="tiktok" name="tiktok" />
+
+      <label for="discord">Discord/Community Link</label>
+      <input type="url" id="discord" name="discord" />
+
+      <label for="website">Website or Funnel Link</label>
+      <input type="url" id="website" name="website" />
+
+      <label for="faqSource">FAQ Source (Google Doc or Notion)</label>
+      <input type="url" id="faqSource" name="faqSource" />
+
+      <div class="warning">⚠️ To make changes later, you must resubmit this form.</div>
+
+      <button type="submit">Submit & Build My Bot</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('customForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
+
+      fetch('https://hook.us2.make.com/28pb73d36ybmc4urrpm2cj4lyvr3qjyg', {
+        method: 'POST',
+        body: data
+      }).then(() => {
+        window.location.href = '/activate.html';
+      }).catch(() => {
+        alert("Something went wrong. Please try again.");
+      });
+    });
+  </script>
+</body>
+</html>
