@@ -1,69 +1,74 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Activate Your PlugBot</title>
+  <script src="https://js.stripe.com/v3/"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Helvetica+Neue&display=swap">
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Helvetica Neue', sans-serif;
-      background-color: #000;
+      background: #000;
       color: #fff;
+      font-family: 'Helvetica Neue', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
+      margin: 0;
     }
-
     .container {
-      text-align: center;
-      background: linear-gradient(145deg, #111, #1b1b1b);
-      padding: 50px 20px;
+      background: #111;
+      padding: 50px;
       border-radius: 20px;
-      box-shadow: 0 0 60px rgba(255, 255, 255, 0.05);
-      max-width: 720px;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.06);
       width: 100%;
+      max-width: 600px;
+      text-align: center;
     }
-
     h1 {
-      font-size: 2.2rem;
+      font-size: 2rem;
       margin-bottom: 20px;
-      color: #e0e0e0;
     }
-
     p {
-      font-size: 1.05rem;
-      color: #aaa;
-      line-height: 1.6;
-      margin-bottom: 30px;
+      font-size: 1rem;
+      color: #ccc;
+      margin-bottom: 40px;
     }
-
-    iframe {
-      width: 100%;
-      height: 700px;
+    #payment-element {
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 15px 30px;
+      background: #fff;
+      color: #000;
+      font-weight: 600;
       border: none;
-      border-radius: 12px;
-      overflow: hidden;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s ease;
     }
-
-    .note {
-      font-size: 0.85rem;
-      color: #777;
-      margin-top: 25px;
+    button:hover {
+      background: #0f0;
+    }
+    #error-message {
+      color: #f55;
+      margin-top: 15px;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Activate Your PlugBot</h1>
-    <p>You're almost there.<br/>Complete your $97/month subscription below to finish activating your PlugBot.</p>
+    <p>Finish your $97/month subscription to launch your bot.</p>
 
-    <iframe src="https://buy.stripe.com/cN2cN33ev31h0923ch" title="PlugBot Payment"></iframe>
-
-    <p class="note">After payment, your PlugBot will be delivered via email or SMS. To update your bot in the future, simply resubmit the customization form.</p>
+    <form id="payment-form">
+      <div id="payment-element"><!--Stripe.js injects here--></div>
+      <button id="submit">Submit Payment</button>
+      <div id="error-message"></div>
+    </form>
   </div>
+
+  <script src="checkout.js"></script>
 </body>
 </html>
