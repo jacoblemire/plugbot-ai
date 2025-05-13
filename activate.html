@@ -1,87 +1,72 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Activate Your PlugBot</title>
-  <script src="https://js.stripe.com/v3/"></script>
   <style>
-    * { box-sizing: border-box; }
     body {
-      margin: 0;
-      padding: 0;
       background: #000;
       color: #fff;
       font-family: 'Helvetica Neue', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
+      height: 100vh;
+      margin: 0;
     }
 
     .card {
       background: #121212;
       padding: 3rem;
       border-radius: 20px;
-      max-width: 480px;
-      width: 90%;
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 60px rgba(255, 255, 255, 0.05);
       text-align: center;
+      max-width: 440px;
+      width: 90%;
     }
 
     h1 {
       font-size: 2rem;
-      margin-bottom: 0.5rem;
-      color: #fff;
+      margin-bottom: 1rem;
     }
 
     p {
       font-size: 1rem;
-      color: #aaa;
+      color: #ccc;
       margin-bottom: 2rem;
     }
 
-    #payment-element {
-      margin-bottom: 1.5rem;
-    }
-
-    button {
+    a.button {
       background: #fff;
       color: #000;
-      border: none;
-      padding: 14px 24px;
+      padding: 14px 28px;
       border-radius: 12px;
       font-weight: 600;
       font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.3s ease;
     }
 
-    button:hover {
+    a.button:hover {
       background: #0f0;
       color: #000;
     }
 
-    #error-message {
-      color: #ff4f4f;
-      margin-top: 1rem;
-      font-size: 0.9rem;
+    .note {
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: 1.5rem;
     }
   </style>
 </head>
 <body>
   <div class="card">
     <h1>Activate Your PlugBot</h1>
-    <p>Secure your $97/month subscription to finish building your bot.</p>
-
-    <form id="payment-form">
-      <div id="payment-element"><!--Stripe will embed form here--></div>
-      <button id="submit">Submit Payment</button>
-      <div id="error-message"></div>
-    </form>
+    <p>Secure your <strong>$97/month</strong> subscription to unlock your custom bot.</p>
+    <a href="https://buy.stripe.com/cN2cN33ev31h0923ch" class="button">Submit Payment</a>
+    <div class="note">You’ll receive your PlugBot setup link by email after payment.</div>
   </div>
-
-  <script src="checkout.js"></script>
 </body>
 </html>
