@@ -4,130 +4,110 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Customize Your PlugBot</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #0b0b0b;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      background-color: #0a0a0a;
+      color: #f4f4f4;
       padding: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
-
-    .wrapper {
-      max-width: 460px;
+    .container {
       width: 100%;
-      background: #111;
-      padding: 3rem 2rem;
-      border-radius: 20px;
-      box-shadow: 0 0 40px rgba(255, 255, 255, 0.05);
-      animation: fadeIn 1s ease-in-out;
+      max-width: 720px;
+      background: rgba(20, 20, 20, 0.98);
+      padding: 3rem;
+      border-radius: 18px;
+      box-shadow: 0 0 80px rgba(255, 255, 255, 0.03);
+      animation: fadeIn 0.9s ease-in-out;
     }
-
     h1 {
       text-align: center;
-      font-size: 2rem;
-      margin-bottom: 1.8rem;
+      font-size: 2.4rem;
+      margin-bottom: 2.5rem;
       font-weight: 700;
     }
-
     label {
       font-weight: 600;
-      margin-top: 1.3rem;
+      font-size: 1rem;
+      margin-top: 1.5rem;
       display: block;
-      font-size: 0.95rem;
+      color: #ccc;
     }
-
-    input, textarea, select {
+    input, select, textarea {
       width: 100%;
-      padding: 0.9rem;
-      margin-top: 0.4rem;
-      border-radius: 14px;
-      background: #1c1c1c;
-      color: #f1f1f1;
-      border: 1px solid #333;
+      margin-top: 0.5rem;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      background-color: #1a1a1a;
+      border: none;
+      color: #f4f4f4;
       font-size: 1rem;
     }
-
-    .checkbox-group {
-      margin-top: 0.5rem;
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem 2rem;
+      margin-top: 1rem;
     }
-
-    .checkbox-group label {
+    .checkbox-grid label {
       display: flex;
       align-items: center;
+      gap: 0.6rem;
       font-weight: 400;
-      margin: 0.4rem 0;
     }
-
-    .checkbox-group input {
-      margin-right: 0.7rem;
-    }
-
     button {
-      margin-top: 2rem;
       width: 100%;
+      margin-top: 2.5rem;
       padding: 1rem;
       font-size: 1.1rem;
-      font-weight: bold;
-      background: linear-gradient(135deg, #ffffff, #cccccc);
-      color: #111;
+      font-weight: 600;
+      background: linear-gradient(to right, #fff, #cfcfcf);
+      color: #000;
       border: none;
-      border-radius: 16px;
+      border-radius: 14px;
       cursor: pointer;
       transition: all 0.3s ease;
     }
-
     button:hover {
       transform: scale(1.03);
-      background: linear-gradient(135deg, #eaeaea, #c0c0c0);
+      background: linear-gradient(to right, #e5e5e5, #bfbfbf);
     }
-
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media screen and (max-width: 500px) {
-      .wrapper {
-        padding: 2rem 1.5rem;
-      }
     }
   </style>
 </head>
 <body>
-  <div class="wrapper">
+  <div class="container">
     <h1>PlugBot Customizer</h1>
     <form id="plugbotForm">
       <label for="brand">Brand Name</label>
-      <input type="text" name="brand" required>
+      <input type="text" name="brand" required />
 
       <label for="offer">Describe Your Offer</label>
       <textarea name="offer" rows="4" required></textarea>
 
       <label for="cta">Main Call to Action</label>
-      <input type="text" name="cta" placeholder="e.g. Book your free call now" required>
+      <input type="text" name="cta" placeholder="e.g. Book your free call now" required />
 
       <label>Where Will You Use It?</label>
-      <div class="checkbox-group">
+      <div class="checkbox-grid">
         <label><input type="checkbox" name="platforms[]" value="Instagram Bio"> Instagram Bio</label>
         <label><input type="checkbox" name="platforms[]" value="Sales Funnel"> Sales Funnel</label>
         <label><input type="checkbox" name="platforms[]" value="Email Signature"> Email Signature</label>
-        <label><input type="checkbox" name="platforms[]" value="TikTok"> TikTok Link-in-Bio</label>
-        <label><input type="checkbox" name="platforms[]" value="WhatsApp"> WhatsApp Link</label>
+        <label><input type="checkbox" name="platforms[]" value="TikTok Link-in-Bio"> TikTok Link-in-Bio</label>
+        <label><input type="checkbox" name="platforms[]" value="WhatsApp Link"> WhatsApp Link</label>
         <label><input type="checkbox" name="platforms[]" value="QR Code"> QR Code (Posters/Merch)</label>
       </div>
 
-      <label for="tone">Choose a Voice</label>
+      <label for="tone">Choose a Voice Style</label>
       <select name="tone" required>
         <option value="Boss Woman">Boss Woman</option>
         <option value="Chill Bro">Chill Bro</option>
@@ -137,16 +117,17 @@
         <option value="Playful Genius">Playful Genius</option>
       </select>
 
-      <label for="link">Booking Link (optional)</label>
-      <input type="url" name="link" placeholder="https://yourcalendly.com/...">
+      <label for="link">Your Booking Link (Optional)</label>
+      <input type="url" name="link" placeholder="https://yourcalendly.com/..." />
 
-      <button type="submit">✨ Generate My Bot</button>
+      <button type="submit">⚡ Generate My PlugBot</button>
     </form>
   </div>
 
   <script>
     document.getElementById('plugbotForm').addEventListener('submit', async function (e) {
       e.preventDefault();
+
       const formData = new FormData(this);
       const payload = {};
       formData.forEach((value, key) => {
@@ -167,9 +148,10 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
+
         window.location.href = "/activate.html";
       } catch (err) {
-        alert("Something went wrong. Try again.");
+        alert("Something went wrong. Please try again.");
         console.error(err);
       }
     });
