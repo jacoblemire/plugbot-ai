@@ -10,15 +10,15 @@
       --bg: #000;
       --text: #fff;
       --accent: #fff5cc;
-      --glass: rgba(255, 255, 255, 0.05);
-      --glow: rgba(255, 255, 255, 0.08);
+      --glass: rgba(255, 255, 255, 0.06);
+      --glow: rgba(255, 255, 255, 0.12);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--bg);
+      background: radial-gradient(circle at 30% 30%, #111 0%, #000 80%);
       color: var(--text);
       display: flex;
       flex-direction: column;
@@ -30,10 +30,10 @@
 
     .chat-box {
       background: var(--glass);
-      backdrop-filter: blur(20px);
+      backdrop-filter: blur(30px);
       border-radius: 18px;
-      box-shadow: 0 0 25px var(--glow);
-      max-width: 550px;
+      box-shadow: 0 0 35px var(--glow);
+      max-width: 600px;
       width: 100%;
       padding: 2rem;
       display: flex;
@@ -53,7 +53,7 @@
 
     .msg.user {
       justify-content: flex-end;
-      background: rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.2);
       align-self: flex-end;
     }
 
@@ -82,6 +82,8 @@
       display: flex;
       margin-top: 1rem;
       gap: 0.75rem;
+      max-width: 600px;
+      width: 100%;
     }
 
     input {
@@ -112,8 +114,8 @@
 </head>
 <body>
   <div class="chat-box" id="chat">
-    <div class="msg">Hey — I’m PlugBot. I’ll guide you real quick to see if MXD’s offer makes sense for you.</div>
-    <div class="msg">First off — what’s your name?</div>
+    <div class="msg">Hey — I’m PlugBot. I’ll guide you real quick to see if MXD’s remote path is a fit.</div>
+    <div class="msg">Let’s start simple: what’s your name?</div>
   </div>
   <div class="input-row">
     <input type="text" id="input" placeholder="Type here..." />
@@ -126,16 +128,16 @@
     let step = 0;
     const data = {};
     const prompts = [
-      "Cool — how old are you?",
-      "Where are you located?",
-      "What’s your monthly income right now?",
-      "Got any savings or access to funds?",
-      "What’s got you curious about remote income?",
-      "Ever tried anything like this before?",
-      "What’s your dream monthly income goal?",
-      "What’s your email so we can lock you in?",
-      "Got a phone number to reach you on?",
-      "🔥 You’re locked in. Want to book your free intro call now?"
+      "How old are you?",
+      "Where are you based right now?",
+      "What’s your current monthly income?",
+      "Got any savings or available credit?",
+      "Why do you want to earn remotely?",
+      "Have you done sales or online work before?",
+      "What's your ideal monthly income goal?",
+      "Drop your email to lock this in:",
+      "Phone number so we can follow up:",
+      "You're in. Tap below to book your intro call ⬇️"
     ];
 
     const fields = ["name", "age", "location", "income", "savings", "reason", "goal", "email", "phone"];
@@ -156,7 +158,7 @@
       setTimeout(() => {
         typing.remove();
         appendMsg(nextText);
-      }, 900);
+      }, 850);
     }
 
     function sendInput() {
@@ -164,7 +166,7 @@
       if (!val) return;
 
       appendMsg(val, true);
-      data[fields[step]] = val;
+      if (step < fields.length) data[fields[step]] = val;
       input.value = '';
 
       step++;
@@ -179,6 +181,7 @@
         link.style.marginTop = '1rem';
         link.style.display = 'inline-block';
         link.style.color = '#fff5cc';
+        link.style.fontWeight = '600';
         chat.appendChild(link);
         fetch("https://hook.us2.make.com/y1tdeyvxp8gqtaifqsthdpiwayas40fp", {
           method: 'POST',
