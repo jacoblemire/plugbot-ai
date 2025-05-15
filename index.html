@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlugBot AI – MXD Enterprises</title>
+  <title>PlugBot AI – MXD Assistant</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <style>
     :root {
       --bg: #ffffff;
@@ -19,83 +18,102 @@
       font-family: 'Poppins', sans-serif;
       background-color: var(--bg);
       color: var(--text);
-      line-height: 1.6;
       overflow-x: hidden;
     }
-    .section { max-width: 1200px; margin: 0 auto; padding: 4rem 1.5rem; text-align: center; }
-    .hero h1 {
-      font-size: 4rem; font-weight: 700; margin-bottom: 1rem; color: var(--accent);
-      white-space: nowrap; overflow: hidden; border-right: 3px solid var(--accent);
-      width: 0; animation: typing 2.5s steps(20, end) forwards, blink 0.7s step-end infinite;
-    }
-    @keyframes typing { from { width: 0 } to { width: 100% } }
-    @keyframes blink { 50% { border-color: transparent } }
-    .cta-button {
-      background: var(--accent); color: #fff; padding: 1rem 2.5rem; font-weight: 600;
-      border-radius: 8px; text-decoration: none; display: inline-block; transition: 0.3s;
-    }
-    .cta-button:hover { background-color: #222; transform: scale(1.03); box-shadow: 0 0 25px var(--neon); }
     .chat-launcher {
-      position: fixed; bottom: 20px; right: 20px; background-color: var(--accent);
-      color: white; padding: 12px 20px; border-radius: 30px; cursor: pointer;
-      z-index: 1001; font-weight: 600;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: var(--accent);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      z-index: 1001;
+      font-weight: 600;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
     }
     .chat-popup {
-      position: fixed; bottom: 80px; right: 20px; width: 360px; height: 500px;
-      background: #111; color: white; border-radius: 16px; overflow: hidden;
-      display: none; flex-direction: column; box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 360px;
+      height: 520px;
+      background: #111;
+      color: white;
+      border-radius: 16px;
+      display: none;
+      flex-direction: column;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      z-index: 1000;
     }
-    .chat-header { background-color: #1a1a1a; padding: 16px; font-weight: 600; font-size: 16px; text-align: center; color: #0f0; }
-    .chat-body { flex: 1; padding: 16px; overflow-y: auto; font-size: 14px; }
-    .chat-footer { display: flex; border-top: 1px solid #333; }
-    .chat-footer input { flex: 1; padding: 10px; background: #000; color: white; border: none; outline: none; }
-    .chat-footer button { background: #0f0; border: none; color: #000; padding: 10px 16px; cursor: pointer; font-weight: bold; }
+    .chat-header {
+      background-color: #1a1a1a;
+      padding: 16px;
+      font-weight: 600;
+      font-size: 16px;
+      text-align: center;
+      color: #00f5ff;
+    }
+    .chat-body {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+    .chat-footer {
+      display: flex;
+      border-top: 1px solid #333;
+    }
+    .chat-footer input {
+      flex: 1;
+      padding: 10px;
+      background: #000;
+      color: white;
+      border: none;
+      outline: none;
+    }
+    .chat-footer button {
+      background: #00f5ff;
+      border: none;
+      color: #000;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
     .message { margin: 10px 0; }
-    .bot { color: #0f0; }
+    .bot { color: #00f5ff; }
     .user { color: #00d0ff; text-align: right; }
   </style>
 </head>
 <body>
-  <section class="section hero">
-    <h1>PlugBot AI</h1>
-    <p>Save hours in DMs and close more deals — your AI appointment setter runs your brand 24/7.</p>
-    <a href="customize.html" class="cta-button">Build My Bot</a>
-  </section>
-
   <div class="chat-launcher" onclick="toggleChat()">Chat with PlugBot</div>
   <div class="chat-popup" id="plugbot">
     <div class="chat-header">PlugBot – MXD Sales Assistant</div>
     <div class="chat-body" id="chat"></div>
     <div class="chat-footer">
-      <input type="text" id="userInput" placeholder="Type your message...">
+      <input type="text" id="userInput" placeholder="Type your response...">
       <button onclick="sendMessage()">Send</button>
     </div>
   </div>
-
   <script>
-    emailjs.init("VZ3WlHJZBWm_UJvut"); // Your EmailJS public key
-
     const plugbot = document.getElementById('plugbot');
     const chat = document.getElementById('chat');
     const input = document.getElementById('userInput');
 
-    let formData = { name: '', email: '', age: '', income: '', savings: '', availability: '', mentorship: '', timestamp: '' };
-    const flow = [
-      "Hey! I'm PlugBot 🧠 — quick question to get started. What's your name?",
-      "Awesome {{name}}. Can I get your email so we can send info if you're a fit?",
-      "Thanks! How old are you?",
-      "Got it — how much do you currently make monthly?",
-      "Roughly how much savings/cash could you invest in mentorship if it was the right fit?",
-      "How many hours/week could you commit to this?",
-      "Would you be open to mentorship and job placement if you're aligned?",
-      "Looks like you're a great fit ✨ — let's lock in a time.",
-    ];
-
-    const calendlyLink = "https://calendly.com/jadafig1";
-    const serviceID = "service_fpdp9s";
-    const templateID = "template_9wx946a";
-
     let step = 0;
+    let leadData = {};
+    const flow = [
+      { q: "🔥 Yo! Quick question — you open to making $5–10K/month remotely with the right support?", key: null },
+      { q: "Got you! What’s your first name?", key: "name" },
+      { q: "Cool, what’s your email so we can send your setup link?", key: "email" },
+      { q: "Alright {{name}}, how old are you?", key: "age" },
+      { q: "Monthly income right now? Just a ballpark.", key: "income" },
+      { q: "Got it. Roughly how much savings/cash you could use to get started legit?", key: "savings" },
+      { q: "How many hours/week could you lock in to build remote income?", key: "availability" },
+      { q: "Would you want mentorship and placement if you qualified? (yes/no)", key: "mentorship" },
+      { q: "Looks like you align. 📅 Tap below to get in the loop:", key: null, final: true }
+    ];
 
     function toggleChat() {
       plugbot.style.display = plugbot.style.display === 'flex' ? 'none' : 'flex';
@@ -105,37 +123,36 @@
       const msg = input.value.trim();
       if (!msg) return;
       chat.innerHTML += `<div class='message user'>${msg}</div>`;
+      if (flow[step].key) leadData[flow[step].key] = msg;
       input.value = '';
 
-      switch (step) {
-        case 0: formData.name = msg; break;
-        case 1: formData.email = msg; break;
-        case 2: formData.age = msg; break;
-        case 3: formData.income = msg; break;
-        case 4: formData.savings = msg; break;
-        case 5: formData.availability = msg; break;
-        case 6: formData.mentorship = msg; break;
-      }
-
       setTimeout(() => {
-        if (step < flow.length - 1) {
-          let prompt = flow[step + 1].replace("{{name}}", formData.name);
-          chat.innerHTML += `<div class='message bot'>${prompt}</div>`;
-          chat.scrollTop = chat.scrollHeight;
-          step++;
-        } else if (step === flow.length - 1) {
-          formData.timestamp = new Date().toLocaleString();
-
-          emailjs.send(serviceID, templateID, formData)
-            .then(() => {
-              chat.innerHTML += `<div class='message bot'>You're in. 🔐 <a href='${calendlyLink}' target='_blank'>Book your call</a> and let's make it happen.</div>`;
-            })
-            .catch(() => {
-              chat.innerHTML += `<div class='message bot'>Oops, something went wrong. Try again later.</div>`;
-            });
-          step++;
+        step++;
+        if (step < flow.length) {
+          let nextQ = flow[step].q.replace(/{{(\w+)}}/g, (_, k) => leadData[k] || '');
+          chat.innerHTML += `<div class='message bot'>${nextQ}</div>`;
+        } else {
+          const timestamp = new Date().toLocaleString();
+          leadData.timestamp = timestamp;
+          chat.innerHTML += `<div class='message bot'>👉 <a href='https://calendly.com/jadafig1' target='_blank'>Book Your Call</a><br>OR <a href='customize.html'>Build Your PlugBot</a></div>`;
+          sendToEmailJS();
         }
-      }, 500);
+        chat.scrollTop = chat.scrollHeight;
+      }, 700);
+    }
+
+    function sendToEmailJS() {
+      const payload = {
+        service_id: "service_fpdp9s",
+        template_id: "template_9wx946a",
+        user_id: "YOUR_EMAILJS_PUBLIC_KEY",
+        template_params: leadData
+      };
+      fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(res => console.log("Lead sent.")).catch(err => console.error("EmailJS Error:", err));
     }
   </script>
 </body>
