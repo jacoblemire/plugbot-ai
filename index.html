@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PlugBot | Powered by MXD</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <style>
     :root {
       --bg: #ffffff;
@@ -25,6 +26,23 @@
       color: var(--text);
       line-height: 1.6;
       overflow-x: hidden;
+      position: relative;
+    }
+    .bg-animated {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(135deg, #f0f0f0, #ffffff);
+      background-size: 400% 400%;
+      animation: gradientShift 20s ease infinite;
+      z-index: -1;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
     .section {
       max-width: 1200px;
@@ -97,16 +115,17 @@
       padding-top: 3rem;
     }
     .card {
-      background: #f9f9f9;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
       border-radius: 16px;
       padding: 2rem;
       text-align: left;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
       transition: all 0.3s ease;
     }
     .card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
     }
     .card h3 {
       font-size: 1.4rem;
@@ -121,64 +140,41 @@
   </style>
 </head>
 <body>
-  <section class="section hero">
+  <div class="bg-animated"></div>
+  <section class="section hero" data-aos="fade-up">
     <h1>Build Your Custom Bot</h1>
     <p>This isn’t a chatbot. This is your automated closer. Fully customizable. Made to qualify, route, and convert — while staying on brand.</p>
     <a href="customize.html" class="cta-button">Start Building Yours →</a>
   </section>
 
-  <section class="section">
+  <section class="section" data-aos="fade-up">
     <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">Who It’s For</h2>
     <div class="grid">
-      <div class="card">
-        <h3>Content Creators</h3>
-        <p>Capture more leads while you sleep. PlugBot turns views into verified calls automatically.</p>
-      </div>
-      <div class="card">
-        <h3>Closers</h3>
-        <p>Never chase cold DMs again. Use PlugBot to prequalify leads and fill your calendar with people ready to say yes.</p>
-      </div>
-      <div class="card">
-        <h3>Agencies & Brands</h3>
-        <p>Scale smarter. PlugBot handles inquiries, filters out the noise, and pushes real buyers to book.</p>
-      </div>
+      <div class="card" data-aos="fade-up"><h3>Content Creators</h3><p>Capture more leads while you sleep. PlugBot turns views into verified calls automatically.</p></div>
+      <div class="card" data-aos="fade-up"><h3>Closers</h3><p>Never chase cold DMs again. Use PlugBot to prequalify leads and fill your calendar with people ready to say yes.</p></div>
+      <div class="card" data-aos="fade-up"><h3>Agencies & Brands</h3><p>Scale smarter. PlugBot handles inquiries, filters out the noise, and pushes real buyers to book.</p></div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" data-aos="fade-up">
     <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">What It Solves</h2>
     <div class="grid">
-      <div class="card">
-        <h3>Missed DMs</h3>
-        <p>No more lost convos. PlugBot runs 24/7 and never forgets to follow up.</p>
-      </div>
-      <div class="card">
-        <h3>Cold Leads</h3>
-        <p>Qualifies based on age, income, urgency, and alignment — only real leads get through.</p>
-      </div>
-      <div class="card">
-        <h3>Time Drain</h3>
-        <p>Spend your energy closing, not qualifying. Let PlugBot be your first impression engine.</p>
-      </div>
+      <div class="card" data-aos="fade-up"><h3>Missed DMs</h3><p>No more lost convos. PlugBot runs 24/7 and never forgets to follow up.</p></div>
+      <div class="card" data-aos="fade-up"><h3>Cold Leads</h3><p>Qualifies based on age, income, urgency, and alignment — only real leads get through.</p></div>
+      <div class="card" data-aos="fade-up"><h3>Time Drain</h3><p>Spend your energy closing, not qualifying. Let PlugBot be your first impression engine.</p></div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" data-aos="fade-up">
     <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">How It Makes (and Saves) You Money</h2>
     <div class="grid">
-      <div class="card">
-        <h3>Automated Sales Assistant</h3>
-        <p>Turn views into income. PlugBot qualifies and routes leads while you sleep — turning attention into booked calls.</p>
-      </div>
-      <div class="card">
-        <h3>Cut Hiring Costs</h3>
-        <p>Skip paying VA teams or setters. PlugBot replaces 2–3 full-time staff with 24/7 automated lead flow.</p>
-      </div>
-      <div class="card">
-        <h3>Close Warmer Prospects</h3>
-        <p>Every call booked is already pre-sold. PlugBot filters for intent, income, and alignment — so your close rate jumps up.</p>
-      </div>
+      <div class="card" data-aos="fade-up"><h3>Automated Sales Assistant</h3><p>Turn views into income. PlugBot qualifies and routes leads while you sleep — turning attention into booked calls.</p></div>
+      <div class="card" data-aos="fade-up"><h3>Cut Hiring Costs</h3><p>Skip paying VA teams or setters. PlugBot replaces 2–3 full-time staff with 24/7 automated lead flow.</p></div>
+      <div class="card" data-aos="fade-up"><h3>Close Warmer Prospects</h3><p>Every call booked is already pre-sold. PlugBot filters for intent, income, and alignment — so your close rate jumps up.</p></div>
     </div>
   </section>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>AOS.init({ once: true });</script>
 </body>
 </html>
