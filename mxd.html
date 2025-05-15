@@ -94,18 +94,20 @@
     }
 
     .avatar {
-      width: 32px;
-      height: 32px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), #ffffff);
-      animation: pulse 2s infinite;
+      background: url('https://cdn-icons-png.flaticon.com/512/4712/4712109.png') no-repeat center/cover;
+      animation: wave 1.2s infinite alternate ease-in-out;
       flex-shrink: 0;
     }
 
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.1); opacity: 0.8; }
-      100% { transform: scale(1); opacity: 1; }
+    @keyframes wave {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(8deg); }
+      50% { transform: rotate(0deg); }
+      75% { transform: rotate(-8deg); }
+      100% { transform: rotate(0deg); }
     }
 
     @keyframes fadeIn {
@@ -154,9 +156,9 @@
   </header>
 
   <div class="glass-container" id="chat">
-    <div class="message"><div class="avatar"></div><div>🧠 Hey, I’m <strong>Mixed</strong>. Let’s see if you’re aligned for time freedom, purpose, and income. Start below.</div></div>
+    <div class="message"><div class="avatar"></div><div>👋 Hey there, I’m <strong>Mixed</strong> — your PlugBot assistant. I’m here to help you figure out if MXD is your next move. Let’s chat for a sec…</div></div>
     <div class="btn-group">
-      <button class="btn" onclick="next('start')">Run Fit Test</button>
+      <button class="btn" onclick="next('start')">Let’s Run It</button>
       <button class="btn" onclick="offerTraining()">View Free Training</button>
     </div>
   </div>
@@ -193,8 +195,8 @@
     function next(step) {
       clearButtons();
       if (step === 'start') {
-        appendMessage("First off — how old are you?");
-        inputResponse('age');
+        appendMessage("What interests you most about the MXD Sales Academy?");
+        inputResponse('interest');
       } else if (step === 'qualified') {
         appendMessage("🔥 You’re a match. Want to secure a free intro call?");
         inputResponse('name');
@@ -213,7 +215,10 @@
             appendMessage(value, true);
             input.remove();
 
-            if (field === 'age') {
+            if (field === 'interest') {
+              appendMessage("Nice — how old are you?");
+              inputResponse('age');
+            } else if (field === 'age') {
               appendMessage("Where are you located?");
               inputResponse('location');
             } else if (field === 'location') {
