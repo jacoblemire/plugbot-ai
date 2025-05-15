@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -28,139 +27,71 @@
       line-height: 1.6;
       overflow-x: hidden;
     }
-    .section {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 4rem 1.5rem;
-      text-align: center;
-    }
-    .hero h1 {
-      font-size: 4rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      color: var(--accent);
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 3px solid var(--accent);
-      width: 0;
-      animation: typing 2.5s steps(20, end) forwards, blink 0.7s step-end infinite;
-    }
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
-    }
-    @keyframes blink {
-      50% { border-color: transparent }
-    }
-    .hero h1::after {
-      content: '';
-      display: inline-block;
-    }
-    .hero {
-      position: relative;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80%;
-      height: 2px;
-      background: var(--neon);
-      box-shadow: 0 0 20px var(--neon);
-      opacity: 0.6;
-      animation: pulseGlow 2s ease-in-out infinite;
-    }
-    @keyframes pulseGlow {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 1; box-shadow: 0 0 40px var(--neon); }
-    }
-    .hero p {
-      max-width: 700px;
-      margin: 0 auto 2rem;
-      font-size: 1.3rem;
-      color: var(--dim);
-    }
-    .cta-button {
-      background: var(--accent);
-      color: #fff;
-      padding: 1rem 2.5rem;
+    .chat-launcher {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: var(--accent);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      z-index: 1001;
       font-weight: 600;
-      font-size: 1.1rem;
-      border-radius: 8px;
-      text-decoration: none;
-      display: inline-block;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
     }
-    .cta-button:hover {
-      background-color: #222;
-      transform: scale(1.03);
-      box-shadow: 0 0 25px var(--neon);
+    .chat-popup {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 360px;
+      height: 500px;
+      background: #111;
+      color: white;
+      border-radius: 16px;
+      overflow: hidden;
+      display: none;
+      flex-direction: column;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      z-index: 1000;
     }
-    .features {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 2rem;
-    }
-    .feature-box {
-      width: 45%;
-      padding: 2rem;
-      background-color: #f7f7f7;
-      border-radius: 12px;
-      box-shadow: var(--glow-animated);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .feature-box:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 0 20px var(--neon);
-    }
-    .feature-box h3 {
-      font-size: 1.5rem;
-      margin-bottom: 0.75rem;
-      color: var(--accent);
-    }
-    .how-it-works {
-      background-color: #f2f2f2;
-    }
-    .how-it-works h2,
-    .why-section h2,
-    .audience-section h2 {
-      font-size: 2rem;
-      margin-bottom: 2rem;
-    }
-    .steps {
-      display: grid;
-      gap: 1.5rem;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-    .step {
-      background-color: #fff;
-      padding: 1.5rem;
-      border-left: 5px solid var(--accent);
-      border-radius: 8px;
-      text-align: left;
-    }
-    footer {
+    .chat-header {
+      background-color: #1a1a1a;
+      padding: 16px;
+      font-weight: 600;
+      font-size: 16px;
       text-align: center;
-      padding: 3rem 1rem 2rem;
-      font-size: 0.9rem;
-      color: #777;
+      color: #0f0;
     }
-    .disclaimer {
-      font-size: 0.8rem;
-      max-width: 700px;
-      margin: 1rem auto 0;
-      color: #999;
+    .chat-body {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      font-size: 14px;
     }
-    @media (max-width: 768px) {
-      .feature-box {
-        width: 100%;
-      }
+    .chat-footer {
+      display: flex;
+      border-top: 1px solid #333;
     }
+    .chat-footer input {
+      flex: 1;
+      padding: 10px;
+      background: #000;
+      color: white;
+      border: none;
+      outline: none;
+    }
+    .chat-footer button {
+      background: #0f0;
+      border: none;
+      color: #000;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .message { margin: 10px 0; }
+    .bot { color: #0f0; }
+    .user { color: #00d0ff; text-align: right; }
   </style>
 </head>
 <body>
@@ -170,69 +101,9 @@
     <a href="customize.html" class="cta-button">Build My Bot</a>
   </section>
 
-  <!-- Rest of your sections remain unchanged -->
-
-  <section class="section why-section">
-    <h2>Why Creators Use PlugBot</h2>
-    <div class="features">
-      <div class="feature-box">
-        <h3>⚡ Save Time</h3>
-        <p>No more repeating yourself in DMs. PlugBot handles convos so you can focus on content.</p>
-      </div>
-      <div class="feature-box">
-        <h3>🎯 Qualify Instantly</h3>
-        <p>Your bot filters bad leads and sends real buyers straight to your calendar or closer.</p>
-      </div>
-      <div class="feature-box">
-        <h3>🎤 On-Brand Replies</h3>
-        <p>Trained in your voice, brand, and flow — no generic scripts or AI cringe.</p>
-      </div>
-      <div class="feature-box">
-        <h3>❌ No Tech Stress</h3>
-        <p>Answer a few prompts. No Zapier, no coding, no setup headaches. Delivered in minutes.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section how-it-works">
-    <h2>How It Works</h2>
-    <div class="steps">
-      <div class="step">
-        <strong>1. Customize</strong><br>
-        Choose your voice, tone, platform links, and lead flow style.
-      </div>
-      <div class="step">
-        <strong>2. Activate</strong><br>
-        Complete checkout — we start building instantly.
-      </div>
-      <div class="step">
-        <strong>3. Receive</strong><br>
-        Your bot is emailed within minutes, ready to use.
-      </div>
-    </div>
-  </section>
-
-  <section class="section audience-section">
-    <h2>Perfect For</h2>
-    <div class="features">
-      <div class="feature-box">
-        <h3>📱 Content Creators</h3>
-        <p>Turn your DMs into passive income — even while you sleep.</p>
-      </div>
-      <div class="feature-box">
-        <h3>🧠 Coaches & Experts</h3>
-        <p>Pre-qualify leads and book serious clients on autopilot.</p>
-      </div>
-      <div class="feature-box">
-        <h3>💼 Service Providers</h3>
-        <p>Never miss a lead — your PlugBot sells while you work.</p>
-      </div>
-      <div class="feature-box">
-        <h3>🎥 Influencers & Closers</h3>
-        <p>Automate your funnel. Plug your calendar. Scale your brand.</p>
-      </div>
-    </div>
-  </section>
+  <section class="section why-section">...</section>
+  <section class="section how-it-works">...</section>
+  <section class="section audience-section">...</section>
 
   <footer>
     &copy; 2025 PlugBot AI · Built by MXD Enterprises
@@ -240,5 +111,51 @@
       ⚠️ PlugBot is a tool to help automate lead conversations. While it simulates human-like replies, results vary based on offer setup and audience targeting. Do not misuse or expect unrealistic outcomes.
     </div>
   </footer>
+
+  <div class="chat-launcher" onclick="toggleChat()">Chat with PlugBot</div>
+  <div class="chat-popup" id="plugbot">
+    <div class="chat-header">PlugBot – MXD Sales Assistant</div>
+    <div class="chat-body" id="chat"></div>
+    <div class="chat-footer">
+      <input type="text" id="userInput" placeholder="Type your message...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const plugbot = document.getElementById('plugbot');
+    const chat = document.getElementById('chat');
+    const input = document.getElementById('userInput');
+
+    const flow = [
+      "Yo 👋 You open to earning $5–10K/month remotely if you had the right team + mentorship?",
+      "Fire. Quick q’s to make sure you’re aligned: How old are you?",
+      "What’s your current monthly income?",
+      "Roughly how much savings or cash you could use to start something legit?",
+      "How many hours/week can you put in?",
+      "Would you want real mentorship + job placement if you qualified?",
+      "You seem like a fit 🔒 — tap below to book with our team.\n👉 <a href='https://calendly.com/jadafig1' target='_blank'>Book My Call</a><br><br>Want your own PlugBot like this? 👉 <a href='customize.html'>Build My Bot</a>"
+    ];
+
+    let step = 0;
+
+    function toggleChat() {
+      plugbot.style.display = plugbot.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function sendMessage() {
+      const msg = input.value;
+      if (!msg) return;
+      chat.innerHTML += `<div class='message user'>${msg}</div>`;
+      input.value = '';
+      setTimeout(() => {
+        if (step < flow.length) {
+          chat.innerHTML += `<div class='message bot'>${flow[step]}</div>`;
+          chat.scrollTop = chat.scrollHeight;
+          step++;
+        }
+      }, 600);
+    }
+  </script>
 </body>
 </html>
