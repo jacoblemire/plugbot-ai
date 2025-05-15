@@ -3,16 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlugBot AI – Premium Bot Builder</title>
+  <title>PlugBot AI – MXD Sales Assistant</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <style>
     :root {
       --bg: #ffffff;
       --text: #111111;
       --dim: #555;
       --accent: #000;
-      --glow: rgba(0, 0, 0, 0.05);
-      --glow-animated: 0 0 25px rgba(0, 0, 0, 0.15);
       --neon: #00f5ff;
     }
     * {
@@ -24,124 +23,6 @@
       font-family: 'Poppins', sans-serif;
       background-color: var(--bg);
       color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-    .section {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 4rem 1.5rem;
-      text-align: center;
-    }
-    .hero h1 {
-      font-size: 4rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      color: var(--accent);
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 3px solid var(--accent);
-      width: 0;
-      animation: typing 2.5s steps(20, end) forwards, blink 0.7s step-end infinite;
-    }
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
-    }
-    @keyframes blink {
-      50% { border-color: transparent }
-    }
-    .hero h1::after {
-      content: '';
-      display: inline-block;
-    }
-    .hero {
-      position: relative;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80%;
-      height: 2px;
-      background: var(--neon);
-      box-shadow: 0 0 20px var(--neon);
-      opacity: 0.6;
-      animation: pulseGlow 2s ease-in-out infinite;
-    }
-    @keyframes pulseGlow {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 1; box-shadow: 0 0 40px var(--neon); }
-    }
-    .hero p {
-      max-width: 700px;
-      margin: 0 auto 2rem;
-      font-size: 1.3rem;
-      color: var(--dim);
-    }
-    .cta-button {
-      background: var(--accent);
-      color: #fff;
-      padding: 1rem 2.5rem;
-      font-weight: 600;
-      font-size: 1.1rem;
-      border-radius: 8px;
-      text-decoration: none;
-      display: inline-block;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    }
-    .cta-button:hover {
-      background-color: #222;
-      transform: scale(1.03);
-      box-shadow: 0 0 25px var(--neon);
-    }
-    .features {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 2rem;
-    }
-    .feature-box {
-      width: 45%;
-      padding: 2rem;
-      background-color: #f7f7f7;
-      border-radius: 12px;
-      box-shadow: var(--glow-animated);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .feature-box:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 0 20px var(--neon);
-    }
-    .feature-box h3 {
-      font-size: 1.5rem;
-      margin-bottom: 0.75rem;
-      color: var(--accent);
-    }
-    .how-it-works {
-      background-color: #f2f2f2;
-    }
-    .how-it-works h2,
-    .why-section h2,
-    .audience-section h2 {
-      font-size: 2rem;
-      margin-bottom: 2rem;
-    }
-    .steps {
-      display: grid;
-      gap: 1.5rem;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-    .step {
-      background-color: #fff;
-      padding: 1.5rem;
-      border-left: 5px solid var(--accent);
-      border-radius: 8px;
-      text-align: left;
     }
     .chat-launcher {
       position: fixed;
@@ -208,101 +89,9 @@
     .message { margin: 10px 0; }
     .bot { color: #0f0; }
     .user { color: #00d0ff; text-align: right; }
-    footer {
-      text-align: center;
-      padding: 3rem 1rem 2rem;
-      font-size: 0.9rem;
-      color: #777;
-    }
-    .disclaimer {
-      font-size: 0.8rem;
-      max-width: 700px;
-      margin: 1rem auto 0;
-      color: #999;
-    }
-    @media (max-width: 768px) {
-      .feature-box {
-        width: 100%;
-      }
-    }
   </style>
 </head>
 <body>
-  <section class="section hero">
-    <h1>PlugBot AI</h1>
-    <p>Save hours in DMs and close more deals — your AI appointment setter runs your brand 24/7.</p>
-    <a href="customize.html" class="cta-button">Build My Bot</a>
-  </section>
-
-  <section class="section why-section">
-    <h2>Why Creators Use PlugBot</h2>
-    <div class="features">
-      <div class="feature-box">
-        <h3>⚡ Save Time</h3>
-        <p>No more repeating yourself in DMs. PlugBot handles convos so you can focus on content.</p>
-      </div>
-      <div class="feature-box">
-        <h3>🎯 Qualify Instantly</h3>
-        <p>Your bot filters bad leads and sends real buyers straight to your calendar or closer.</p>
-      </div>
-      <div class="feature-box">
-        <h3>🎤 On-Brand Replies</h3>
-        <p>Trained in your voice, brand, and flow — no generic scripts or AI cringe.</p>
-      </div>
-      <div class="feature-box">
-        <h3>❌ No Tech Stress</h3>
-        <p>Answer a few prompts. No Zapier, no coding, no setup headaches. Delivered in minutes.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section how-it-works">
-    <h2>How It Works</h2>
-    <div class="steps">
-      <div class="step">
-        <strong>1. Customize</strong><br>
-        Choose your voice, tone, platform links, and lead flow style.
-      </div>
-      <div class="step">
-        <strong>2. Activate</strong><br>
-        Complete checkout — we start building instantly.
-      </div>
-      <div class="step">
-        <strong>3. Receive</strong><br>
-        Your bot is emailed within minutes, ready to use.
-      </div>
-    </div>
-  </section>
-
-  <section class="section audience-section">
-    <h2>Perfect For</h2>
-    <div class="features">
-      <div class="feature-box">
-        <h3>📱 Content Creators</h3>
-        <p>Turn your DMs into passive income — even while you sleep.</p>
-      </div>
-      <div class="feature-box">
-        <h3>🧠 Coaches & Experts</h3>
-        <p>Pre-qualify leads and book serious clients on autopilot.</p>
-      </div>
-      <div class="feature-box">
-        <h3>💼 Service Providers</h3>
-        <p>Never miss a lead — your PlugBot sells while you work.</p>
-      </div>
-      <div class="feature-box">
-        <h3>🎥 Influencers & Closers</h3>
-        <p>Automate your funnel. Plug your calendar. Scale your brand.</p>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    &copy; 2025 PlugBot AI · Built by MXD Enterprises
-    <div class="disclaimer">
-      ⚠️ PlugBot is a tool to help automate lead conversations. While it simulates human-like replies, results vary based on offer setup and audience targeting. Do not misuse or expect unrealistic outcomes.
-    </div>
-  </footer>
-
   <div class="chat-launcher" onclick="toggleChat()">Chat with PlugBot</div>
   <div class="chat-popup" id="plugbot">
     <div class="chat-header">PlugBot – MXD Sales Assistant</div>
@@ -314,38 +103,68 @@
   </div>
 
   <script>
+    emailjs.init("rJ4o3YzUXP1F0XxYZ"); // Replace with your EmailJS user ID if needed
+
     const plugbot = document.getElementById('plugbot');
     const chat = document.getElementById('chat');
     const input = document.getElementById('userInput');
 
-    const flow = [
-      "Yo 👋 You open to earning $5–10K/month remotely if you had the right team + mentorship?",
-      "Fire. Quick q’s to make sure you’re aligned: How old are you?",
-      "What’s your current monthly income?",
-      "Roughly how much savings or cash you could use to start something legit?",
-      "How many hours/week can you put in?",
-      "Would you want real mentorship + job placement if you qualified?",
-      "You seem like a fit 🔒 — tap below to book with our team.\n👉 <a href='https://calendly.com/jadafig1' target='_blank'>Book My Call</a><br><br>Want your own PlugBot like this? 👉 <a href='customize.html'>Build My Bot</a>"
-    ];
-
     let step = 0;
+    let formData = {
+      name: '',
+      email: '',
+      age: '',
+      income: '',
+      savings: '',
+      availability: '',
+      mentorship: '',
+      timestamp: new Date().toLocaleString()
+    };
+
+    const flow = [
+      "Yo 👋 Let’s get aligned before we plug you in. First — what’s your full name?",
+      "Cool 😎 What’s your best email?",
+      "How old are you?",
+      "What’s your monthly income?",
+      "How much do you have saved or ready to invest?",
+      "How many hours/week could you actually put in?",
+      "Would you want mentorship and job placement if qualified? (Yes/No)",
+      "You’re a match 🔒 Tap below to schedule your onboarding call with our top closer 👇<br><br><a href='https://calendly.com/jadafig1' target='_blank'>📅 Book My Call</a><br><br>Want a bot like this? <a href='customize.html'>✨ Build My Bot</a>"
+    ];
 
     function toggleChat() {
       plugbot.style.display = plugbot.style.display === 'flex' ? 'none' : 'flex';
     }
 
     function sendMessage() {
-      const msg = input.value;
+      const msg = input.value.trim();
       if (!msg) return;
       chat.innerHTML += `<div class='message user'>${msg}</div>`;
+
+      switch (step) {
+        case 0: formData.name = msg; break;
+        case 1: formData.email = msg; break;
+        case 2: formData.age = msg; break;
+        case 3: formData.income = msg; break;
+        case 4: formData.savings = msg; break;
+        case 5: formData.availability = msg; break;
+        case 6: formData.mentorship = msg; break;
+      }
+
       input.value = '';
-      setTimeout(() => {
-        if (step < flow.length) {
+      if (step < flow.length) {
+        setTimeout(() => {
           chat.innerHTML += `<div class='message bot'>${flow[step]}</div>`;
           chat.scrollTop = chat.scrollHeight;
           step++;
-        }
-      }, 600);
+
+          if (step === 7) {
+            emailjs.send("service_fpdp9s", "template_9wx946a", formData)
+              .then(() => console.log("Lead sent to contact@mxdenterprises.com"))
+              .catch(err => console.error("EmailJS error:", err));
+          }
+        }, 500);
+      }
     }
   </script>
 </body>
