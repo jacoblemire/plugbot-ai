@@ -54,9 +54,20 @@
       left: 1.5rem;
     }
 
-    header img {
-      max-width: 140px;
-      height: auto;
+    .mxd-logo-text {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 1.8rem;
+      line-height: 1.2;
+      color: white;
+      text-transform: uppercase;
+    }
+
+    .mxd-logo-text span {
+      font-weight: 500;
+      font-size: 1rem;
+      display: block;
+      letter-spacing: 1px;
     }
 
     .glass-container {
@@ -118,11 +129,11 @@
 <body>
   <div class="background-animated"></div>
   <header>
-    <img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/6d7f593e-3be7-4d89-95fb-38f2076a993d.png" alt="MXD Logo">
+    <div class="mxd-logo-text">MXD<br><span>Sales Academy</span></div>
   </header>
 
   <div class="glass-container" id="chat">
-    <div class="message">🧠 Welcome to the MXD System. I'm <strong>Mixed</strong>. Let's see if you're built for remote income freedom.</div>
+    <div class="message">🧠 Welcome to the <strong>MXD Sales Academy</strong> system. I'm <strong>Mixed</strong>. Let's see if you're built for remote income freedom.</div>
     <div class="btn-group">
       <button class="btn" onclick="next('start')">Run Fit Test</button>
       <button class="btn" onclick="offerTraining()">View Free Training</button>
@@ -148,7 +159,7 @@
 
     function offerTraining() {
       clearButtons();
-      appendMessage("Here’s the free training. Tap below to explore the remote path.");
+      appendMessage("Here’s the free training from MXD Sales Academy. Tap below to explore the remote path.");
       const a = document.createElement('a');
       a.href = "https://mxdenterprises.com/";
       a.innerText = "Access Training Portal";
@@ -164,7 +175,7 @@
         appendMessage("How old are you?");
         inputResponse('age');
       } else if (step === 'qualified') {
-        appendMessage("You're a match. Want to book a free intro call?");
+        appendMessage("You're a match for MXD Sales Academy. Want to book a free intro call?");
         inputResponse('name');
       }
     }
