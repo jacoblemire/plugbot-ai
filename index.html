@@ -31,12 +31,12 @@
     .section {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 4rem 1.5rem;
+      padding: 3rem 1.2rem;
       text-align: center;
     }
 
     .hero h1 {
-      font-size: 4rem;
+      font-size: 2.5rem;
       font-weight: 700;
       margin-bottom: 1rem;
       color: var(--accent);
@@ -45,6 +45,12 @@
       border-right: 3px solid var(--accent);
       width: 0;
       animation: typing 2.5s steps(20, end) forwards, blink 0.7s step-end infinite;
+    }
+
+    @media (min-width: 768px) {
+      .hero h1 {
+        font-size: 4rem;
+      }
     }
 
     @keyframes typing {
@@ -59,16 +65,16 @@
     .hero p {
       max-width: 700px;
       margin: 0 auto 2rem;
-      font-size: 1.3rem;
+      font-size: 1.1rem;
       color: var(--dim);
     }
 
     .cta-button {
       background: var(--accent);
       color: #fff;
-      padding: 1rem 2.5rem;
+      padding: 1rem 2rem;
       font-weight: 600;
-      font-size: 1.1rem;
+      font-size: 1rem;
       border-radius: 8px;
       text-decoration: none;
       display: inline-block;
@@ -83,39 +89,45 @@
     }
 
     .spacer {
-      height: 80px;
+      height: 60px;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: 1fr;
       gap: 2rem;
       margin-top: 2rem;
+    }
+
+    @media (min-width: 768px) {
+      .grid {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      }
     }
 
     .card {
       background: #f9f9f9;
       border-radius: 16px;
-      padding: 2rem;
+      padding: 1.5rem;
       text-align: left;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
       transition: all 0.3s ease;
     }
 
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     }
 
     .card h3 {
-      font-size: 1.4rem;
-      margin-bottom: 1rem;
+      font-size: 1.3rem;
+      margin-bottom: 0.75rem;
       color: var(--accent);
     }
 
     .card p {
       color: var(--dim);
-      font-size: 1rem;
+      font-size: 0.95rem;
       line-height: 1.5;
     }
   </style>
@@ -123,35 +135,35 @@
 <body>
   <section class="section hero">
     <h1>Build Your Custom Bot</h1>
-    <p>This isn’t a chatbot. This is your automated closer. Fully customizable. Made to qualify, route, and convert — while staying on brand.</p>
+    <p>Your 24/7 automated closer. Qualify leads. Route them to sales. Convert attention into income — hands-free.</p>
     <a href="customize.html" class="cta-button">Start Building Yours →</a>
     <div class="spacer"></div>
   </section>
 
   <section class="section" data-aos="fade-up">
-    <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">Who It’s For</h2>
+    <h2 style="font-size: 2rem; margin-bottom: 2rem;">Who It's For</h2>
     <div class="grid">
-      <div class="card"><h3>Content Creators</h3><p>Capture more leads while you sleep. PlugBot turns views into verified calls automatically.</p></div>
-      <div class="card"><h3>Closers</h3><p>Never chase cold DMs again. Use PlugBot to prequalify leads and fill your calendar with people ready to say yes.</p></div>
-      <div class="card"><h3>Agencies & Brands</h3><p>Scale smarter. PlugBot handles inquiries, filters out the noise, and pushes real buyers to book.</p></div>
+      <div class="card"><h3>Creators</h3><p>PlugBot turns your followers into booked calls while you focus on content.</p></div>
+      <div class="card"><h3>Closers</h3><p>Only talk to qualified buyers. PlugBot does the filtering for you — no more chasing.</p></div>
+      <div class="card"><h3>Service Brands</h3><p>PlugBot auto-screens leads, saving your team time and pushing real prospects forward.</p></div>
     </div>
   </section>
 
   <section class="section" data-aos="fade-up">
-    <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">What It Solves</h2>
+    <h2 style="font-size: 2rem; margin-bottom: 2rem;">What It Solves</h2>
     <div class="grid">
-      <div class="card"><h3>Missed DMs</h3><p>No more lost convos. PlugBot runs 24/7 and never forgets to follow up.</p></div>
-      <div class="card"><h3>Cold Leads</h3><p>Qualifies based on age, income, urgency, and alignment — only real leads get through.</p></div>
-      <div class="card"><h3>Time Drain</h3><p>Spend your energy closing, not qualifying. Let PlugBot be your first impression engine.</p></div>
+      <div class="card"><h3>Missed Leads</h3><p>Never lose a lead again. PlugBot captures and converts around the clock.</p></div>
+      <div class="card"><h3>Unqualified Traffic</h3><p>Only serious people make it through. That means better convos, higher close rates.</p></div>
+      <div class="card"><h3>Time Suck</h3><p>Let PlugBot handle the Q&A while you focus on delivering results.</p></div>
     </div>
   </section>
 
   <section class="section" data-aos="fade-up">
-    <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">How It Makes (and Saves) You Money</h2>
+    <h2 style="font-size: 2rem; margin-bottom: 2rem;">How It Makes (and Saves) You Money</h2>
     <div class="grid">
-      <div class="card"><h3>Automated Sales Assistant</h3><p>Turn views into income. PlugBot qualifies and routes leads while you sleep — turning attention into booked calls.</p></div>
-      <div class="card"><h3>Cut Hiring Costs</h3><p>Skip paying VA teams or setters. PlugBot replaces 2–3 full-time staff with 24/7 automated lead flow.</p></div>
-      <div class="card"><h3>Close Warmer Prospects</h3><p>Every call booked is already pre-sold. PlugBot filters for intent, income, and alignment — so your close rate jumps up.</p></div>
+      <div class="card"><h3>24/7 Assistant</h3><p>PlugBot turns attention into sales — even while you sleep.</p></div>
+      <div class="card"><h3>Save on Payroll</h3><p>Skip the setters and VAs. PlugBot can handle 100 convos at once.</p></div>
+      <div class="card"><h3>Pre-sold Calls</h3><p>Only aligned leads book — no time wasted, just ready buyers.</p></div>
     </div>
   </section>
 
