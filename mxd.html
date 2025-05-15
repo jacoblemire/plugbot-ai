@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlugBot x MXD Enterprises</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #000;
+      --white: #fff;
+      --jade: #00f5a0;
+      --dim: #999;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: var(--black);
+      color: var(--white);
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+    }
+    header {
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+    }
+    header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--jade);
+      text-shadow: 0 0 15px var(--jade);
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px var(--jade); }
+      to { text-shadow: 0 0 30px var(--jade); }
+    }
+    header p {
+      font-size: 1.2rem;
+      color: var(--dim);
+      margin-top: 0.5rem;
+    }
+    .chat-container {
+      background: #111;
+      border-radius: 20px;
+      max-width: 500px;
+      margin: 2rem auto;
+      box-shadow: 0 0 20px rgba(0, 255, 150, 0.3);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 600px;
+    }
+    .chat-header {
+      background-color: #1e1e1e;
+      padding: 1rem;
+      text-align: center;
+      font-weight: 600;
+      color: var(--jade);
+      font-size: 1.1rem;
+    }
+    .chat-body {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+    .chat-footer {
+      display: flex;
+      border-top: 1px solid #333;
+    }
+    .chat-footer input {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      background: #000;
+      color: white;
+      font-size: 1rem;
+    }
+    .chat-footer button {
+      background: var(--jade);
+      color: black;
+      border: none;
+      padding: 12px 20px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .message {
+      margin: 1rem 0;
+    }
+    .bot {
+      color: var(--jade);
+    }
+    .user {
+      color: #00d0ff;
+      text-align: right;
+    }
+    section.features, section.about {
+      max-width: 800px;
+      margin: 3rem auto;
+      padding: 0 1rem;
+      text-align: center;
+    }
+    .features h2, .about h2 {
+      color: var(--jade);
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .features p, .about p {
+      color: var(--dim);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--dim);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>PlugBot for MXD Enterprises</h1>
+    <p>Get qualified. Get mentored. Lock in your future.</p>
+  </header>
+
+  <div class="chat-container">
+    <div class="chat-header">MXD Sales Assistant 🤖</div>
+    <div class="chat-body" id="chat"></div>
+    <div class="chat-footer">
+      <input type="text" id="userInput" placeholder="Type here...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <section class="features">
+    <h2>What You’ll Unlock</h2>
+    <p>
+      The MXD Sales Academy teaches you how to master remote sales, close high-ticket deals, and earn while you learn. Built for creators, closers, and anyone ready to take control of their income.
+    </p>
+  </section>
+
+  <section class="about">
+    <h2>Powered by Jada & the MXD Team</h2>
+    <p>
+      Led by Jada, our team turns beginners into closers through mentorship, real-life call experience, and job placement. This isn’t a course — it’s a launchpad.
+    </p>
+  </section>
+
+  <footer>
+    &copy; 2025 PlugBot x MXD Enterprises — All rights reserved.
+  </footer>
+
+  <script>
+    const chat = document.getElementById('chat');
+    const input = document.getElementById('userInput');
+
+    const flow = [
+      "🔥 Yo, quick question — you trying to level up your income remotely?",
+      "Got you. First thing — what’s your first name?",
+      "Cool. What’s your email? I’ll send you a summary of this convo.",
+      "Alright. How old are you?",
+      "Monthly income right now? Just an estimate.",
+      "Got it. How much in savings/cash could you use to get started legit?",
+      "How many hours/week can you realistically commit?",
+      "Would mentorship & job placement help you right now?",
+      "Looks like you align. Let’s get you in the loop.",
+      "👉 <a href='https://calendly.com/jadafig1' target='_blank' style='color:#00f5a0;'>Book Your Call</a><br>Or <a href='https://plugbot.mxdenterprises.com/customize.html' target='_blank' style='color:#00f5a0;'>Build a PlugBot like this</a>"
+    ];
+
+    let step = 0;
+
+    function sendMessage() {
+      const msg = input.value;
+      if (!msg) return;
+      chat.innerHTML += `<div class='message user'>${msg}</div>`;
+      input.value = '';
+      setTimeout(() => {
+        if (step < flow.length) {
+          chat.innerHTML += `<div class='message bot'>${flow[step]}</div>`;
+          chat.scrollTop = chat.scrollHeight;
+          step++;
+        }
+      }, 600);
+    }
+  </script>
+</body>
+</html>
