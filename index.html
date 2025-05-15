@@ -12,44 +12,29 @@
       --text: #111111;
       --dim: #555;
       --accent: #000000;
-      --glow: rgba(0, 0, 0, 0.05);
       --neon: #00f5ff;
     }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+
     body {
       font-family: 'Poppins', sans-serif;
       background-color: var(--bg);
       color: var(--text);
-      line-height: 1.6;
       overflow-x: hidden;
-      position: relative;
     }
-    .bg-animated {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: linear-gradient(135deg, #f0f0f0, #ffffff);
-      background-size: 400% 400%;
-      animation: gradientShift 20s ease infinite;
-      z-index: -1;
-    }
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+
     .section {
       max-width: 1200px;
       margin: 0 auto;
       padding: 4rem 1.5rem;
       text-align: center;
     }
+
     .hero h1 {
       font-size: 4rem;
       font-weight: 700;
@@ -61,36 +46,23 @@
       width: 0;
       animation: typing 2.5s steps(20, end) forwards, blink 0.7s step-end infinite;
     }
+
     @keyframes typing {
       from { width: 0 }
       to { width: 100% }
     }
+
     @keyframes blink {
       50% { border-color: transparent }
     }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80%;
-      height: 2px;
-      background: var(--neon);
-      box-shadow: 0 0 20px var(--neon);
-      opacity: 0.6;
-      animation: pulseGlow 2s ease-in-out infinite;
-    }
-    @keyframes pulseGlow {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 1; box-shadow: 0 0 40px var(--neon); }
-    }
+
     .hero p {
       max-width: 700px;
       margin: 0 auto 2rem;
       font-size: 1.3rem;
       color: var(--dim);
     }
+
     .cta-button {
       background: var(--accent);
       color: #fff;
@@ -103,35 +75,44 @@
       transition: all 0.3s ease;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     }
+
     .cta-button:hover {
       background-color: #222;
       transform: scale(1.03);
       box-shadow: 0 0 25px var(--neon);
     }
+
+    .spacer {
+      height: 80px;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 2rem;
-      padding-top: 3rem;
+      margin-top: 2rem;
     }
+
     .card {
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(12px);
+      background: #f9f9f9;
       border-radius: 16px;
       padding: 2rem;
       text-align: left;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
       transition: all 0.3s ease;
     }
+
     .card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
     }
+
     .card h3 {
       font-size: 1.4rem;
       margin-bottom: 1rem;
       color: var(--accent);
     }
+
     .card p {
       color: var(--dim);
       font-size: 1rem;
@@ -140,37 +121,37 @@
   </style>
 </head>
 <body>
-  <div class="bg-animated"></div>
-  <section class="section hero" data-aos="fade-up">
+  <section class="section hero">
     <h1>Build Your Custom Bot</h1>
     <p>This isn’t a chatbot. This is your automated closer. Fully customizable. Made to qualify, route, and convert — while staying on brand.</p>
     <a href="customize.html" class="cta-button">Start Building Yours →</a>
+    <div class="spacer"></div>
   </section>
 
   <section class="section" data-aos="fade-up">
     <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">Who It’s For</h2>
     <div class="grid">
-      <div class="card" data-aos="fade-up"><h3>Content Creators</h3><p>Capture more leads while you sleep. PlugBot turns views into verified calls automatically.</p></div>
-      <div class="card" data-aos="fade-up"><h3>Closers</h3><p>Never chase cold DMs again. Use PlugBot to prequalify leads and fill your calendar with people ready to say yes.</p></div>
-      <div class="card" data-aos="fade-up"><h3>Agencies & Brands</h3><p>Scale smarter. PlugBot handles inquiries, filters out the noise, and pushes real buyers to book.</p></div>
+      <div class="card"><h3>Content Creators</h3><p>Capture more leads while you sleep. PlugBot turns views into verified calls automatically.</p></div>
+      <div class="card"><h3>Closers</h3><p>Never chase cold DMs again. Use PlugBot to prequalify leads and fill your calendar with people ready to say yes.</p></div>
+      <div class="card"><h3>Agencies & Brands</h3><p>Scale smarter. PlugBot handles inquiries, filters out the noise, and pushes real buyers to book.</p></div>
     </div>
   </section>
 
   <section class="section" data-aos="fade-up">
     <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">What It Solves</h2>
     <div class="grid">
-      <div class="card" data-aos="fade-up"><h3>Missed DMs</h3><p>No more lost convos. PlugBot runs 24/7 and never forgets to follow up.</p></div>
-      <div class="card" data-aos="fade-up"><h3>Cold Leads</h3><p>Qualifies based on age, income, urgency, and alignment — only real leads get through.</p></div>
-      <div class="card" data-aos="fade-up"><h3>Time Drain</h3><p>Spend your energy closing, not qualifying. Let PlugBot be your first impression engine.</p></div>
+      <div class="card"><h3>Missed DMs</h3><p>No more lost convos. PlugBot runs 24/7 and never forgets to follow up.</p></div>
+      <div class="card"><h3>Cold Leads</h3><p>Qualifies based on age, income, urgency, and alignment — only real leads get through.</p></div>
+      <div class="card"><h3>Time Drain</h3><p>Spend your energy closing, not qualifying. Let PlugBot be your first impression engine.</p></div>
     </div>
   </section>
 
   <section class="section" data-aos="fade-up">
     <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">How It Makes (and Saves) You Money</h2>
     <div class="grid">
-      <div class="card" data-aos="fade-up"><h3>Automated Sales Assistant</h3><p>Turn views into income. PlugBot qualifies and routes leads while you sleep — turning attention into booked calls.</p></div>
-      <div class="card" data-aos="fade-up"><h3>Cut Hiring Costs</h3><p>Skip paying VA teams or setters. PlugBot replaces 2–3 full-time staff with 24/7 automated lead flow.</p></div>
-      <div class="card" data-aos="fade-up"><h3>Close Warmer Prospects</h3><p>Every call booked is already pre-sold. PlugBot filters for intent, income, and alignment — so your close rate jumps up.</p></div>
+      <div class="card"><h3>Automated Sales Assistant</h3><p>Turn views into income. PlugBot qualifies and routes leads while you sleep — turning attention into booked calls.</p></div>
+      <div class="card"><h3>Cut Hiring Costs</h3><p>Skip paying VA teams or setters. PlugBot replaces 2–3 full-time staff with 24/7 automated lead flow.</p></div>
+      <div class="card"><h3>Close Warmer Prospects</h3><p>Every call booked is already pre-sold. PlugBot filters for intent, income, and alignment — so your close rate jumps up.</p></div>
     </div>
   </section>
 
