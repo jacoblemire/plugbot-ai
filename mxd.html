@@ -1,201 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MXD PlugBot Assistant</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.4.1/dist/email.min.js"></script>
   <style>
-    :root {
-      --bg: #000;
-      --accent: #00f5ff;
-      --text: #fff;
-      --dim: #aaa;
-      --mxd-green: #7effc8;
-      --mxd-pink: #ff8ccf;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
+      margin: 0;
+      background: #000;
+      color: #f5f5f5;
       font-family: 'Poppins', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-    }
-    .section {
-      max-width: 1200px;
-      margin: auto;
-      padding: 3rem 1.5rem;
-    }
-    h1, h2 {
-      text-align: center;
-      color: var(--accent);
-      margin-bottom: 1.5rem;
-    }
-    .intro {
-      text-align: center;
-      font-size: 1.2rem;
-      color: var(--dim);
-    }
-    .chat-launcher {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: var(--accent);
-      color: var(--bg);
-      padding: 14px 22px;
-      border-radius: 30px;
-      cursor: pointer;
-      font-weight: 600;
-      z-index: 999;
-      box-shadow: 0 0 20px var(--accent);
-    }
-    .chat-popup {
-      position: fixed;
-      bottom: 90px;
-      right: 20px;
-      width: 370px;
-      height: 520px;
-      background: #111;
-      color: white;
-      border-radius: 16px;
-      display: none;
+      display: flex;
       flex-direction: column;
-      box-shadow: 0 0 25px rgba(0,0,0,0.5);
-      z-index: 998;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
       overflow: hidden;
     }
-    .chat-header {
-      background-color: #1e1e1e;
-      padding: 1rem;
-      font-weight: bold;
+
+    .header {
       text-align: center;
-      color: var(--mxd-green);
+      margin-top: 40px;
     }
+
+    .header h1 {
+      font-size: 2.5rem;
+      color: #00f5ff;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      color: #ccc;
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+    }
+
+    .chat-container {
+      background: #111;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 550px;
+      height: 75vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+      margin-top: 30px;
+    }
+
+    .chat-header {
+      background-color: #1a1a1a;
+      padding: 20px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      text-align: center;
+      color: #00f5ff;
+      border-bottom: 1px solid #333;
+    }
+
     .chat-body {
       flex: 1;
-      padding: 1rem;
       overflow-y: auto;
-      font-size: 0.95rem;
+      padding: 20px;
     }
+
+    .message {
+      margin-bottom: 15px;
+    }
+
+    .bot {
+      color: #00f5ff;
+    }
+
+    .user {
+      color: #f5f5f5;
+      text-align: right;
+    }
+
     .chat-footer {
       display: flex;
-      padding: 0.5rem;
       border-top: 1px solid #333;
     }
+
     .chat-footer input {
       flex: 1;
-      padding: 0.6rem;
+      padding: 14px;
       background: #000;
       color: white;
       border: none;
       outline: none;
+      font-size: 1rem;
     }
+
     .chat-footer button {
-      background: var(--mxd-green);
+      background: #00f5ff;
       border: none;
-      color: black;
-      padding: 0.6rem 1rem;
-      font-weight: bold;
+      color: #000;
+      padding: 0 24px;
       cursor: pointer;
-    }
-    .message { margin-bottom: 1rem; }
-    .bot { color: var(--mxd-green); }
-    .user { text-align: right; color: var(--mxd-pink); }
-    .info {
-      background: #111;
-      padding: 2rem;
-      border-radius: 12px;
-      margin-top: 3rem;
-      color: var(--dim);
-      line-height: 1.6;
-    }
-    .info strong {
-      color: var(--accent);
+      font-weight: 600;
+      font-size: 1rem;
     }
   </style>
 </head>
 <body>
-  <section class="section">
+  <div class="header">
     <h1>Meet PlugBot – Your MXD AI Assistant</h1>
-    <p class="intro">Here to qualify leads, answer questions, and lock in real conversations for the MXD Sales Academy 🚀</p>
-  </section>
+    <p>Here to qualify leads, answer questions, and lock in real conversations for the MXD Sales Academy 🚀</p>
+  </div>
 
-  <div class="chat-launcher" onclick="toggleChat()">Chat with PlugBot</div>
-  <div class="chat-popup" id="plugbot">
-    <div class="chat-header">PlugBot – MXD Sales Assistant</div>
+  <div class="chat-container">
+    <div class="chat-header">PlugBot — MXD Sales Assistant</div>
     <div class="chat-body" id="chat"></div>
     <div class="chat-footer">
-      <input type="text" id="userInput" placeholder="Type your response...">
+      <input type="text" id="userInput" placeholder="Type your message...">
       <button onclick="sendMessage()">Send</button>
     </div>
   </div>
 
-  <section class="section info">
-    <h2>What We Offer 🔥</h2>
-    <p>
-      <strong>MXD Sales Academy</strong> teaches the skills to close $1–5K+ high-ticket deals remotely. Learn how to qualify clients, master scripts, and join a placement pipeline.
-      <br><br>
-      Led by <strong>Jada Mercedes</strong>, our top closer, the program is results-driven and support-heavy. If you align, PlugBot will route you to book with her team directly.
-    </p>
-  </section>
-
   <script>
-    emailjs.init("YOUR_USER_ID"); // replace with actual EmailJS user ID
-
-    const plugbot = document.getElementById('plugbot');
     const chat = document.getElementById('chat');
     const input = document.getElementById('userInput');
 
-    let step = 0;
-    let userData = {};
     const flow = [
-      { q: "Yo 👋 Let’s lock in. What’s your first name?", k: "name" },
-      { q: "🔥 Cool {name}, what’s your email?", k: "email" },
-      { q: "Got it. And how old are you?", k: "age" },
-      { q: "💰 What’s your current monthly income?", k: "income" },
-      { q: "💼 Rough savings you could use to get started?", k: "savings" },
-      { q: "⏱ How many hours/week could you commit?", k: "availability" },
-      { q: "👀 Would mentorship + placement help you right now? (yes/no)", k: "mentorship" },
+      "👋 Yo, quick question — what's your first name?",
+      "Cool, and what's your email so we can keep in touch?",
+      "Awesome. How old are you by the way?",
+      "Got you. How much are you earning monthly right now?",
+      "No pressure, but how much savings or available cash would you consider investing to grow remotely?",
+      "How many hours/week can you commit if it felt aligned?",
+      "Would real mentorship + job placement be something you'd take seriously?",
+      "You seem aligned — let’s get you in the loop 🌐 <br><br>✉️ <a href='https://calendly.com/jadafig1' target='_blank'>Book your call here</a><br>✨ Want your own PlugBot like this? <a href='customize.html'>Build one now</a>"
     ];
 
-    function toggleChat() {
-      plugbot.style.display = plugbot.style.display === 'flex' ? 'none' : 'flex';
-    }
+    let step = 0;
 
     function sendMessage() {
-      const msg = input.value;
-      if (!msg.trim()) return;
-
+      const msg = input.value.trim();
+      if (!msg) return;
       chat.innerHTML += `<div class='message user'>${msg}</div>`;
       input.value = '';
 
-      const current = flow[step];
-      if (current) {
-        userData[current.k] = msg;
-        step++;
-      }
-
       setTimeout(() => {
         if (step < flow.length) {
-          let nextMsg = flow[step].q.replace("{name}", userData.name || "");
-          chat.innerHTML += `<div class='message bot'>${nextMsg}</div>`;
-        } else {
-          chat.innerHTML += `<div class='message bot'>✨ Looks like you align. Tap to book a call:
-            <br><br><a href='https://calendly.com/jadafig1' target='_blank'>Book My Call with MXD</a><br><br>
-            Or want your own PlugBot like this? 👉 <a href='customize.html'>Build My Bot</a>
-          </div>`;
-          sendToEmail();
+          chat.innerHTML += `<div class='message bot'>${flow[step]}</div>`;
+          chat.scrollTop = chat.scrollHeight;
+          step++;
         }
-        chat.scrollTop = chat.scrollHeight;
-      }, 500);
-    }
-
-    function sendToEmail() {
-      userData.timestamp = new Date().toLocaleString();
-      emailjs.send("service_fpdp9s", "template_9wx946a", userData)
-        .then(() => console.log("Email sent successfully"))
-        .catch(e => console.error("Email failed:", e));
+      }, 600);
     }
   </script>
 </body>
