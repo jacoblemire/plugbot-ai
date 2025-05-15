@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlugBot | MXD Enterprises</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #000000;
+      --text: #ffffff;
+      --accent: #fff5cc;
+      --glass: rgba(255, 255, 255, 0.05);
+      --glow: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      font-family: 'Orbitron', sans-serif;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding: 2rem 1rem;
+    }
+
+    .background-animated {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: radial-gradient(ellipse at 25% 25%, rgba(255, 255, 255, 0.03), transparent 60%),
+                  radial-gradient(ellipse at 75% 75%, rgba(255, 255, 255, 0.02), transparent 60%);
+      animation: backgroundMove 25s infinite alternate ease-in-out;
+    }
+
+    @keyframes backgroundMove {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(20px); }
+    }
+
+    header {
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
+    }
+
+    .mxd-logo-text {
+      font-weight: 700;
+      font-size: 1.8rem;
+      text-transform: uppercase;
+    }
+
+    .glass-container {
+      background: var(--glass);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 0 30px var(--glow);
+    }
+
+    .message {
+      margin-bottom: 1.25rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 1rem;
+      border-radius: 12px;
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    .typing {
+      font-style: italic;
+      opacity: 0.6;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .btn {
+      background: var(--text);
+      color: var(--bg);
+      padding: 1rem;
+      border-radius: 12px;
+      border: none;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: var(--accent);
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 10px;
+      border: none;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-size: 16px;
+      margin-top: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="background-animated"></div>
+  <header>
+    <div class="mxd-logo-text">MXD<br><span style="font-weight: 500; font-size: 1rem;">Sales Academy</span></div>
+  </header>
+
+  <div class="glass-container" id="chat">
+    <div class="message">🧠 Hey, I’m <strong>Mixed</strong>. Let’s see if you’re aligned for time freedom, purpose, and income. Start below.</div>
+    <div class="btn-group">
+      <button class="btn" onclick="next('start')">Run Fit Test</button>
+      <button class="btn" onclick="offerTraining()">View Free Training</button>
+    </div>
+  </div>
+
+  <script>
+    let chat = document.getElementById('chat');
+    let data = {};
+
+    function appendMessage(text) {
+      const typing = document.createElement('div');
+      typing.className = 'typing';
+      typing.innerText = '...';
+      chat.appendChild(typing);
+
+      setTimeout(() => {
+        typing.remove();
+        const msg = document.createElement('div');
+        msg.className = 'message';
+        msg.innerText = text;
+        chat.appendChild(msg);
+        window.scrollTo(0, document.body.scrollHeight);
+      }, 700);
+    }
+
+    function clearButtons() {
+      const group = document.querySelector('.btn-group');
+      if (group) group.remove();
+    }
+
+    function offerTraining() {
+      clearButtons();
+      appendMessage("Here’s your free training. Tap below to explore the remote path.");
+      const a = document.createElement('a');
+      a.href = "https://mxdenterprises.com/";
+      a.innerText = "Access Training Portal";
+      a.className = "btn";
+      a.style.marginTop = '1rem';
+      a.target = "_blank";
+      chat.appendChild(a);
+    }
+
+    function next(step) {
+      clearButtons();
+      if (step === 'start') {
+        appendMessage("First off — how old are you?");
+        inputResponse('age');
+      } else if (step === 'qualified') {
+        appendMessage("🔥 You’re a match. Want to secure a free intro call?");
+        inputResponse('name');
+      }
+    }
+
+    function inputResponse(field) {
+      const input = document.createElement('input');
+      input.className = 'input-field';
+      input.placeholder = 'Type here...';
+      input.onkeydown = function(e) {
+        if (e.key === 'Enter') {
+          const value = e.target.value.trim();
+          if (value) {
+            data[field] = value;
+            appendMessage(value);
+            input.remove();
+
+            if (field === 'age') {
+              appendMessage("Where are you located?");
+              inputResponse('location');
+            } else if (field === 'location') {
+              appendMessage("Monthly income?");
+              inputResponse('income');
+            } else if (field === 'income') {
+              appendMessage("Got any savings or access to funds?");
+              inputResponse('savings');
+            } else if (field === 'savings') {
+              appendMessage("Why are you interested in remote income?");
+              inputResponse('reason');
+            } else if (field === 'reason') {
+              appendMessage("Ever tried anything like this before?");
+              inputResponse('experience');
+            } else if (field === 'experience') {
+              appendMessage("Goal income per month?");
+              inputResponse('goal');
+            } else if (field === 'goal') {
+              next('qualified');
+            } else if (field === 'name') {
+              appendMessage("Email?");
+              inputResponse('email');
+            } else if (field === 'email') {
+              appendMessage("Phone number?");
+              inputResponse('phone');
+            } else if (field === 'phone') {
+              appendMessage("✅ You're locked in. Book your intro call below ⬇️");
+              showCalendly();
+            }
+          }
+        }
+      };
+      chat.appendChild(input);
+      input.focus();
+    }
+
+    function showCalendly() {
+      const iframe = document.createElement('iframe');
+      iframe.src = "https://calendly.com/jadafig1";
+      iframe.style.width = '100%';
+      iframe.style.height = '700px';
+      iframe.style.border = 'none';
+      iframe.style.marginTop = '1rem';
+      chat.appendChild(iframe);
+
+      fetch("https://hook.us2.make.com/y1tdeyvxp8gqtaifqsthdpiwayas40fp", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    }
+  </script>
+</body>
+</html>
