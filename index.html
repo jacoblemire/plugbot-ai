@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlugBot AI – MXD Enterprises</title>
+  <title>PlugBot | Powered by MXD</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -90,126 +90,95 @@
       transform: scale(1.03);
       box-shadow: 0 0 25px var(--neon);
     }
-    .chat-launcher {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: var(--accent);
-      color: white;
-      padding: 12px 20px;
-      border-radius: 30px;
-      cursor: pointer;
-      z-index: 1001;
-      font-weight: 600;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      padding-top: 3rem;
     }
-    .chat-popup {
-      position: fixed;
-      bottom: 80px;
-      right: 20px;
-      width: 360px;
-      height: 500px;
-      background: #111;
-      color: white;
+    .card {
+      background: #f9f9f9;
       border-radius: 16px;
-      overflow: hidden;
-      display: none;
-      flex-direction: column;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
-      z-index: 1000;
+      padding: 2rem;
+      text-align: left;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
     }
-    .chat-header {
-      background-color: #1a1a1a;
-      padding: 16px;
-      font-weight: 600;
-      font-size: 16px;
-      text-align: center;
-      color: #0f0;
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
     }
-    .chat-body {
-      flex: 1;
-      padding: 16px;
-      overflow-y: auto;
-      font-size: 14px;
+    .card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
     }
-    .chat-footer {
-      display: flex;
-      border-top: 1px solid #333;
+    .card p {
+      color: var(--dim);
+      font-size: 1rem;
+      line-height: 1.5;
     }
-    .chat-footer input {
-      flex: 1;
-      padding: 10px;
-      background: #000;
-      color: white;
-      border: none;
-      outline: none;
-    }
-    .chat-footer button {
-      background: #0f0;
-      border: none;
-      color: #000;
-      padding: 10px 16px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .message { margin: 10px 0; }
-    .bot { color: #0f0; }
-    .user { color: #00d0ff; text-align: right; }
   </style>
 </head>
 <body>
   <section class="section hero">
-    <h1>PlugBot AI</h1>
-    <p>Start earning remote income with confidence — your AI assistant qualifies leads 24/7 so you don’t have to.</p>
-    <a href="customize.html" class="cta-button">Customize Your Own</a>
+    <h1>Build Your Custom Bot</h1>
+    <p>This isn’t a chatbot. This is your automated closer. Fully customizable. Made to qualify, route, and convert — while staying on brand.</p>
+    <a href="customize.html" class="cta-button">Start Building Yours →</a>
   </section>
 
-  <div class="chat-launcher" onclick="toggleChat()">Chat with PlugBot</div>
-  <div class="chat-popup" id="plugbot">
-    <div class="chat-header">PlugBot – MXD Sales Assistant</div>
-    <div class="chat-body" id="chat"></div>
-    <div class="chat-footer">
-      <input type="text" id="userInput" placeholder="Type your message...">
-      <button onclick="sendMessage()">Send</button>
+  <section class="section">
+    <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">Who It’s For</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Content Creators</h3>
+        <p>Capture more leads while you sleep. PlugBot turns views into verified calls automatically.</p>
+      </div>
+      <div class="card">
+        <h3>Closers</h3>
+        <p>Never chase cold DMs again. Use PlugBot to prequalify leads and fill your calendar with people ready to say yes.</p>
+      </div>
+      <div class="card">
+        <h3>Agencies & Brands</h3>
+        <p>Scale smarter. PlugBot handles inquiries, filters out the noise, and pushes real buyers to book.</p>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <script>
-    const plugbot = document.getElementById('plugbot');
-    const chat = document.getElementById('chat');
-    const input = document.getElementById('userInput');
+  <section class="section">
+    <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">What It Solves</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Missed DMs</h3>
+        <p>No more lost convos. PlugBot runs 24/7 and never forgets to follow up.</p>
+      </div>
+      <div class="card">
+        <h3>Cold Leads</h3>
+        <p>Qualifies based on age, income, urgency, and alignment — only real leads get through.</p>
+      </div>
+      <div class="card">
+        <h3>Time Drain</h3>
+        <p>Spend your energy closing, not qualifying. Let PlugBot be your first impression engine.</p>
+      </div>
+    </div>
+  </section>
 
-    const flow = [
-      "🔥 Yo, quick question — you open to remote income if the team + offer is aligned?",
-      "Got it! What’s your first name?",
-      "Cool, what’s your email so we can send your setup link?",
-      "Alright, how old are you?",
-      "Monthly income right now? Just a ballpark.",
-      "Roughly how much savings/cash you could use to get started legit?",
-      "How many hours a week can you commit?",
-      "Would mentorship and guaranteed placement help you stay consistent?",
-      "You align. Let’s loop you in — 📅 <a href='https://calendly.com/jadafig1' target='_blank'>Book Your Call</a>"
-    ];
-
-    let step = 0;
-
-    function toggleChat() {
-      plugbot.style.display = plugbot.style.display === 'flex' ? 'none' : 'flex';
-    }
-
-    function sendMessage() {
-      const msg = input.value.trim();
-      if (!msg) return;
-      chat.innerHTML += `<div class='message user'>${msg}</div>`;
-      input.value = '';
-      setTimeout(() => {
-        if (step < flow.length) {
-          chat.innerHTML += `<div class='message bot'>${flow[step]}</div>`;
-          chat.scrollTop = chat.scrollHeight;
-          step++;
-        }
-      }, 600);
-    }
-  </script>
+  <section class="section">
+    <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">How It Makes (and Saves) You Money</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Automated Sales Assistant</h3>
+        <p>Turn views into income. PlugBot qualifies and routes leads while you sleep — turning attention into booked calls.</p>
+      </div>
+      <div class="card">
+        <h3>Cut Hiring Costs</h3>
+        <p>Skip paying VA teams or setters. PlugBot replaces 2–3 full-time staff with 24/7 automated lead flow.</p>
+      </div>
+      <div class="card">
+        <h3>Close Warmer Prospects</h3>
+        <p>Every call booked is already pre-sold. PlugBot filters for intent, income, and alignment — so your close rate jumps up.</p>
+      </div>
+    </div>
+  </section>
 </body>
 </html>
