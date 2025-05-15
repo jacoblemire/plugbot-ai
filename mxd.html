@@ -3,15 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlugBot x MXD Enterprises</title>
+  <title>PlugBot – Mixed by MXD Enterprises</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #000;
+      --bg: #000000;
       --text: #f5f5f5;
       --accent: #fff5cc;
+      --primary: #ffffff;
       --bubble: #1a1a1a;
-      --glow: rgba(255, 255, 255, 0.06);
+      --highlight: #e0dfd7;
     }
 
     * {
@@ -22,14 +23,25 @@
 
     body {
       font-family: 'Poppins', sans-serif;
-      background: var(--bg);
+      background-color: var(--bg);
       color: var(--text);
-      min-height: 100vh;
-      padding: 1rem;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
+      min-height: 100vh;
+      padding: 1rem;
+      overflow-x: hidden;
+    }
+
+    header {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    header img {
+      max-width: 140px;
+      height: auto;
     }
 
     .chatbox {
@@ -37,25 +49,23 @@
       max-width: 480px;
       background: var(--bubble);
       border-radius: 20px;
-      box-shadow: 0 0 30px var(--glow);
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.03);
       padding: 2rem;
-      overflow: hidden;
     }
 
     .message {
       margin-bottom: 1rem;
-      line-height: 1.5;
       padding: 1rem;
       border-radius: 14px;
-      background: var(--accent);
+      background: var(--highlight);
       color: #111;
       font-weight: 600;
-      animation: popin 0.3s ease forwards;
+      animation: fadeIn 0.4s ease;
     }
 
-    @keyframes popin {
-      0% {opacity: 0; transform: translateY(10px);}
-      100% {opacity: 1; transform: translateY(0);}
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .button-group {
@@ -66,45 +76,52 @@
     }
 
     .btn {
-      background: #fff;
-      color: #000;
+      background: var(--primary);
+      color: var(--bg);
       font-weight: 600;
-      padding: 0.8rem;
-      border-radius: 12px;
+      padding: 0.9rem;
+      border-radius: 14px;
       border: none;
       cursor: pointer;
       transition: background 0.2s;
     }
 
     .btn:hover {
-      background: #ddd;
+      background: var(--accent);
     }
 
     .input-field {
-      padding: 0.8rem;
+      padding: 0.9rem;
       width: 100%;
-      border-radius: 10px;
-      border: 1px solid #444;
+      border-radius: 12px;
+      border: 1px solid #333;
+      background: #0f0f0f;
+      color: #fff;
       margin-top: 0.5rem;
     }
 
-    .background-effects {
+    .background-visuals {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: radial-gradient(circle at top left, rgba(255,255,255,0.05), transparent 70%),
-                  radial-gradient(circle at bottom right, rgba(255,255,255,0.03), transparent 70%);
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
       z-index: -1;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.04), transparent 50%),
+                  radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.02), transparent 50%);
     }
   </style>
 </head>
 <body>
-  <div class="background-effects"></div>
+  <div class="background-visuals"></div>
+  <header>
+    <img src="https://mxdenterprises.com/wp-content/uploads/2024/05/mxd-logo-white.png" alt="MXD Enterprises Logo">
+  </header>
   <div class="chatbox" id="chat">
-    <div class="message">Hey 👋 I'm PlugBot, your MXD assistant. Let’s see if this remote path is for you — cool if I ask a few quick questions?</div>
+    <div class="message">Hey 👋 I'm <strong>Mixed</strong>, your assistant here at MXD Enterprises. We help people like you create freedom with high-income remote skills. Wanna see if you're a fit?</div>
     <div class="button-group">
-      <button class="btn" onclick="next('start')">Sure</button>
-      <button class="btn" onclick="endChat()">Not right now</button>
+      <button class="btn" onclick="next('start')">Let’s do it</button>
+      <button class="btn" onclick="offerTraining()">Show me the free training</button>
     </div>
   </div>
 
@@ -120,17 +137,30 @@
       window.scrollTo(0, document.body.scrollHeight);
     }
 
+    function offerTraining() {
+      clearButtons();
+      appendMessage("Here's the free training — it breaks everything down. Let us know if you feel aligned after watching.");
+      const a = document.createElement('a');
+      a.href = "https://mxdenterprises.com/";
+      a.innerText = "Watch the Free Training";
+      a.className = "btn";
+      a.style.marginTop = '1rem';
+      a.target = "_blank";
+      chat.appendChild(a);
+    }
+
     function next(step) {
+      clearButtons();
       if (step === 'start') {
-        clearButtons();
         setTimeout(() => {
-          appendMessage("Cool. First up — how old are you?");
+          appendMessage("Let’s start — how old are you?");
           inputResponse('age');
-        }, 600);
+        }, 500);
       } else if (step === 'qualified') {
-        clearButtons();
-        appendMessage("Looks like you're aligned. Let’s get you booked for a free intro call. What’s your name?");
-        inputResponse('name');
+        appendMessage("You’re aligned. Want to move forward with a quick intro call?");
+        setTimeout(() => {
+          inputResponse('name');
+        }, 500);
       }
     }
 
@@ -145,7 +175,7 @@
             data[field] = value;
             appendMessage(value);
             chat.removeChild(input);
-            // Continue flow based on input field
+
             if (field === 'age') {
               setTimeout(() => {
                 appendMessage("Where are you based?");
@@ -153,31 +183,27 @@
               }, 500);
             } else if (field === 'location') {
               setTimeout(() => {
-                appendMessage("How much are you making monthly right now?");
+                appendMessage("Monthly income right now?");
                 inputResponse('income');
               }, 500);
             } else if (field === 'income') {
               setTimeout(() => {
-                appendMessage("What’s your savings situation looking like?");
+                appendMessage("Got savings or funds for personal growth?");
                 inputResponse('savings');
               }, 500);
             } else if (field === 'savings') {
-              if (parseInt(value.replace(/[^0-9]/g, '')) < 200) {
-                appendMessage("Appreciate the honesty. Might be better to wait until you're ready to invest in yourself. Stay locked in.");
-              } else {
-                setTimeout(() => {
-                  appendMessage("Why are you even interested in remote income?");
-                  inputResponse('reason');
-                }, 500);
-              }
+              setTimeout(() => {
+                appendMessage("Why do you want remote income?");
+                inputResponse('reason');
+              }, 500);
             } else if (field === 'reason') {
               setTimeout(() => {
-                appendMessage("Have you tried anything like this before?");
+                appendMessage("Tried anything like this before?");
                 inputResponse('experience');
               }, 500);
             } else if (field === 'experience') {
               setTimeout(() => {
-                appendMessage("What income would make this worth it for you?");
+                appendMessage("What’s your monthly income goal?");
                 inputResponse('goal');
               }, 500);
             } else if (field === 'goal') {
@@ -186,17 +212,17 @@
               }, 600);
             } else if (field === 'name') {
               setTimeout(() => {
-                appendMessage("Cool, what's your best email?");
+                appendMessage("Best email?");
                 inputResponse('email');
               }, 500);
             } else if (field === 'email') {
               setTimeout(() => {
-                appendMessage("Phone number in case anything changes?");
+                appendMessage("Phone number?");
                 inputResponse('phone');
               }, 500);
             } else if (field === 'phone') {
               setTimeout(() => {
-                appendMessage("Book a time that works best for you ⬇️");
+                appendMessage("Book a time below that works best for you ⬇️");
                 showCalendly();
               }, 600);
             }
@@ -212,11 +238,6 @@
       if (btnGroup) btnGroup.remove();
     }
 
-    function endChat() {
-      clearButtons();
-      appendMessage("All good. If you change your mind, we’ll be here. ✌️");
-    }
-
     function showCalendly() {
       let iframe = document.createElement('iframe');
       iframe.src = "https://calendly.com/jadafig1";
@@ -226,7 +247,6 @@
       iframe.style.marginTop = '1rem';
       chat.appendChild(iframe);
 
-      // Send to Make webhook
       fetch("https://hook.us2.make.com/y1tdeyvxp8gqtaifqsthdpiwayas40fp", {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
