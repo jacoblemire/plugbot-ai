@@ -75,13 +75,37 @@
       background: rgba(255, 255, 255, 0.06);
       padding: 1rem;
       border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
       animation: fadeIn 0.4s ease forwards;
+    }
+
+    .message.user {
+      justify-content: flex-end;
+      text-align: right;
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .typing {
       font-style: italic;
       opacity: 0.6;
       margin-bottom: 1rem;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #ffffff);
+      animation: pulse 2s infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 1; }
     }
 
     @keyframes fadeIn {
@@ -130,7 +154,7 @@
   </header>
 
   <div class="glass-container" id="chat">
-    <div class="message">🧠 Hey, I’m <strong>Mixed</strong>. Let’s see if you’re aligned for time freedom, purpose, and income. Start below.</div>
+    <div class="message"><div class="avatar"></div><div>🧠 Hey, I’m <strong>Mixed</strong>. Let’s see if you’re aligned for time freedom, purpose, and income. Start below.</div></div>
     <div class="btn-group">
       <button class="btn" onclick="next('start')">Run Fit Test</button>
       <button class="btn" onclick="offerTraining()">View Free Training</button>
@@ -141,20 +165,12 @@
     let chat = document.getElementById('chat');
     let data = {};
 
-    function appendMessage(text) {
-      const typing = document.createElement('div');
-      typing.className = 'typing';
-      typing.innerText = '...';
-      chat.appendChild(typing);
-
-      setTimeout(() => {
-        typing.remove();
-        const msg = document.createElement('div');
-        msg.className = 'message';
-        msg.innerText = text;
-        chat.appendChild(msg);
-        window.scrollTo(0, document.body.scrollHeight);
-      }, 700);
+    function appendMessage(text, isUser = false) {
+      const msg = document.createElement('div');
+      msg.className = 'message' + (isUser ? ' user' : '');
+      msg.innerHTML = isUser ? `<div>${text}</div>` : `<div class='avatar'></div><div>${text}</div>`;
+      chat.appendChild(msg);
+      window.scrollTo(0, document.body.scrollHeight);
     }
 
     function clearButtons() {
@@ -194,7 +210,7 @@
           const value = e.target.value.trim();
           if (value) {
             data[field] = value;
-            appendMessage(value);
+            appendMessage(value, true);
             input.remove();
 
             if (field === 'age') {
