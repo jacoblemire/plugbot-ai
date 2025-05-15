@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mixed – MXD Enterprises Portal</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mixed | MXD Enterprises</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #000;
-      --text: #f5f5f5;
+      --bg: #000000;
+      --text: #ffffff;
       --accent: #fff5cc;
-      --primary: #ffffff;
-      --bubble: #1a1a1a;
-      --highlight: #e0dfd7;
+      --glass: rgba(255, 255, 255, 0.05);
+      --glow: rgba(255, 255, 255, 0.08);
     }
 
     * {
@@ -22,47 +21,60 @@
     }
 
     body {
-      font-family: 'Poppins', sans-serif;
       background-color: var(--bg);
+      font-family: 'Orbitron', sans-serif;
       color: var(--text);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      padding: 1rem;
       overflow-x: hidden;
+      padding: 2rem 1rem;
+    }
+
+    .background-animated {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: radial-gradient(ellipse at 25% 25%, rgba(255, 255, 255, 0.03), transparent 60%),
+                  radial-gradient(ellipse at 75% 75%, rgba(255, 255, 255, 0.02), transparent 60%);
+      animation: backgroundMove 25s infinite alternate ease-in-out;
+    }
+
+    @keyframes backgroundMove {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(20px); }
     }
 
     header {
-      width: 100%;
-      text-align: center;
-      margin-bottom: 1.5rem;
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
     }
 
     header img {
-      max-width: 130px;
+      max-width: 140px;
+      height: auto;
     }
 
-    .chatbox {
-      position: relative;
+    .glass-container {
+      background: var(--glass);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 2rem;
       width: 100%;
-      max-width: 480px;
-      background: var(--bubble);
-      border-radius: 24px;
-      box-shadow: 0 0 40px rgba(255, 255, 255, 0.05);
-      padding: 2rem 1.5rem;
-      z-index: 1;
+      max-width: 500px;
+      box-shadow: 0 0 30px var(--glow);
     }
 
     .message {
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
+      background: rgba(255, 255, 255, 0.06);
       padding: 1rem;
-      border-radius: 14px;
-      background: var(--highlight);
-      color: #111;
-      font-weight: 600;
-      animation: fadeIn 0.4s ease;
+      border-radius: 12px;
+      animation: fadeIn 0.4s ease forwards;
     }
 
     @keyframes fadeIn {
@@ -70,44 +82,20 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .typing {
-      margin-bottom: 1rem;
-      display: flex;
-      gap: 5px;
-      align-items: center;
-      height: 20px;
-    }
-
-    .typing span {
-      width: 8px;
-      height: 8px;
-      background: var(--text);
-      border-radius: 50%;
-      animation: blink 1s infinite;
-    }
-
-    .typing span:nth-child(2) { animation-delay: 0.2s; }
-    .typing span:nth-child(3) { animation-delay: 0.4s; }
-
-    @keyframes blink {
-      0%, 80%, 100% { opacity: 0; }
-      40% { opacity: 1; }
-    }
-
-    .button-group {
+    .btn-group {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-      margin-top: 1rem;
+      gap: 1rem;
     }
 
     .btn {
-      background: var(--primary);
+      background: var(--text);
       color: var(--bg);
-      font-weight: 700;
       padding: 1rem;
-      border-radius: 14px;
+      border-radius: 12px;
       border: none;
+      font-weight: 700;
+      font-size: 1rem;
       cursor: pointer;
       transition: background 0.3s;
     }
@@ -117,42 +105,27 @@
     }
 
     .input-field {
-      padding: 0.9rem;
       width: 100%;
-      border-radius: 12px;
-      border: 1px solid #333;
-      background: #0f0f0f;
+      padding: 1rem;
+      border-radius: 10px;
+      border: none;
+      background: rgba(255, 255, 255, 0.08);
       color: #fff;
-      margin-top: 0.5rem;
-    }
-
-    .background-visuals {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 0;
-      background: radial-gradient(ellipse at 30% 30%, rgba(255, 255, 255, 0.04), transparent 40%),
-                  radial-gradient(ellipse at 70% 70%, rgba(255, 255, 255, 0.02), transparent 40%);
-      animation: float 20s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(20px); }
-      100% { transform: translateY(0); }
+      margin-top: 0.75rem;
     }
   </style>
 </head>
 <body>
-  <div class="background-visuals"></div>
+  <div class="background-animated"></div>
   <header>
-    <img src="https://mxdenterprises.com/wp-content/uploads/2024/05/mxd-logo-white.png" alt="MXD Logo" />
+    <img src="/mnt/data/mxd-logo.png" alt="MXD Logo">
   </header>
-  <div class="chatbox" id="chat">
-    <div class="message">Hey 👋 I’m <strong>Mixed</strong>, your MXD assistant. Ready to see if this path is for you?</div>
-    <div class="button-group">
-      <button class="btn" onclick="next('start')">Let’s Go</button>
-      <button class="btn" onclick="offerTraining()">Just Show Me the Free Training</button>
+
+  <div class="glass-container" id="chat">
+    <div class="message">🧠 Welcome to the MXD System. I'm <strong>Mixed</strong>. Let's see if you're built for remote income freedom.</div>
+    <div class="btn-group">
+      <button class="btn" onclick="next('start')">Run Fit Test</button>
+      <button class="btn" onclick="offerTraining()">View Free Training</button>
     </div>
   </div>
 
@@ -161,43 +134,24 @@
     let data = {};
 
     function appendMessage(text) {
-      clearOldMessages();
       const msg = document.createElement('div');
       msg.className = 'message';
       msg.innerText = text;
       chat.appendChild(msg);
-      scrollToBottom();
-    }
-
-    function typingAnimation() {
-      const typing = document.createElement('div');
-      typing.className = 'typing';
-      typing.innerHTML = '<span></span><span></span><span></span>';
-      chat.appendChild(typing);
-      scrollToBottom();
-      return typing;
-    }
-
-    function scrollToBottom() {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }
-
-    function clearOldMessages() {
-      const messages = document.querySelectorAll('.message');
-      if (messages.length > 2) messages[0].remove();
+      window.scrollTo(0, document.body.scrollHeight);
     }
 
     function clearButtons() {
-      const btnGroup = document.querySelector('.button-group');
-      if (btnGroup) btnGroup.remove();
+      const group = document.querySelector('.btn-group');
+      if (group) group.remove();
     }
 
     function offerTraining() {
       clearButtons();
-      appendMessage("Here’s the free training. Take a look, and come back if you’re aligned.");
+      appendMessage("Here’s the free training. Tap below to explore the remote path.");
       const a = document.createElement('a');
       a.href = "https://mxdenterprises.com/";
-      a.innerText = "Watch Free Training";
+      a.innerText = "Access Training Portal";
       a.className = "btn";
       a.style.marginTop = '1rem';
       a.target = "_blank";
@@ -207,19 +161,11 @@
     function next(step) {
       clearButtons();
       if (step === 'start') {
-        const loading = typingAnimation();
-        setTimeout(() => {
-          loading.remove();
-          appendMessage("Let’s start — how old are you?");
-          inputResponse('age');
-        }, 1200);
+        appendMessage("How old are you?");
+        inputResponse('age');
       } else if (step === 'qualified') {
-        const loading = typingAnimation();
-        setTimeout(() => {
-          loading.remove();
-          appendMessage("You’re aligned. Want to move forward with a quick intro call?");
-          inputResponse('name');
-        }, 1200);
+        appendMessage("You're a match. Want to book a free intro call?");
+        inputResponse('name');
       }
     }
 
@@ -229,47 +175,46 @@
       input.placeholder = 'Type here...';
       input.onkeydown = function(e) {
         if (e.key === 'Enter') {
-          let value = e.target.value.trim();
+          const value = e.target.value.trim();
           if (value) {
             data[field] = value;
             appendMessage(value);
             input.remove();
-
             if (field === 'age') {
-              delay("Where are you based?", () => inputResponse('location'));
+              appendMessage("Where are you located?");
+              inputResponse('location');
             } else if (field === 'location') {
-              delay("What’s your monthly income look like?", () => inputResponse('income'));
+              appendMessage("Monthly income?");
+              inputResponse('income');
             } else if (field === 'income') {
-              delay("Do you have savings or access to any funds?", () => inputResponse('savings'));
+              appendMessage("Got any savings or access to funds?");
+              inputResponse('savings');
             } else if (field === 'savings') {
-              delay("What’s your main reason for wanting remote income?", () => inputResponse('reason'));
+              appendMessage("Why are you interested in remote income?");
+              inputResponse('reason');
             } else if (field === 'reason') {
-              delay("Ever tried something like this before?", () => inputResponse('experience'));
+              appendMessage("Ever tried anything like this before?");
+              inputResponse('experience');
             } else if (field === 'experience') {
-              delay("What’s your goal monthly income?", () => inputResponse('goal'));
+              appendMessage("Goal income per month?");
+              inputResponse('goal');
             } else if (field === 'goal') {
-              delay(null, () => next('qualified'));
+              next('qualified');
             } else if (field === 'name') {
-              delay("Best email for updates?", () => inputResponse('email'));
+              appendMessage("Email?");
+              inputResponse('email');
             } else if (field === 'email') {
-              delay("Phone number if anything changes?", () => inputResponse('phone'));
+              appendMessage("Phone number?");
+              inputResponse('phone');
             } else if (field === 'phone') {
-              delay("Book your intro call below ⬇️", () => showCalendly());
+              appendMessage("Book your intro call below ⬇️");
+              showCalendly();
             }
           }
         }
       };
       chat.appendChild(input);
       input.focus();
-    }
-
-    function delay(msg, nextStep) {
-      const loading = typingAnimation();
-      setTimeout(() => {
-        loading.remove();
-        if (msg) appendMessage(msg);
-        nextStep();
-      }, 1000);
     }
 
     function showCalendly() {
