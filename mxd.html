@@ -1,256 +1,208 @@
-<!-- Updated PlugBot MXD Assistant HTML with AI typing logic, adaptive flow, and upgraded avatar -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PlugBot | MXD Enterprises</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PlugBot – MXD Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #000000;
-      --text: #ffffff;
-      --accent: #fff5cc;
-      --glass: rgba(255, 255, 255, 0.05);
-      --glow: rgba(255, 255, 255, 0.08);
+      --bg: #f9f9f9;
+      --primary: #111;
+      --secondary: #666;
+      --accent: #000;
+      --bot-bg: #e6e6e6;
+      --user-bg: #d1f5ff;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    * {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       background-color: var(--bg);
-      font-family: 'Orbitron', sans-serif;
-      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      color: var(--primary);
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      overflow-x: hidden;
       padding: 2rem 1rem;
+      min-height: 100vh;
     }
-    .background-animated {
-      position: fixed;
-      width: 100%; height: 100%; z-index: -1;
-      background: radial-gradient(ellipse at 25% 25%, rgba(255,255,255,0.03), transparent 60%),
-                  radial-gradient(ellipse at 75% 75%, rgba(255,255,255,0.02), transparent 60%);
-      animation: backgroundMove 25s infinite alternate ease-in-out;
-    }
-    @keyframes backgroundMove {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(20px); }
-    }
-    header {
-      position: absolute;
-      top: 1.5rem;
-      left: 1.5rem;
-    }
-    .mxd-logo-text {
-      font-weight: 700;
-      font-size: 1.8rem;
-      text-transform: uppercase;
-    }
-    .glass-container {
-      background: var(--glass);
-      backdrop-filter: blur(15px);
-      border-radius: 20px;
-      padding: 2rem;
+
+    .chat-container {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.05);
+      max-width: 600px;
       width: 100%;
-      max-width: 500px;
-      box-shadow: 0 0 30px var(--glow);
-    }
-    .message {
-      margin-bottom: 1.25rem;
-      background: rgba(255, 255, 255, 0.06);
-      padding: 1rem;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      animation: fadeIn 0.4s ease forwards;
-    }
-    .message.user {
-      justify-content: flex-end;
-      text-align: right;
-      background: rgba(255, 255, 255, 0.1);
-    }
-    .typing {
-      font-style: italic;
-      opacity: 0.6;
-      margin-bottom: 1rem;
-    }
-    .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: url('https://cdn-icons-png.flaticon.com/512/4712/4712007.png') no-repeat center/cover;
-      animation: pulse 2s infinite;
-      flex-shrink: 0;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.05); opacity: 0.85; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .btn-group {
+      padding: 1.5rem;
       display: flex;
       flex-direction: column;
       gap: 1rem;
     }
-    .btn {
-      background: var(--text);
-      color: var(--bg);
-      padding: 1rem;
-      border-radius: 12px;
-      border: none;
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .btn:hover {
-      background: var(--accent);
-    }
-    .input-field {
-      width: 100%;
-      padding: 1rem;
+
+    .message {
+      display: flex;
+      max-width: 90%;
+      line-height: 1.5;
       border-radius: 10px;
+      padding: 0.85rem 1rem;
+      font-size: 0.95rem;
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+
+    .bot {
+      background: var(--bot-bg);
+      align-self: flex-start;
+    }
+
+    .user {
+      background: var(--user-bg);
+      align-self: flex-end;
+    }
+
+    .input-wrapper {
+      display: flex;
+      margin-top: 1rem;
+      gap: 0.5rem;
+    }
+
+    input {
+      flex: 1;
+      padding: 0.8rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 0.95rem;
+    }
+
+    button {
+      padding: 0.8rem 1.2rem;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
       border: none;
-      background: rgba(255, 255, 255, 0.08);
-      color: #fff;
-      font-size: 16px;
-      margin-top: 0.75rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #222;
+    }
+
+    .typing {
+      font-style: italic;
+      color: var(--secondary);
+      font-size: 0.9rem;
+    }
+
+    .typing::after {
+      content: '|';
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media(max-width: 500px) {
+      .chat-container { padding: 1rem; }
+      input, button { font-size: 0.85rem; }
     }
   </style>
 </head>
 <body>
-  <div class="background-animated"></div>
-  <header>
-    <div class="mxd-logo-text">MXD<br><span style="font-weight: 500; font-size: 1rem;">Sales Academy</span></div>
-  </header>
-  <div class="glass-container" id="chat">
-    <div class="message"><div class="avatar"></div><div>👋 Hey, I’m <strong>Mixed</strong> — your PlugBot assistant. Let’s talk real quick and see if this opportunity fits you.</div></div>
-    <div class="btn-group">
-      <button class="btn" onclick="next('start')">Run Fit Test</button>
-      <button class="btn" onclick="offerTraining()">View Free Training</button>
-    </div>
-  </div>
-  <script>
-    let chat = document.getElementById('chat');
-    let data = {};
 
-    function simulateTyping(message, isUser = false) {
+  <div class="chat-container" id="chat">
+    <div class="message bot">Hey, I’m PlugBot. I’ll walk you through a few quick questions to see if this fits you.</div>
+    <div class="message bot">Ready when you are. What’s your name?</div>
+  </div>
+
+  <div class="input-wrapper">
+    <input id="userInput" type="text" placeholder="Type your answer..." />
+    <button onclick="handleUserInput()">Send</button>
+  </div>
+
+  <script>
+    const chat = document.getElementById('chat');
+    const input = document.getElementById('userInput');
+
+    let step = 0;
+    const data = {};
+
+    const questions = [
+      "Awesome. How old are you?",
+      "Where are you located?",
+      "What’s your monthly income?",
+      "Do you have any savings or funds available?",
+      "Why are you interested in remote income?",
+      "Ever tried sales or remote work before?",
+      "What’s your goal monthly income?",
+      "Last thing — drop your email so we can send next steps.",
+      "Cool. Phone number?",
+      "You’re all set. Want to book your intro call now?"
+    ];
+
+    function appendMessage(text, sender = 'bot') {
+      const msg = document.createElement('div');
+      msg.className = `message ${sender}`;
+      msg.innerText = text;
+      chat.appendChild(msg);
+      chat.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+
+    function simulateTyping(callback) {
       const typing = document.createElement('div');
       typing.className = 'typing';
-      typing.innerText = 'Mixed is typing...';
+      typing.innerText = 'PlugBot is typing';
       chat.appendChild(typing);
       setTimeout(() => {
         typing.remove();
-        appendMessage(message, isUser);
+        callback();
       }, 800);
     }
 
-    function appendMessage(text, isUser = false) {
-      const msg = document.createElement('div');
-      msg.className = 'message' + (isUser ? ' user' : '');
-      msg.innerHTML = isUser ? `<div>${text}</div>` : `<div class='avatar'></div><div>${text}</div>`;
-      chat.appendChild(msg);
-      window.scrollTo(0, document.body.scrollHeight);
-    }
+    function handleUserInput() {
+      const value = input.value.trim();
+      if (!value) return;
 
-    function clearButtons() {
-      const group = document.querySelector('.btn-group');
-      if (group) group.remove();
-    }
+      appendMessage(value, 'user');
+      input.value = '';
 
-    function offerTraining() {
-      clearButtons();
-      simulateTyping("Here’s your free training. Tap below to explore the remote path.");
-      setTimeout(() => {
-        const a = document.createElement('a');
-        a.href = "https://mxdenterprises.com/";
-        a.innerText = "Access Training Portal";
-        a.className = "btn";
-        a.style.marginTop = '1rem';
-        a.target = "_blank";
-        chat.appendChild(a);
-      }, 1000);
-    }
+      const fieldKeys = ["name", "age", "location", "income", "savings", "reason", "experience", "email", "phone"];
 
-    function next(step) {
-      clearButtons();
-      if (step === 'start') {
-        simulateTyping("What interests you most about the MXD Sales Academy?");
-        inputResponse('interest');
-      } else if (step === 'qualified') {
-        simulateTyping("🔥 You’re a match. Want to secure a free intro call?");
-        inputResponse('name');
+      if (step < fieldKeys.length) {
+        data[fieldKeys[step]] = value;
+      }
+
+      if (step < questions.length) {
+        simulateTyping(() => appendMessage(questions[step++]));
+      } else {
+        simulateTyping(() => {
+          appendMessage("Here’s the link to book your free intro call:");
+          const calendly = document.createElement('a');
+          calendly.href = "https://calendly.com/jadafig1";
+          calendly.innerText = "Book Call Now";
+          calendly.target = "_blank";
+          calendly.style.marginTop = '0.75rem';
+          calendly.style.display = 'inline-block';
+          calendly.style.color = '#000';
+          calendly.style.fontWeight = '600';
+          chat.appendChild(calendly);
+          sendToWebhook();
+        });
       }
     }
 
-    function inputResponse(field) {
-      const input = document.createElement('input');
-      input.className = 'input-field';
-      input.placeholder = 'Type here...';
-      input.onkeydown = function(e) {
-        if (e.key === 'Enter') {
-          const value = e.target.value.trim();
-          if (value) {
-            data[field] = value;
-            appendMessage(value, true);
-            input.remove();
-
-            if (field === 'interest') {
-              simulateTyping("Cool. How old are you?");
-              inputResponse('age');
-            } else if (field === 'age') {
-              simulateTyping("Where are you located?");
-              inputResponse('location');
-            } else if (field === 'location') {
-              simulateTyping("Monthly income?");
-              inputResponse('income');
-            } else if (field === 'income') {
-              simulateTyping("Got any savings or access to funds?");
-              inputResponse('savings');
-            } else if (field === 'savings') {
-              simulateTyping("Why are you interested in remote income?");
-              inputResponse('reason');
-            } else if (field === 'reason') {
-              simulateTyping("Ever tried anything like this before?");
-              inputResponse('experience');
-            } else if (field === 'experience') {
-              simulateTyping("Goal income per month?");
-              inputResponse('goal');
-            } else if (field === 'goal') {
-              next('qualified');
-            } else if (field === 'name') {
-              simulateTyping("Email?");
-              inputResponse('email');
-            } else if (field === 'email') {
-              simulateTyping("Phone number?");
-              inputResponse('phone');
-            } else if (field === 'phone') {
-              simulateTyping("✅ You're locked in. Book your intro call below ⬇️");
-              showCalendly();
-            }
-          }
-        }
-      };
-      chat.appendChild(input);
-      input.focus();
-    }
-
-    function showCalendly() {
-      const iframe = document.createElement('iframe');
-      iframe.src = "https://calendly.com/jadafig1";
-      iframe.style.width = '100%';
-      iframe.style.height = '700px';
-      iframe.style.border = 'none';
-      iframe.style.marginTop = '1rem';
-      chat.appendChild(iframe);
-
+    function sendToWebhook() {
       fetch("https://hook.us2.make.com/y1tdeyvxp8gqtaifqsthdpiwayas40fp", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -258,5 +210,6 @@
       });
     }
   </script>
+
 </body>
 </html>
