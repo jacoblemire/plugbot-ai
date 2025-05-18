@@ -120,9 +120,12 @@
 <body>
   <div class="interface">
     <div class="chat-section" id="chat">
-      <div class="msg-box">Yo — <strong>Mixed</strong>, your assistant here at MXD. Let’s see if this path makes sense for you.</div>
-      <div class="msg-box">MXD Sales Academy is where closers are made. Inside, you'll learn how to earn $3K–$10K/month remotely through high-ticket sales — no experience needed.</div>
-      <div class="msg-box">We’re about to ask you a few quick questions to see if this opportunity is a strong fit. If you’re serious about leveling up, fill everything out truthfully and fully.<br><br><a href="https://mxdenterprises.com/free-course.html" target="_blank" style="color:#fff; text-decoration:underline;">Need more info first? Tap here to watch the free training.</a></div>
+      <div class="msg-box"><strong>Get Qualified for MXD Sales Academy</strong></div>
+      <div class="msg-box">Learn how to earn $3K–$10K/month remotely through high-ticket sales — even if you’ve never done this before.</div>
+      <div class="msg-box">We’ll ask a few quick questions to see if this is a fit. Be real with your answers — and if you’re serious, don’t leave anything blank.</div>
+      <div class="msg-box">
+        <a href="https://mxdenterprises.com/free-course.html" target="_blank" style="color:#fff; text-decoration:underline;">Not sure yet? Watch the free breakdown first.</a>
+      </div>
       <div class="input-row" id="inputRow">
         <input type="text" id="input" placeholder="Type here...">
       </div>
@@ -149,12 +152,12 @@
       "How old are you right now?",
       "Where are you based currently?",
       "What’s your current monthly income?",
-      "Do you have any savings or credit you could use if this feels aligned?",
-      "Real talk — why are you even looking to make remote income?",
-      "Ever tried remote work or online sales before?",
-      "What’s the dream monthly income that’d feel like freedom to you?",
-      "Drop your email — I’ll send over the next steps:",
-      "And what’s the best phone number in case we need to follow up?"
+      "Do you have any savings to work with if this feels aligned?",
+      "Got it. Real talk — why are you even looking to make remote income?",
+      "Let’s keep this moving. Ever tried remote work or online sales before?",
+      "Okay. What’s the dream monthly income that’d feel like freedom to you?",
+      "Almost done. Drop your email — I’ll send over the next steps:",
+      "And last one — what’s the best phone number in case we need to follow up?"
     ];
 
     const fields = ["name", "age", "location", "income", "savings", "reason", "experience", "goal", "email", "phone"];
@@ -169,27 +172,6 @@
 
     function isSpam(input) {
       return input.length < 3 || [/^\W+$/, /^(yo|hi|ok|why|idk)$/i].some(r => r.test(input));
-    }
-
-    function getMirrorResponse(field, val) {
-      switch (field) {
-        case "name": return `Nice to meet you, ${val} 👋`;
-        case "age": return `${val}? That’s a solid age to start building this up.`;
-        case "location": return `${val}? Dope — got a lot of hungry builders there.`;
-        case "income": return `$${val}/mo? That’s a solid base — let’s level it up.`;
-        case "savings":
-          return val.toLowerCase().includes("credit")
-            ? `Using credit smartly can open doors — just gotta play it right.`
-            : `Cool — having some backup gives us room to move.`;
-        case "reason": return `That’s real. Everyone’s got their own why — respect.`;
-        case "experience": return val.toLowerCase().includes("no")
-          ? `No prior experience? That’s perfect — clean foundation.`
-          : `You’ve dabbled before? That helps — we’ll build on that.`;
-        case "goal": return `$${val}/mo? That’s a goal I can respect — let’s map it.`;
-        case "email": return `Cool — we’ll hit your inbox with the next steps.`;
-        case "phone": return `Locked in. If anything urgent comes up, we’ll text you.`;
-        default: return "";
-      }
     }
 
     function delay(ms) {
@@ -227,12 +209,6 @@
         hasName = true;
       }
 
-      const mirror = getMirrorResponse(field, val);
-      if (mirror) {
-        await delay(700);
-        appendMsg(mirror);
-      }
-
       step++;
       if (step < prompts.length) {
         await delay(1000);
@@ -242,13 +218,12 @@
         const income = parseInt(data.income);
         const savingsInput = data.savings.toLowerCase();
         const savingsAmount = parseInt(savingsInput.replace(/[^0-9]/g, ''));
-        const mentionsCredit = savingsInput.includes('credit');
 
         const lowAge = isNaN(age) || age < 17;
         const lowSavings = isNaN(savingsAmount) || savingsAmount < 500;
         const noIncome = isNaN(income) || income === 0;
 
-        const disqualified = lowAge || (lowSavings && noIncome && !mentionsCredit);
+        const disqualified = lowAge || (lowSavings && noIncome);
 
         await delay(800);
         if (disqualified) {
