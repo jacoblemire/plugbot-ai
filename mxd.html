@@ -48,7 +48,10 @@
       max-width: 400px;
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      gap: 1rem;
+      max-height: 80vh;
+      overflow-y: auto;
+      scroll-behavior: smooth;
     }
 
     .msg-box {
@@ -56,6 +59,7 @@
       padding: 1rem 1.2rem;
       border-radius: var(--rounded);
       font-size: 1rem;
+      line-height: 1.4;
     }
 
     .input-row {
@@ -74,10 +78,10 @@
     }
 
     .btn {
-      background: var(--accent);
+      background: #000;
       color: #fff;
       font-weight: 700;
-      border: none;
+      border: 1px solid #fff;
       border-radius: var(--rounded);
       padding: 1rem;
       font-size: 1rem;
@@ -87,7 +91,8 @@
     }
 
     .btn:hover {
-      opacity: 0.9;
+      background: #fff;
+      color: #000;
     }
 
     .avatar {
@@ -116,6 +121,7 @@
   <div class="interface">
     <div class="chat-section" id="chat">
       <div class="msg-box">Yo — <strong>Mixed</strong>, your assistant here at MXD. Let’s see if this path makes sense for you.</div>
+      <div class="msg-box">We’re about to ask you a few quick questions to see if this opportunity is a strong fit. If you’re serious about leveling up, fill everything out truthfully and fully.</div>
       <div class="input-row" id="inputRow">
         <input type="text" id="input" placeholder="Type here...">
       </div>
@@ -155,6 +161,7 @@
       msg.className = "msg-box";
       msg.innerText = text;
       chatSection.insertBefore(msg, inputRow);
+      chatSection.scrollTop = chatSection.scrollHeight;
     }
 
     function getMirrorResponse(field, val) {
@@ -231,13 +238,21 @@
         if (disqualified) {
           appendMsg("Appreciate your honesty. Based on what you shared, this might not be the right time — but keep growing and check back when you're more ready.");
         } else {
-          appendMsg(`You're aligned${hasName ? ", " + userName : ""}. Unlocking your intro call now 👇`);
+          appendMsg(`✅ You're aligned${hasName ? ", " + userName : ""}.`);
+          await delay(800);
+          appendMsg("This is a rare opportunity to speak 1-on-1 with an MXD executive.");
+          await delay(1000);
+          appendMsg("⚠️ Please come prepared — this isn’t a sales pitch. We expect you to show up on time, look sharp, and take notes.");
+          await delay(1000);
+          appendMsg("👇 If that’s you, lock in your call now:");
+
           const link = document.createElement("a");
           link.href = "https://calendly.com/jadafig1";
           link.innerText = "Book Your Call";
           link.target = "_blank";
           link.className = "btn";
           chatSection.appendChild(link);
+          chatSection.scrollTop = chatSection.scrollHeight;
 
           fetch("https://hook.us2.make.com/y1tdeyvxp8gqtaifqsthdpiwayas40fp", {
             method: "POST",
