@@ -59,7 +59,7 @@
     }
 
     .input-row {
-      display: flex;
+      display: none;
       flex-direction: column;
       gap: 0.75rem;
     }
@@ -116,10 +116,10 @@
   <div class="interface">
     <div class="chat-section" id="chat">
       <div class="msg-box">Yo — <strong>Mixed</strong>, your assistant here at MXD. Let’s see if this path makes sense for you.</div>
-      <div class="input-row">
+      <div class="input-row" id="inputRow">
         <input type="text" id="input" placeholder="Type here...">
-        <button class="btn" id="startBtn" onclick="startChat()">GET QUALIFIED</button>
       </div>
+      <button class="btn" id="startBtn" onclick="startChat()">GET QUALIFIED</button>
     </div>
     <img src="https://jacoblemire.github.io/plugbot-ai/plugbot.png" alt="Mixed Bot" class="avatar">
   </div>
@@ -128,6 +128,7 @@
     const input = document.getElementById("input");
     const chatSection = document.getElementById("chat");
     const startBtn = document.getElementById("startBtn");
+    const inputRow = document.getElementById("inputRow");
 
     let step = -1;
     const data = {};
@@ -153,7 +154,7 @@
       const msg = document.createElement("div");
       msg.className = "msg-box";
       msg.innerText = text;
-      chatSection.insertBefore(msg, document.querySelector(".input-row"));
+      chatSection.insertBefore(msg, inputRow);
     }
 
     function getMirrorResponse(field, val) {
@@ -163,14 +164,13 @@
         case "location": return `${val}? Dope — got a lot of hungry builders there.`;
         case "income": return `$${val}/mo? That’s a solid base — let’s level it up.`;
         case "savings":
-          return val.toLowerCase().includes("no") || val.includes("0") ?
-            `No worries — starting from zero just means we get resourceful.` :
-            `Stacked a bit? Love that — gives us options.`;
+          return val.toLowerCase().includes("credit")
+            ? `Using credit smartly can open doors — just gotta play it right.`
+            : `Cool — having some backup gives us room to move.`;
         case "reason": return `That’s real. Everyone’s got their own why — respect.`;
-        case "experience":
-          return val.toLowerCase().includes("no") ?
-            `No prior experience? That’s perfect — clean foundation.` :
-            `You’ve dabbled before? That helps — we’ll build on that.`;
+        case "experience": return val.toLowerCase().includes("no")
+          ? `No prior experience? That’s perfect — clean foundation.`
+          : `You’ve dabbled before? That helps — we’ll build on that.`;
         case "goal": return `$${val}/mo? That’s a goal I can respect — let’s map it.`;
         case "email": return `Cool — we’ll hit your inbox with the next steps.`;
         case "phone": return `Locked in. If anything urgent comes up, we’ll text you.`;
@@ -184,6 +184,7 @@
 
     async function startChat() {
       startBtn.style.display = "none";
+      inputRow.style.display = "flex";
       step = 0;
       await delay(500);
       appendMsg(prompts[step]);
@@ -216,13 +217,18 @@
       } else {
         const age = parseInt(data.age);
         const income = parseInt(data.income);
-        const savings = data.savings.toLowerCase();
-        const lowIncome = isNaN(income) || income < 500;
+        const savingsInput = data.savings.toLowerCase();
+        const savingsAmount = parseInt(savingsInput.replace(/[^0-9]/g, ''));
+        const mentionsCredit = savingsInput.includes('credit');
+
         const lowAge = isNaN(age) || age < 17;
-        const broke = savings.includes("no") || savings.includes("none") || savings.includes("0");
+        const lowIncome = isNaN(income) || income < 500;
+        const lowSavings = isNaN(savingsAmount) || savingsAmount <= 300;
+
+        const disqualified = lowAge || (lowIncome && lowSavings && !mentionsCredit);
 
         await delay(800);
-        if (lowAge || (lowIncome && broke)) {
+        if (disqualified) {
           appendMsg("Appreciate your honesty. Based on what you shared, this might not be the right time — but keep growing and check back when you're more ready.");
         } else {
           appendMsg(`You're aligned${hasName ? ", " + userName : ""}. Unlocking your intro call now 👇`);
