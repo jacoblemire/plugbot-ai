@@ -121,7 +121,8 @@
   <div class="interface">
     <div class="chat-section" id="chat">
       <div class="msg-box">Yo — <strong>Mixed</strong>, your assistant here at MXD. Let’s see if this path makes sense for you.</div>
-      <div class="msg-box">We’re about to ask you a few quick questions to see if this opportunity is a strong fit. If you’re serious about leveling up, fill everything out truthfully and fully.</div>
+      <div class="msg-box">MXD Sales Academy is where closers are made. Inside, you'll learn how to earn $3K–$10K/month remotely through high-ticket sales — no experience needed.</div>
+      <div class="msg-box">We’re about to ask you a few quick questions to see if this opportunity is a strong fit. If you’re serious about leveling up, fill everything out truthfully and fully.<br><br><a href="https://mxdenterprises.com/free-course.html" target="_blank" style="color:#fff; text-decoration:underline;">Need more info first? Tap here to watch the free training.</a></div>
       <div class="input-row" id="inputRow">
         <input type="text" id="input" placeholder="Type here...">
       </div>
@@ -140,6 +141,8 @@
     const data = {};
     let userName = "";
     let hasName = false;
+    let spamCount = 0;
+    let conversationEnded = false;
 
     const prompts = [
       "First up — what’s your name?",
@@ -162,6 +165,10 @@
       msg.innerText = text;
       chatSection.insertBefore(msg, inputRow);
       chatSection.scrollTop = chatSection.scrollHeight;
+    }
+
+    function isSpam(input) {
+      return input.length < 3 || [/^\W+$/, /^(yo|hi|ok|why|idk)$/i].some(r => r.test(input));
     }
 
     function getMirrorResponse(field, val) {
@@ -199,7 +206,16 @@
 
     async function sendInput() {
       const val = input.value.trim();
-      if (!val || step === -1) return;
+      if (!val || step === -1 || conversationEnded) return;
+
+      if (isSpam(val)) {
+        spamCount++;
+        if (spamCount >= 2) {
+          appendMsg("If you’re not taking this seriously, let’s end this convo. Come back when you're ready to get qualified.");
+          conversationEnded = true;
+          return;
+        }
+      }
 
       appendMsg(val);
       const field = fields[step];
@@ -229,10 +245,10 @@
         const mentionsCredit = savingsInput.includes('credit');
 
         const lowAge = isNaN(age) || age < 17;
-        const lowIncome = isNaN(income) || income < 500;
-        const lowSavings = isNaN(savingsAmount) || savingsAmount <= 300;
+        const lowSavings = isNaN(savingsAmount) || savingsAmount < 500;
+        const noIncome = isNaN(income) || income === 0;
 
-        const disqualified = lowAge || (lowIncome && lowSavings && !mentionsCredit);
+        const disqualified = lowAge || (lowSavings && noIncome && !mentionsCredit);
 
         await delay(800);
         if (disqualified) {
