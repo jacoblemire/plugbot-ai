@@ -1,29 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PlugBot | MXD Enterprises</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0c0c0c;
+      --bg: #0b0b0b;
       --text: #ffffff;
       --accent: #3a7bfd;
       --card: #1a1a1a;
-      --shadow: rgba(0, 0, 0, 0.4);
     }
 
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      font-family: 'Inter', sans-serif;
       background-color: var(--bg);
       color: var(--text);
+      font-family: 'Inter', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -31,52 +30,63 @@
       padding: 2rem;
     }
 
-    .chat-wrapper {
-      background: var(--card);
+    .container {
+      background-color: var(--card);
       border-radius: 24px;
-      padding: 2rem;
-      box-shadow: 0 0 40px var(--shadow);
-      max-width: 420px;
+      padding: 2.5rem;
+      max-width: 440px;
       width: 100%;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
       align-items: center;
+      gap: 1.5rem;
     }
 
     .title {
-      font-size: 2rem;
+      font-size: 2.2rem;
       font-weight: 700;
       color: var(--accent);
+      letter-spacing: 1px;
     }
 
     .avatar {
-      width: 100px;
-      height: 100px;
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid var(--accent);
       box-shadow: 0 0 12px var(--accent);
     }
 
     .intro {
-      font-size: 1rem;
-      line-height: 1.6;
       text-align: center;
+      font-size: 1rem;
       color: #ccc;
+      line-height: 1.6;
+    }
+
+    .chat-box {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
     }
 
     .msg {
       background: rgba(255, 255, 255, 0.08);
       padding: 1rem;
-      border-radius: 14px;
+      border-radius: 12px;
       font-size: 1rem;
-      width: 100%;
     }
 
     .msg.user {
       background: rgba(255, 255, 255, 0.2);
       text-align: right;
+    }
+
+    .typing {
+      font-style: italic;
+      color: var(--accent);
     }
 
     .input-row {
@@ -87,54 +97,51 @@
 
     input {
       flex: 1;
-      padding: 0.8rem;
-      border-radius: 10px;
       background: #111;
-      color: #fff;
       border: 1px solid #333;
+      border-radius: 10px;
+      padding: 0.9rem;
+      color: #fff;
+      font-size: 1rem;
     }
 
     button {
       background: var(--accent);
       color: var(--bg);
       font-weight: 700;
-      padding: 0.8rem 1rem;
       border: none;
+      padding: 0.9rem 1.2rem;
+      font-size: 1rem;
       border-radius: 10px;
       cursor: pointer;
-      transition: 0.3s;
+      transition: 0.3s ease;
     }
 
     button:hover {
       opacity: 0.85;
     }
-
-    .typing {
-      font-style: italic;
-      font-size: 0.95rem;
-      color: var(--accent);
-    }
   </style>
 </head>
 <body>
-  <div class="chat-wrapper" id="chat">
+  <div class="container" id="chat">
     <div class="title">PLUGBOT</div>
     <img src="https://plugbot.mxdenterprises.com/mixed-hoodie.png" alt="Mixed Avatar" class="avatar">
     <div class="intro">
       Yo — <strong>I’m Mixed</strong>, your assistant here at MXD.<br>
       Let’s see if this remote path makes sense for you. Keep it real with me.
     </div>
-    <div class="msg">First up — what’s your name?</div>
-  </div>
-
-  <div class="input-row">
-    <input type="text" id="input" placeholder="Type here...">
-    <button onclick="sendInput()">Send</button>
+    <div class="chat-box">
+      <div class="msg">First up — what’s your name?</div>
+    </div>
+    <div class="input-row">
+      <input type="text" id="input" placeholder="Type here...">
+      <button onclick="sendInput()">Send</button>
+    </div>
   </div>
 
   <script>
-    const chat = document.getElementById("chat");
-    const input = document.getElementById("input");
+    const chatBox = document.querySelector('.chat-box');
+    const input = document.getElementById('input');
     let step = 0;
     const data = {};
 
@@ -156,15 +163,15 @@
       const msg = document.createElement("div");
       msg.className = "msg" + (isUser ? " user" : "");
       msg.innerText = text;
-      chat.appendChild(msg);
-      chat.scrollIntoView({ behavior: "smooth", block: "end" });
+      chatBox.appendChild(msg);
+      chatBox.scrollIntoView({ behavior: "smooth", block: "end" });
     }
 
     function simulateTyping(text) {
       const typing = document.createElement("div");
       typing.className = "typing";
       typing.innerText = "Mixed is thinking...";
-      chat.appendChild(typing);
+      chatBox.appendChild(typing);
       setTimeout(() => {
         typing.remove();
         appendMsg(text);
@@ -217,7 +224,7 @@
           link.style.color = "#3a7bfd";
           link.style.fontWeight = "700";
           link.style.fontSize = "1.1rem";
-          chat.appendChild(link);
+          chatBox.appendChild(link);
 
           fetch("https://hook.us2.make.com/y1tdeyvxp8gqtaifqsthdpiwayas40fp", {
             method: "POST",
