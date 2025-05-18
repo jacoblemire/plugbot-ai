@@ -13,9 +13,7 @@
       --glass: rgba(255, 255, 255, 0.06);
       --glow: rgba(255, 255, 255, 0.12);
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       font-family: 'Inter', sans-serif;
       background: radial-gradient(circle at 30% 30%, #111 0%, #000 80%);
@@ -27,7 +25,13 @@
       min-height: 100vh;
       padding: 2rem 1rem;
     }
-
+    .avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      animation: pulse 2s infinite ease-in-out;
+    }
     .chat-box {
       background: var(--glass);
       backdrop-filter: blur(30px);
@@ -39,8 +43,8 @@
       display: flex;
       flex-direction: column;
       gap: 1rem;
+      position: relative;
     }
-
     .msg {
       display: flex;
       padding: 1rem;
@@ -50,34 +54,25 @@
       font-size: 0.95rem;
       animation: fadeIn 0.3s ease-out;
     }
-
     .msg.user {
       justify-content: flex-end;
       background: rgba(255, 255, 255, 0.2);
       align-self: flex-end;
     }
-
     .typing {
       font-style: italic;
       font-size: 0.9rem;
       color: var(--accent);
+      animation: pulse 1.5s infinite ease-in-out;
     }
-
-    .typing::after {
-      content: '|';
-      animation: blink 1s infinite;
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.6; }
     }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     .input-row {
       display: flex;
       margin-top: 1rem;
@@ -85,7 +80,6 @@
       max-width: 600px;
       width: 100%;
     }
-
     input {
       flex: 1;
       padding: 0.85rem;
@@ -95,7 +89,6 @@
       border-radius: 10px;
       font-size: 0.95rem;
     }
-
     button {
       background: var(--text);
       color: var(--bg);
@@ -106,7 +99,6 @@
       cursor: pointer;
       transition: 0.3s;
     }
-
     button:hover {
       background: var(--accent);
     }
@@ -114,8 +106,9 @@
 </head>
 <body>
   <div class="chat-box" id="chat">
-    <div class="msg">Hey — I’m PlugBot. I’ll guide you real quick to see if MXD’s remote path is a fit.</div>
-    <div class="msg">Let’s start simple: what’s your name?</div>
+    <img src="https://cdn-icons-png.flaticon.com/512/4712/4712100.png" alt="Mixed Avatar" class="avatar">
+    <div class="msg">Yo — I’m <strong>Mixed</strong>, your assistant here at MXD. Let’s see if this remote path makes sense for you. Keep it real with me.</div>
+    <div class="msg">First up — what’s your name?</div>
   </div>
   <div class="input-row">
     <input type="text" id="input" placeholder="Type here..." />
@@ -124,23 +117,22 @@
   <script>
     const chat = document.getElementById('chat');
     const input = document.getElementById('input');
-
     let step = 0;
     const data = {};
+
     const prompts = [
-      "How old are you?",
-      "Where are you based right now?",
+      "How old are you right now?",
+      "Where are you based currently?",
       "What’s your current monthly income?",
-      "Got any savings or available credit?",
-      "Why do you want to earn remotely?",
-      "Have you done sales or online work before?",
-      "What's your ideal monthly income goal?",
-      "Drop your email to lock this in:",
-      "Phone number so we can follow up:",
-      "You're in. Tap below to book your intro call ⬇️"
+      "Do you have any savings or available credit to invest if this feels aligned?",
+      "What’s really driving you to build remote income right now?",
+      "Ever done online sales or remote work before?",
+      "What’s your dream monthly income goal?",
+      "Drop your email so we can send next steps:",
+      "What’s the best phone number to follow up with you?"
     ];
 
-    const fields = ["name", "age", "location", "income", "savings", "reason", "goal", "email", "phone"];
+    const fields = ["name", "age", "location", "income", "savings", "reason", "experience", "goal", "email", "phone"];
 
     function appendMsg(text, isUser = false) {
       const msg = document.createElement('div');
@@ -153,12 +145,12 @@
     function simulateTyping(nextText) {
       const typing = document.createElement('div');
       typing.className = 'typing';
-      typing.innerText = 'PlugBot is typing';
+      typing.innerText = 'Mixed is thinking...';
       chat.appendChild(typing);
       setTimeout(() => {
         typing.remove();
         appendMsg(nextText);
-      }, 850);
+      }, 1000);
     }
 
     function sendInput() {
@@ -173,21 +165,38 @@
       if (step < prompts.length) {
         simulateTyping(prompts[step]);
       } else {
-        simulateTyping("Here’s your link to book a call:");
-        const link = document.createElement('a');
-        link.href = "https://calendly.com/jadafig1";
-        link.innerText = "Book Free Intro Call";
-        link.target = "_blank";
-        link.style.marginTop = '1rem';
-        link.style.display = 'inline-block';
-        link.style.color = '#fff5cc';
-        link.style.fontWeight = '600';
-        chat.appendChild(link);
-        fetch("https://hook.us2.make.com/y1tdeyvxp8gqtaifqsthdpiwayas40fp", {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
+        const age = parseInt(data.age);
+        const income = parseInt(data.income);
+        const savings = data.savings.toLowerCase();
+
+        const lowIncome = isNaN(income) || income < 300;
+        const lowAge = isNaN(age) || age < 16;
+        const broke = savings.includes('no') || savings.includes('none') || savings.includes('0');
+
+        if (lowAge || (lowIncome && broke)) {
+          simulateTyping("Appreciate your honesty. Based on what you shared, this might not be the best fit right now — but keep growing, and check back when you're more ready.");
+        } else {
+          simulateTyping("You're aligned. Unlocking your intro call now 👇");
+          const link = document.createElement('a');
+          link.href = "https://calendly.com/jadafig1";
+          link.innerText = "Book Free Intro Call";
+          link.target = "_blank";
+          link.style.marginTop = '1rem';
+          link.style.display = 'inline-block';
+          link.style.color = '#fff5cc';
+          link.style.fontWeight = '600';
+          chat.appendChild(link);
+
+          fetch("https://hook.us2.make.com/y1tdeyvxp8gqtaifqsthdpiwayas40fp", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              source: "PlugBot: MXD Sales Page",
+              timestamp: new Date().toISOString(),
+              ...data
+            })
+          });
+        }
       }
     }
   </script>
