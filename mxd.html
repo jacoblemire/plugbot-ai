@@ -7,113 +7,131 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0b0b0b;
+      --bg: #0c0c0c;
       --text: #ffffff;
       --accent: #3a7bfd;
-      --glass: rgba(255, 255, 255, 0.06);
-      --glow: rgba(255, 255, 255, 0.08);
+      --card: #1a1a1a;
+      --shadow: rgba(0, 0, 0, 0.4);
     }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
+
     body {
       font-family: 'Inter', sans-serif;
       background-color: var(--bg);
       color: var(--text);
       display: flex;
-      align-items: center;
       justify-content: center;
-      min-height: 100vh;
+      align-items: center;
+      height: 100vh;
       padding: 2rem;
     }
-    .container {
-      background: var(--glass);
-      backdrop-filter: blur(20px);
+
+    .chat-wrapper {
+      background: var(--card);
       border-radius: 24px;
       padding: 2rem;
-      max-width: 700px;
+      box-shadow: 0 0 40px var(--shadow);
+      max-width: 420px;
       width: 100%;
-      box-shadow: 0 0 30px var(--glow);
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
-    }
-    .header {
-      display: flex;
-      align-items: center;
       gap: 1.25rem;
+      align-items: center;
     }
+
+    .title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
     .avatar {
-      width: 90px;
-      height: 90px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       object-fit: cover;
+      border: 2px solid var(--accent);
       box-shadow: 0 0 12px var(--accent);
     }
+
     .intro {
       font-size: 1rem;
       line-height: 1.6;
+      text-align: center;
+      color: #ccc;
     }
+
     .msg {
       background: rgba(255, 255, 255, 0.08);
       padding: 1rem;
-      border-radius: 12px;
+      border-radius: 14px;
       font-size: 1rem;
+      width: 100%;
     }
+
     .msg.user {
-      align-self: flex-end;
       background: rgba(255, 255, 255, 0.2);
+      text-align: right;
     }
+
     .input-row {
       display: flex;
-      gap: 1rem;
+      gap: 0.75rem;
+      width: 100%;
     }
+
     input {
       flex: 1;
-      padding: 0.9rem;
+      padding: 0.8rem;
       border-radius: 10px;
-      border: none;
-      font-size: 1rem;
-      background: rgba(255, 255, 255, 0.07);
+      background: #111;
       color: #fff;
+      border: 1px solid #333;
     }
+
     button {
-      background-color: var(--accent);
+      background: var(--accent);
       color: var(--bg);
       font-weight: 700;
-      padding: 0.9rem 1.2rem;
+      padding: 0.8rem 1rem;
       border: none;
       border-radius: 10px;
-      font-size: 1rem;
       cursor: pointer;
       transition: 0.3s;
     }
+
     button:hover {
-      background-color: #619cff;
+      opacity: 0.85;
     }
+
     .typing {
       font-style: italic;
-      color: var(--accent);
       font-size: 0.95rem;
+      color: var(--accent);
     }
   </style>
 </head>
 <body>
-  <div class="container" id="chat">
-    <div class="header">
-      <img src="https://plugbot.mxdenterprises.com/mixed-hoodie.png" alt="Mixed Avatar" class="avatar">
-      <div class="intro">
-        <strong>Yo — I'm Mixed</strong>, your assistant here at MXD. Let’s see if this remote path makes sense for you. Keep it real with me.
-      </div>
+  <div class="chat-wrapper" id="chat">
+    <div class="title">PLUGBOT</div>
+    <img src="https://plugbot.mxdenterprises.com/mixed-hoodie.png" alt="Mixed Avatar" class="avatar">
+    <div class="intro">
+      Yo — <strong>I’m Mixed</strong>, your assistant here at MXD.<br>
+      Let’s see if this remote path makes sense for you. Keep it real with me.
     </div>
     <div class="msg">First up — what’s your name?</div>
   </div>
+
   <div class="input-row">
     <input type="text" id="input" placeholder="Type here...">
     <button onclick="sendInput()">Send</button>
   </div>
+
   <script>
     const chat = document.getElementById("chat");
     const input = document.getElementById("input");
@@ -150,7 +168,7 @@
       setTimeout(() => {
         typing.remove();
         appendMsg(text);
-      }, 900);
+      }, 1000);
     }
 
     function sendInput() {
@@ -198,6 +216,7 @@
           link.style.display = "inline-block";
           link.style.color = "#3a7bfd";
           link.style.fontWeight = "700";
+          link.style.fontSize = "1.1rem";
           chat.appendChild(link);
 
           fetch("https://hook.us2.make.com/y1tdeyvxp8gqtaifqsthdpiwayas40fp", {
