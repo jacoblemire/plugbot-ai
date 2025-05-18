@@ -115,11 +115,10 @@
 <body>
   <div class="interface">
     <div class="chat-section" id="chat">
-      <div class="msg-box">Yo — <strong>Mixed</strong>, your assistant here at MXD. Let’s lock in for real.</div>
-      <div class="msg-box">First up — what’s your name?</div>
+      <div class="msg-box">Yo — <strong>Mixed</strong>, your assistant here at MXD. Let’s see if this path makes sense for you.</div>
       <div class="input-row">
         <input type="text" id="input" placeholder="Type here...">
-        <button class="btn" onclick="sendInput()">GET QUALIFIED</button>
+        <button class="btn" id="startBtn" onclick="startChat()">GET QUALIFIED</button>
       </div>
     </div>
     <img src="https://jacoblemire.github.io/plugbot-ai/plugbot.png" alt="Mixed Bot" class="avatar">
@@ -128,12 +127,15 @@
   <script>
     const input = document.getElementById("input");
     const chatSection = document.getElementById("chat");
-    let step = 0;
+    const startBtn = document.getElementById("startBtn");
+
+    let step = -1;
     const data = {};
     let userName = "";
     let hasName = false;
 
     const prompts = [
+      "First up — what’s your name?",
       "How old are you right now?",
       "Where are you based currently?",
       "What’s your current monthly income?",
@@ -156,79 +158,97 @@
 
     function getMirrorResponse(field, val) {
       switch (field) {
-        case "location": return `${val}? Fire — love that area.`;
-        case "income": return `$${val}/mo? Strong base — we can grow that.`;
+        case "name": return `Nice to meet you, ${val} 👋`;
+        case "age": return `${val}? That’s a solid age to start building this up.`;
+        case "location": return `${val}? Dope — got a lot of hungry builders there.`;
+        case "income": return `$${val}/mo? That’s a solid base — let’s level it up.`;
         case "savings":
           return val.toLowerCase().includes("no") || val.includes("0") ?
-            `Got it. Starting from zero just means we get creative.` :
-            `Smart — having some stacked gives options.`;
+            `No worries — starting from zero just means we get resourceful.` :
+            `Stacked a bit? Love that — gives us options.`;
+        case "reason": return `That’s real. Everyone’s got their own why — respect.`;
         case "experience":
           return val.toLowerCase().includes("no") ?
-            `Fresh slate — I’ll walk you through everything.` :
-            `Dope — background helps a lot.`;
-        case "reason": return `Respect. That’s a strong why.`;
-        default: return `Tracking that.`;
+            `No prior experience? That’s perfect — clean foundation.` :
+            `You’ve dabbled before? That helps — we’ll build on that.`;
+        case "goal": return `$${val}/mo? That’s a goal I can respect — let’s map it.`;
+        case "email": return `Cool — we’ll hit your inbox with the next steps.`;
+        case "phone": return `Locked in. If anything urgent comes up, we’ll text you.`;
+        default: return "";
       }
     }
 
-    function sendInput() {
+    function delay(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function startChat() {
+      startBtn.style.display = "none";
+      step = 0;
+      await delay(500);
+      appendMsg(prompts[step]);
+    }
+
+    async function sendInput() {
       const val = input.value.trim();
-      if (!val) return;
+      if (!val || step === -1) return;
+
       appendMsg(val);
+      const field = fields[step];
+      data[field] = val;
+      input.value = "";
 
-      if (step < fields.length) {
-        const field = fields[step];
-        data[field] = val;
-        input.value = "";
+      if (field === "name") {
+        userName = val;
+        hasName = true;
+      }
 
-        if (field === "name") {
-          userName = val;
-          hasName = true;
-        }
+      const mirror = getMirrorResponse(field, val);
+      if (mirror) {
+        await delay(700);
+        appendMsg(mirror);
+      }
 
-        if (step + 1 < prompts.length) {
-          setTimeout(() => {
-            const mirror = getMirrorResponse(field, val);
-            appendMsg(mirror);
-            setTimeout(() => appendMsg(prompts[step + 1]), 800);
-          }, 600);
+      step++;
+      if (step < prompts.length) {
+        await delay(1000);
+        appendMsg(prompts[step]);
+      } else {
+        const age = parseInt(data.age);
+        const income = parseInt(data.income);
+        const savings = data.savings.toLowerCase();
+        const lowIncome = isNaN(income) || income < 500;
+        const lowAge = isNaN(age) || age < 17;
+        const broke = savings.includes("no") || savings.includes("none") || savings.includes("0");
+
+        await delay(800);
+        if (lowAge || (lowIncome && broke)) {
+          appendMsg("Appreciate your honesty. Based on what you shared, this might not be the right time — but keep growing and check back when you're more ready.");
         } else {
-          const age = parseInt(data.age);
-          const income = parseInt(data.income);
-          const savings = data.savings.toLowerCase();
-          const lowIncome = isNaN(income) || income < 500;
-          const lowAge = isNaN(age) || age < 17;
-          const broke = savings.includes("no") || savings.includes("none") || savings.includes("0");
+          appendMsg(`You're aligned${hasName ? ", " + userName : ""}. Unlocking your intro call now 👇`);
+          const link = document.createElement("a");
+          link.href = "https://calendly.com/jadafig1";
+          link.innerText = "Book Your Call";
+          link.target = "_blank";
+          link.className = "btn";
+          chatSection.appendChild(link);
 
-          if (lowAge || (lowIncome && broke)) {
-            setTimeout(() => {
-              appendMsg("Appreciate your honesty. Based on what you shared, this might not be the right time — but keep growing and check back when you're more ready.");
-            }, 600);
-          } else {
-            setTimeout(() => {
-              appendMsg(`You're aligned${hasName ? ", " + userName : ""}. Unlocking your intro call now 👇`);
-              const link = document.createElement("a");
-              link.href = "https://calendly.com/jadafig1";
-              link.innerText = "Book Your Call";
-              link.target = "_blank";
-              link.className = "btn";
-              chatSection.appendChild(link);
-
-              fetch("https://hook.us2.make.com/y1tdeyvxp8gqtaifqsthdpiwayas40fp", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  source: "PlugBot: MXD Sales Page",
-                  timestamp: new Date().toISOString(),
-                  ...data
-                })
-              });
-            }, 1000);
-          }
+          fetch("https://hook.us2.make.com/y1tdeyvxp8gqtaifqsthdpiwayas40fp", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              source: "PlugBot: MXD Sales Page",
+              timestamp: new Date().toISOString(),
+              ...data
+            })
+          });
         }
-        step++;
       }
     }
+
+    input.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") sendInput();
+    });
   </script>
 </body>
 </html>
