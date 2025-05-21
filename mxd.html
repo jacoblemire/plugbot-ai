@@ -1,16 +1,18 @@
-consider this is pour current code <!DOCTYPE html>
+# Generate a downloadable placeholder HTML file for PlugBot V4 Ultra based on full prompt
+luxury_plugbot_html = """
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PlugBot V4 | MXD Enterprises</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlugBot | MXD Enterprises</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
   <style>
     :root {
       --bg: #0b0b0b;
       --text: #ffffff;
-      --accent: #ffffff;
+      --accent: #00fff7;
       --card: #1a1a1a;
       --rounded: 16px;
     }
@@ -26,92 +28,63 @@ consider this is pour current code <!DOCTYPE html>
       color: var(--text);
       font-family: 'Inter', sans-serif;
       min-height: 100vh;
-      padding: 1rem;
-      position: relative;
-    }
-
-    .header {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      color: #fff;
-      font-weight: 600;
-      font-size: 1rem;
-      letter-spacing: 0.5px;
-      opacity: 0.8;
-      z-index: 1000;
-    }
-
-    .avatar-bg {
-      position: absolute;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 0;
-      pointer-events: none;
-      animation: floatBot 4s ease-in-out infinite, glowPulse 3s ease-in-out infinite;
-    }
-
-    .avatar-bg img {
-      width: 150px;
-    }
-
-    .interface {
       display: flex;
       flex-direction: column;
       align-items: center;
-      text-align: center;
-      gap: 1.5rem;
-      width: 100%;
-      max-width: 480px;
-      margin: 0 auto;
-      padding-top: 200px;
-      z-index: 2;
-      position: relative;
+      justify-content: start;
+      padding: 1rem;
     }
 
-    .chat-section {
+    .header {
+      font-size: 1rem;
+      opacity: 0.7;
+      margin-bottom: 1rem;
+    }
+
+    .avatar {
+      width: 120px;
+      animation: float 3s ease-in-out infinite, glow 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 5px var(--accent)); }
+      50% { filter: drop-shadow(0 0 15px var(--accent)); }
+    }
+
+    .chat-box {
       background: var(--card);
-      border-radius: 24px;
-      padding: 1.5rem;
+      border-radius: var(--rounded);
       width: 100%;
+      max-width: 480px;
+      padding: 1.5rem;
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      max-height: 70vh;
       overflow-y: auto;
-      scroll-behavior: smooth;
     }
 
-    .chat-section::-webkit-scrollbar {
-      width: 8px;
-    }
-    .chat-section::-webkit-scrollbar-thumb {
-      background: #333;
-      border-radius: 10px;
-    }
-    .chat-section::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .msg-box {
+    .msg {
       background: rgba(255, 255, 255, 0.07);
-      padding: 0.9rem 1.1rem;
+      padding: 0.9rem;
       border-radius: var(--rounded);
       font-size: 0.95rem;
       line-height: 1.4;
-      text-align: left;
-      animation: fadeIn 0.3s ease;
     }
 
-    .input-row {
-      display: none;
+    .input-container {
+      display: flex;
       flex-direction: column;
       gap: 0.75rem;
+      margin-top: 1rem;
     }
 
     input {
-      padding: 1rem;
+      padding: 0.9rem;
       border-radius: var(--rounded);
       border: none;
       background: #111;
@@ -120,201 +93,165 @@ consider this is pour current code <!DOCTYPE html>
     }
 
     .btn {
-      background: #000;
-      color: #fff;
-      font-weight: 700;
-      border: 1px solid #fff;
+      padding: 0.9rem;
+      background: var(--accent);
+      color: #000;
+      font-weight: 600;
+      border: none;
       border-radius: var(--rounded);
-      padding: 1rem;
-      font-size: 1rem;
       cursor: pointer;
       transition: 0.3s ease;
-      text-align: center;
-      width: 100%;
     }
 
     .btn:hover {
       background: #fff;
-      color: #000;
     }
 
-    .typing {
-      font-style: italic;
-      opacity: 0.7;
+    .typing-dots {
+      display: inline-block;
+      font-size: 20px;
+      line-height: 1;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    .typing-dots::after {
+      content: '...';
+      animation: blink 1s steps(1) infinite;
     }
 
-    @keyframes floatBot {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-8px); }
-      100% { transform: translateY(0px); }
-    }
-
-    @keyframes glowPulse {
-      0%, 100% { filter: drop-shadow(0 0 0px #ffffff); }
-      50% { filter: drop-shadow(0 0 12px #ffffff); }
+    @keyframes blink {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
     }
   </style>
 </head>
 <body>
   <div class="header">MXD Enterprises</div>
-  <div class="avatar-bg"><img src="https://jacoblemire.github.io/plugbot-ai/plugbot.png" alt="PlugBot"></div>
-  <div class="interface">
-    <div class="chat-section" id="chat">
-      <div class="msg-box"><strong>Get Qualified for MXD Sales Academy</strong></div>
-      <div class="msg-box">Learn how to earn $3K–$10K/month remotely through high-ticket sales — even if you’ve never done this before.</div>
-      <div id="startInfo" style="display:none">
-        <div class="msg-box">We’ll ask a few quick questions to see if this is a fit. Be real — and if you’re serious, don’t leave anything blank.</div>
-      </div>
-      <div class="input-row" id="inputRow">
-        <input type="text" id="input" placeholder="Type here..." onkeydown="if(event.key==='Enter'){sendInput()}" />
-      </div>
-      <button class="btn" id="startBtn" onclick="startChat()">GET QUALIFIED</button>
-    </div>
+  <img src="https://jacoblemire.github.io/plugbot-ai/plugbot.png" alt="PlugBot" class="avatar">
+  <div class="chat-box" id="chatBox">
+    <div class="msg"><strong>PlugBot here.</strong> Let’s see if you’re aligned to earn $3K–$10K/month remote. 🔍</div>
+    <div class="msg">Tap the button when you're ready to get qualified:</div>
+    <button class="btn" onclick="startChat()">Start Qualification</button>
   </div>
 
   <script>
-    const input = document.getElementById("input");
-    const chat = document.getElementById("chat");
-    const inputRow = document.getElementById("inputRow");
-    const startBtn = document.getElementById("startBtn");
-    const startInfo = document.getElementById("startInfo");
-
     const prompts = [
-      "First up — what’s your name?",
+      "First things first — what’s your name?",
       "How old are you right now?",
-      "Where are you based currently?",
+      "Where you based at the moment?",
       "What’s your current monthly income?",
-      "Do you have any savings to work with if this feels aligned?",
-      "Real talk — why are you looking to make remote income?",
-      "Ever tried remote work or online sales before?",
-      "What’s the dream monthly income that’d feel like freedom to you?",
-      "Drop your email — I’ll send over the next steps:",
-      "And last one — what’s the best phone number in case we need to follow up?"
+      "You got at least $500 saved or available?",
+      "Be real — why do you want remote income?",
+      "Ever tried anything online before?",
+      "What’s your freedom goal? Like, $/mo that feels good?",
+      "Drop your best email:",
+      "Last one — phone number in case we need to follow up:"
     ];
 
     const fields = ["name", "age", "location", "income", "savings", "reason", "experience", "goal", "email", "phone"];
-    const responses = {
-      name: val => `Nice to meet you, ${val}.`,
-      age: val => parseInt(val) < 20 ? "Young & hungry — let’s build." : "Solid — maturity helps in this game.",
-      location: val => `Got it. We’ve got people crushing it from ${val}.`,
-      income: () => `Thanks — that gives us a starting point.`,
-      savings: () => `Respect for stacking.`,
-      reason: () => `That’s real. You're not alone.`,
-      experience: () => `Noted. Whether you’ve done this or not, we teach it from scratch.`,
-      goal: val => `🔥 $${val}/month — let’s aim for that and more.`,
-      email: () => `Email locked in.`,
-      phone: () => `Phone saved. You’re almost there.`
-    };
+    let step = 0, data = {}, spam = 0, ended = false;
 
-    let step = -1, data = {}, spamCount = 0, conversationEnded = false, userName = "";
+    const chatBox = document.getElementById('chatBox');
 
-    function delay(ms) { return new Promise(res => setTimeout(res, ms)); }
-
-    function appendMsg(text, typing = false) {
-      const box = document.createElement("div");
-      box.className = typing ? "msg-box typing" : "msg-box";
-      box.innerText = text;
-      chat.insertBefore(box, inputRow);
-      chat.scrollTop = chat.scrollHeight;
+    function appendMsg(msg, typing = false) {
+      const div = document.createElement('div');
+      div.className = 'msg';
+      div.innerText = msg;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    function isSpam(val) {
-      return /^[^a-zA-Z0-9]+$/.test(val) || val.length < 2;
-    }
-
-    async function startChat() {
-      startBtn.style.display = "none";
-      inputRow.style.display = "flex";
-      startInfo.style.display = "block";
+    function startChat() {
       step = 0;
-      await delay(500);
-      appendMsg(prompts[step], true);
+      appendMsg(prompts[step]);
+      showInput();
     }
 
-    async function sendInput() {
-      const val = input.value.trim();
-      if (!val || step === -1 || conversationEnded) return;
+    function showInput() {
+      const container = document.createElement('div');
+      container.className = 'input-container';
 
-      appendMsg(val);
-      input.value = "";
+      const input = document.createElement('input');
+      input.placeholder = 'Type here...';
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') handleResponse(input.value.trim(), container);
+      });
 
-      if (isSpam(val)) {
-        spamCount++;
-        if (spamCount >= 2) {
-          appendMsg("Looks like this isn’t the right time. Come back when you’re ready to get real. PlugBot out.");
-          conversationEnded = true;
-          return;
-        }
+      container.appendChild(input);
+      chatBox.appendChild(container);
+      input.focus();
+    }
+
+    function handleResponse(val, container) {
+      if (!val || ended) return;
+
+      if (/[^a-zA-Z0-9\s]/.test(val) || val.length < 2) spam++;
+      if (spam >= 2) {
+        appendMsg("Looks like you're not ready for this yet. Come back when you're locked in. 💭");
+        ended = true;
+        return;
       }
 
       const field = fields[step];
       data[field] = val;
-      if (field === "name") userName = val;
+      container.remove();
+      appendMsg(val);
+
+      if (field === "age" && parseInt(val) < 17) {
+        appendMsg("Respect your hustle — but this is for 17+ only. Start with the free course & circle back. 🚀");
+        ended = true;
+        return;
+      }
+
+      if (field === "savings" && /no|none|zero/i.test(val)) {
+        appendMsg("Appreciate your honesty. Start with our free course and build your base:");
+        const a = document.createElement("a");
+        a.href = "https://mxdenterprises.com/free-course.html";
+        a.innerText = "Watch Free Course";
+        a.className = "btn";
+        a.target = "_blank";
+        chatBox.appendChild(a);
+        ended = true;
+        return;
+      }
 
       step++;
       if (step < prompts.length) {
-        await delay(800);
-        appendMsg(responses[field](val));
-        await delay(1000);
-        appendMsg(prompts[step], true);
+        setTimeout(() => {
+          appendMsg(prompts[step]);
+          showInput();
+        }, 600);
       } else {
-        const age = parseInt(data.age);
-        const savings = data.savings.toLowerCase();
-        const qualified = age >= 17 && /yes|some|little|bit|for sure|of course|yeah/i.test(savings);
-
-        await delay(1000);
-
-        if (!qualified) {
-          appendMsg("Appreciate your honesty. Based on what you shared, this might not be the right time.");
-          await delay(800);
-          appendMsg("Start with our free course and come back when you're ready to go all in:");
-          const link = document.createElement("a");
-          link.href = "https://mxdenterprises.com/free-course.html";
-          link.innerText = "Watch Free Course";
-          link.target = "_blank";
-          link.className = "btn";
-          chat.appendChild(link);
-        } else {
-          appendMsg(`✅ You're aligned${userName ? ", " + userName : ""}.`);
-          await delay(800);
-          appendMsg("This is a rare opportunity to speak 1-on-1 with an MXD executive.");
-          await delay(1000);
-          appendMsg("⚠️ This isn’t a sales pitch. Come prepared, show up sharp, and take notes.");
-          await delay(1000);
-          appendMsg("👇 Lock in your call below:");
-          await delay(600);
-          appendMsg("✨ Start your journey to earning remote income.");
-
-          confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.6 }
-          });
-
-          const link = document.createElement("a");
-          link.href = "https://calendly.com/jadafig1";
-          link.innerText = "🎉 Book Your Call";
-          link.target = "_blank";
-          link.className = "btn reward-button";
-          chat.appendChild(link);
+        appendMsg("✅ You’re locked in. Time to move different.");
+        setTimeout(() => {
+          appendMsg("🎯 This is your shot to speak with an MXD exec. Come correct.");
+          appendMsg("👇 Book your call now:");
+          const a = document.createElement("a");
+          a.href = "https://calendly.com/jadafig1";
+          a.innerText = "🎉 Book Executive Call";
+          a.className = "btn";
+          a.target = "_blank";
+          chatBox.appendChild(a);
+          confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
 
           fetch("https://hook.us2.make.com/y1tdeyvxp8gqtaifqsthdpiwayas40fp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              source: "PlugBot: MXD Sales Page",
+              source: "PlugBot V4 Ultra",
               timestamp: new Date().toISOString(),
               ...data
             })
           });
-        }
+        }, 800);
       }
     }
   </script>
 </body>
 </html>
+"""
+
+luxury_file_path = "/mnt/data/PlugBot_V4_Ultra.html"
+with open(luxury_file_path, "w") as f:
+    f.write(luxury_plugbot_html)
+
+luxury_file_path
