@@ -24,16 +24,13 @@
       background-color: var(--bg);
       color: var(--text);
       font-family: 'Inter', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       min-height: 100vh;
       padding: 1rem;
       position: relative;
     }
 
     .header {
-      position: absolute;
+      position: fixed;
       top: 20px;
       left: 20px;
       color: #fff;
@@ -41,27 +38,41 @@
       font-size: 1rem;
       letter-spacing: 0.5px;
       opacity: 0.8;
+      z-index: 1000;
     }
 
     .avatar-bg {
-      position: absolute;
+      position: fixed;
       top: 80px;
-      z-index: 0;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      pointer-events: none;
+      left: 50%;
+      transform: translateX(-50%);
       opacity: 0.3;
+      z-index: 0;
+      pointer-events: none;
     }
 
     .avatar-bg img {
-      max-width: 300px;
+      max-width: 340px;
       animation: floatBot 4s ease-in-out infinite, glowPulse 3s ease-in-out infinite;
     }
 
-    .interface {
-      position: relative;
+    .wave-emoji {
+      position: fixed;
+      top: 80px;
+      left: calc(50% + 80px);
+      font-size: 2rem;
+      animation: wave 2s infinite ease-in-out;
       z-index: 1;
+    }
+
+    @keyframes wave {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(20deg); }
+      50% { transform: rotate(0deg); }
+      75% { transform: rotate(-10deg); }
+    }
+
+    .interface {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -69,6 +80,8 @@
       gap: 1.5rem;
       width: 100%;
       max-width: 480px;
+      margin: 0 auto;
+      padding-top: 200px;
     }
 
     .chat-section {
@@ -82,6 +95,17 @@
       max-height: 70vh;
       overflow-y: auto;
       scroll-behavior: smooth;
+    }
+
+    .chat-section::-webkit-scrollbar {
+      width: 8px;
+    }
+    .chat-section::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 10px;
+    }
+    .chat-section::-webkit-scrollbar-track {
+      background: transparent;
     }
 
     .msg-box {
@@ -153,6 +177,7 @@
 <body>
   <div class="header">MXD Enterprises</div>
   <div class="avatar-bg"><img src="https://jacoblemire.github.io/plugbot-ai/plugbot.png" alt="PlugBot"></div>
+  <div class="wave-emoji">👋</div>
   <div class="interface">
     <div class="chat-section" id="chat">
       <div class="msg-box"><strong>Get Qualified for MXD Sales Academy</strong></div>
@@ -176,6 +201,7 @@
     const inputRow = document.getElementById("inputRow");
     const startBtn = document.getElementById("startBtn");
     const startInfo = document.getElementById("startInfo");
+    const waveEmoji = document.querySelector('.wave-emoji');
 
     const prompts = [
       "First up — what’s your name?",
@@ -224,6 +250,7 @@
       startBtn.style.display = "none";
       inputRow.style.display = "flex";
       startInfo.style.display = "block";
+      waveEmoji.style.display = "none";
       step = 0;
       await delay(500);
       appendMsg(prompts[step], true);
