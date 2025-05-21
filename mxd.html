@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PlugBot V4 | MXD Enterprises</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
   <style>
     :root {
       --bg: #0b0b0b;
@@ -42,33 +43,17 @@
     }
 
     .avatar-bg {
-      position: fixed;
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 0;
       pointer-events: none;
       animation: floatBot 4s ease-in-out infinite, glowPulse 3s ease-in-out infinite;
     }
 
     .avatar-bg img {
-      width: 180px;
-    }
-
-    @media (max-width: 768px) {
-      .avatar-bg {
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-      .avatar-bg img {
-        width: 150px;
-      }
-    }
-
-    @media (min-width: 769px) {
-      .avatar-bg {
-        top: 60px;
-        right: 40px;
-        transform: none;
-      }
+      width: 150px;
     }
 
     .interface {
@@ -307,6 +292,13 @@
           appendMsg("👇 Lock in your call below:");
           await delay(600);
           appendMsg("✨ Start your journey to earning remote income.");
+
+          // Celebrate 🎉
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+          });
 
           const link = document.createElement("a");
           link.href = "https://calendly.com/jadafig1";
