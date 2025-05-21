@@ -9,7 +9,7 @@
     :root {
       --bg: #0b0b0b;
       --text: #ffffff;
-      --accent: #3a7bfd;
+      --accent: #ffffff;
       --card: #1a1a1a;
       --rounded: 16px;
     }
@@ -45,11 +45,11 @@
       position: absolute;
       z-index: 1;
       pointer-events: none;
+      animation: floatBot 4s ease-in-out infinite, glowPulse 3s ease-in-out infinite;
     }
 
     .avatar-bg img {
-      max-width: 220px;
-      opacity: 0.4;
+      width: 180px;
     }
 
     @media (max-width: 768px) {
@@ -58,12 +58,19 @@
         left: 50%;
         transform: translateX(-50%);
       }
+      .avatar-bg img {
+        width: 160px;
+      }
     }
 
     @media (min-width: 769px) {
       .avatar-bg {
-        top: 80px;
-        right: 40px;
+        top: 40px;
+        right: 20px;
+        transform: none;
+      }
+      .avatar-bg img {
+        width: 180px;
       }
     }
 
@@ -158,6 +165,17 @@
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    @keyframes floatBot {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0px); }
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { filter: drop-shadow(0 0 0px #ffffff); }
+      50% { filter: drop-shadow(0 0 12px #ffffff); }
+    }
   </style>
 </head>
 <body>
@@ -179,7 +197,5 @@
       <button class="btn" id="startBtn" onclick="startChat()">GET QUALIFIED</button>
     </div>
   </div>
-
-  <!-- JavaScript logic remains unchanged -->
 </body>
 </html>
