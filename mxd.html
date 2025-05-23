@@ -30,8 +30,6 @@
     #avatar {
       width: 130px;
       margin-bottom: 10px;
-      border-radius: 12px;
-      box-shadow: 0 0 18px rgba(255, 255, 255, 0.4);
       animation: float 4s ease-in-out infinite, glowPulse 2s ease-in-out infinite;
     }
     @keyframes float {
@@ -41,6 +39,12 @@
     @keyframes glowPulse {
       0%, 100% { filter: drop-shadow(0 0 0px #fff); }
       50% { filter: drop-shadow(0 0 15px #fff); }
+    }
+    #introText {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+      color: var(--accent);
     }
     #chatbox {
       width: 90vw;
@@ -87,6 +91,7 @@
 </head>
 <body>
   <img id="avatar" src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot Avatar">
+  <div id="introText">🔒 Get qualified to unlock PlugBot. Just answer a few quick questions below.</div>
   <div id="chatbox"></div>
   <button class="btn" id="startBtn" onclick="startChat()">GET QUALIFIED</button>
   <input type="text" id="userInput" placeholder="Type your message..." autocomplete="off" disabled>
@@ -113,10 +118,10 @@
     const responses = {
       name: val => `Nice to meet you, ${val}.`,
       age: val => parseInt(val) < 20 ? "Young and driven — love it." : "Solid. You're in the right season to build.",
-      location: val => `Nice. ${val} has got potential.`,
+      location: val => `Nice. ${val} has got potential.",
       income: () => `Appreciate the honesty — let’s level it up.`,
       savings: val => /yes|some|of course|i do|yup/i.test(val) ? "Respect — that shows commitment." : "No worries — just means we’ll be strategic.",
-      reason: () => `That’s valid. We hear that a lot from hungry folks.`,
+      reason: () => `That’s valid. A lot of our people started for the same reason.`,
       experience: val => /no|never/.test(val.toLowerCase()) ? "No problem — we teach this from scratch." : "Fire — that background can only help.",
       goal: val => `🔥 Love it. $${val}/month is definitely possible.",
       email: () => "Email locked in.",
