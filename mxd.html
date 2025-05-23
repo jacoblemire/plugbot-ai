@@ -1,203 +1,110 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PlugBot | MXD Enterprises</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
   <style>
     :root {
       --bg: #0b0b0b;
       --text: #ffffff;
-      --accent: #c0c0c0;
-      --card: #1a1a1a;
+      --assistant: #1f1f1f;
+      --user: #3a3a3a;
+      --accent: #ffffff;
       --rounded: 16px;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
-      background-color: var(--bg);
-      color: var(--text);
+      background: var(--bg);
       font-family: 'Inter', sans-serif;
+      color: var(--text);
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 2rem;
+      padding: 1rem;
       min-height: 100vh;
     }
-
+    .header { font-size: 1rem; opacity: 0.6; margin-bottom: 1rem; }
+    .avatar { width: 120px; animation: float 3s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     .chat-box {
       width: 100%;
-      max-width: 480px;
-      background: var(--card);
-      padding: 1.5rem;
+      max-width: 600px;
+      background: #121212;
+      padding: 1.25rem;
       border-radius: var(--rounded);
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 1rem;
+      overflow-y: auto;
     }
-
     .msg {
-      max-width: 75%;
-      padding: 0.9rem;
+      padding: 1rem;
       border-radius: var(--rounded);
-      font-size: 0.95rem;
-      line-height: 1.4;
-      display: inline-block;
-      word-wrap: break-word;
+      max-width: 80%;
     }
-
-    .bot-msg {
-      background: #1e1e1e;
-      align-self: flex-start;
-    }
-
-    .user-msg {
-      background: #333;
-      align-self: flex-end;
-    }
-
+    .assistant { background: var(--assistant); align-self: flex-start; }
+    .user { background: var(--user); align-self: flex-end; }
     .input-container {
-      margin-top: 1rem;
       display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
+      margin-top: 1rem;
+      gap: 0.5rem;
     }
-
     input {
+      flex: 1;
       padding: 0.9rem;
       border-radius: var(--rounded);
+      background: #222;
       border: none;
-      background: #111;
-      color: #ffffff;
+      color: var(--text);
+      font-size: 1rem;
     }
-
-    .btn {
-      padding: 0.9rem;
-      background: #ffffff;
-      color: #000000;
-      font-weight: 600;
+    button {
+      padding: 0.9rem 1.2rem;
       border: none;
       border-radius: var(--rounded);
+      background: var(--accent);
+      color: #000;
+      font-weight: bold;
       cursor: pointer;
     }
-
-    .btn:hover { background: #ddd; }
   </style>
 </head>
 <body>
+  <div class="header">MXD Enterprises</div>
+  <img src="https://jacoblemire.github.io/plugbot-ai/plugbot.png" class="avatar" alt="PlugBot" />
   <div class="chat-box" id="chatBox">
-    <div class="msg bot-msg"><strong>🤖 PlugBot here.</strong> Let’s get real about remote income. You in?</div>
-    <div class="msg bot-msg">Tap the button when you're ready to get qualified:</div>
-    <button class="btn" onclick="startChat()">Start Qualification</button>
+    <div class="msg assistant">🤖 <strong>PlugBot here.</strong> Let's get real about remote income. You in?</div>
   </div>
-
+  <div class="input-container">
+    <input type="text" id="userInput" placeholder="Type here..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
   <script>
-    const prompts = [
-      "What’s your name?",
-      "How old are you?",
-      "Where are you based right now?",
-      "Monthly income estimate?",
-      "Got $500+ saved or available?",
-      "Why do you want remote income?",
-      "Tried anything online before?",
-      "Freedom goal ($/mo)?",
-      "Your best email:",
-      "Your phone (in case we follow up):"
-    ];
-
-    const fields = ["name", "age", "location", "income", "savings", "reason", "experience", "goal", "email", "phone"];
-    let step = 0, data = {}, spam = 0, ended = false;
     const chatBox = document.getElementById('chatBox');
-
-    function appendMsg(msg, sender = 'bot') {
+    const input = document.getElementById('userInput');
+    function appendMessage(text, sender = 'assistant') {
       const div = document.createElement('div');
-      div.className = `msg ${sender}-msg`;
-      div.innerText = msg;
+      div.className = `msg ${sender}`;
+      div.innerText = text;
       chatBox.appendChild(div);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
-
-    function startChat() {
-      document.querySelector('button').style.display = 'none';
-      appendMsg(prompts[step]);
-      showInput();
-    }
-
-    function showInput() {
-      const container = document.createElement('div');
-      container.className = 'input-container';
-
-      const input = document.createElement('input');
-      input.placeholder = 'Type here...';
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') handleResponse(input.value.trim(), container);
+    async function sendMessage() {
+      const userText = input.value.trim();
+      if (!userText) return;
+      appendMessage(userText, 'user');
+      input.value = '';
+      const response = await fetch('https://plugbot.replit.app/plugbot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ input: userText })
       });
-
-      container.appendChild(input);
-      chatBox.appendChild(container);
-      input.focus();
-    }
-
-    function handleResponse(val, container) {
-      if (!val || ended) return;
-
-      if (/[^a-zA-Z0-9\s]/.test(val) || val.length < 2) spam++;
-      if (spam >= 2) {
-        appendMsg("Looks like you're not ready yet. Come back locked in.", 'bot');
-        ended = true;
-        return;
-      }
-
-      const field = fields[step];
-      data[field] = val;
-      container.remove();
-      appendMsg(val, 'user');
-
-      if (field === "age" && parseInt(val) < 17) {
-        appendMsg("This play's 17+. Start with the free course first.", 'bot');
-        ended = true;
-        return;
-      }
-
-      if (field === "savings" && /no|none|zero/i.test(val)) {
-        appendMsg("Start with the free course — build your base.", 'bot');
-        const a = document.createElement("a");
-        a.href = "https://mxdenterprises.com/free-course.html";
-        a.innerText = "🔹 Watch Free Course";
-        a.className = "btn";
-        a.target = "_blank";
-        chatBox.appendChild(a);
-        ended = true;
-        return;
-      }
-
-      step++;
-      if (step < prompts.length) {
-        setTimeout(() => {
-          appendMsg(prompts[step]);
-          showInput();
-        }, 500);
-      } else {
-        appendMsg("You're qualified. Time to move different.", 'bot');
-        appendMsg("Book your exec call:", 'bot');
-
-        const a = document.createElement("a");
-        a.href = "https://calendly.com/jadafig1";
-        a.innerText = "🎉 Book Call Now";
-        a.className = "btn";
-        a.target = "_blank";
-        chatBox.appendChild(a);
-
-        // Send to backend
-        fetch("https://plugbot-system.jacoblemire.repl.co/plugbot", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        });
-        ended = true;
-      }
+      const data = await response.json();
+      appendMessage(data.response, 'assistant');
     }
   </script>
 </body>
