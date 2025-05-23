@@ -274,14 +274,10 @@ async function sendInput() {
       link.className = "btn reward-button";
       chat.appendChild(link);
 
-      fetch("https://hook.us2.make.com/y1tdeyvxp8gqtaifqsthdpiwayas40fp", {
+      fetch("https://plugbot.replit.app/plugbot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          source: "PlugBot: MXD Sales Page",
-          timestamp: new Date().toISOString(),
-          ...data
-        })
+        body: JSON.stringify({ history: Object.entries(data).map(([key, value]) => ({ role: 'user', content: `${key}: ${value}` })) })
       });
     }
   }
