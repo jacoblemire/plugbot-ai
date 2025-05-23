@@ -149,14 +149,11 @@
     </div>
   </div>
 <script>
-window.addEventListener('DOMContentLoaded', () => {
 const input = document.getElementById("input");
 const chat = document.getElementById("chat");
 const inputRow = document.getElementById("inputRow");
 const startBtn = document.getElementById("startBtn");
 const startInfo = document.getElementById("startInfo");
-
-startBtn.onclick = startChat;
 
 const prompts = [
   "First up — what’s your name?",
@@ -285,7 +282,6 @@ async function sendInput() {
     }
   }
 }
-});
 </script>
 </body>
 </html>
