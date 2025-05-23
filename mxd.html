@@ -10,17 +10,11 @@
     :root {
       --bg: #0b0b0b;
       --text: #ffffff;
-      --accent: #00ffe1;
+      --accent: #c0c0c0;
       --card: #1a1a1a;
       --rounded: 16px;
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background-color: var(--bg);
       color: var(--text);
@@ -32,28 +26,13 @@
       justify-content: start;
       padding: 1rem;
     }
-
-    .header {
-      font-size: 1rem;
-      opacity: 0.7;
-      margin-bottom: 1rem;
-    }
-
+    .header { font-size: 1rem; opacity: 0.7; margin-bottom: 1rem; }
     .avatar {
       width: 120px;
       animation: float 3s ease-in-out infinite, glow 4s ease-in-out infinite;
     }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    @keyframes glow {
-      0%, 100% { filter: drop-shadow(0 0 5px var(--accent)); }
-      50% { filter: drop-shadow(0 0 15px var(--accent)); }
-    }
-
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes glow { 0%, 100% { filter: drop-shadow(0 0 5px var(--accent)); } 50% { filter: drop-shadow(0 0 15px var(--accent)); } }
     .chat-box {
       background: var(--card);
       border-radius: var(--rounded);
@@ -62,10 +41,9 @@
       padding: 1.5rem;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 1rem;
       overflow-y: auto;
     }
-
     .msg {
       background: rgba(255, 255, 255, 0.07);
       padding: 0.9rem;
@@ -74,24 +52,14 @@
       line-height: 1.4;
       max-width: 80%;
     }
-
-    .msg.bot {
-      align-self: flex-start;
-      background-color: rgba(0,255,225,0.08);
-    }
-
-    .msg.user {
-      align-self: flex-end;
-      background-color: rgba(255,255,255,0.15);
-    }
-
+    .bot { align-self: flex-start; }
+    .user { align-self: flex-end; background: #333; }
     .input-container {
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
       margin-top: 1rem;
     }
-
     input {
       padding: 0.9rem;
       border-radius: var(--rounded);
@@ -100,44 +68,23 @@
       color: #ffffff;
       font-size: 1rem;
     }
-
     .btn {
       padding: 0.9rem;
-      background: #ffffff;
-      color: #000000;
+      background: #ffffff; color: #000000;
       font-weight: 600;
       border: none;
       border-radius: var(--rounded);
       cursor: pointer;
       transition: 0.3s ease;
     }
-
-    .btn:hover {
-      background: #fff;
-    }
-
-    .typing-dots {
-      display: inline-block;
-      font-size: 20px;
-      line-height: 1;
-    }
-
-    .typing-dots::after {
-      content: '...';
-      animation: blink 1s steps(1) infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 0; }
-      50% { opacity: 1; }
-    }
+    .btn:hover { background: #fff; }
   </style>
 </head>
 <body>
   <div class="header">MXD Enterprises</div>
   <img src="https://jacoblemire.github.io/plugbot-ai/plugbot.png" alt="PlugBot" class="avatar">
   <div class="chat-box" id="chatBox">
-    <div class="msg bot"><strong>🤖 PlugBot here.</strong> Let’s get real about remote income. You in?</div>
+    <div class="msg bot"><strong>🫠 PlugBot here.</strong> Let’s get real about remote income. You in?</div>
     <div class="msg bot">Tap the button when you're ready to get qualified:</div>
     <button class="btn" onclick="startChat()" id="startBtn">Start Qualification</button>
   </div>
@@ -147,87 +94,67 @@
       "Cool. How old are you?",
       "Where you based right now?",
       "What’s your current monthly income?",
-      "Do you have at least $500 saved or available credit?",
+      "You got at least $500 saved or available?",
       "Be real — why do you want remote income?",
       "Ever tried anything online before?",
-      "What’s your freedom number — $/mo that feels good?",
+      "What’s your freedom goal ($/mo)?",
       "Drop your best email:",
-      "Last one — phone number in case we need to follow up:"
+      "Last one — phone number just in case:"
     ];
-
     const fields = ["name", "age", "location", "income", "savings", "reason", "experience", "goal", "email", "phone"];
-    let step = 0, data = {}, spam = 0, ended = false;
+    let step = 0, data = {}, ended = false;
     const chatBox = document.getElementById('chatBox');
-
-    function appendMsg(msg, isUser = false) {
+    function appendMsg(msg, sender = 'bot') {
       const div = document.createElement('div');
-      div.className = 'msg ' + (isUser ? 'user' : 'bot');
+      div.className = 'msg ' + sender;
       div.innerText = msg;
       chatBox.appendChild(div);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
-
     function startChat() {
-      document.getElementById('startBtn').remove();
+      document.getElementById('startBtn').style.display = 'none';
+      step = 0;
       appendMsg(prompts[step]);
       showInput();
     }
-
     function showInput() {
       const container = document.createElement('div');
       container.className = 'input-container';
       const input = document.createElement('input');
       input.placeholder = 'Type here...';
-      input.addEventListener('keydown', (e) => {
+      input.addEventListener('keydown', e => {
         if (e.key === 'Enter') handleResponse(input.value.trim(), container);
       });
       container.appendChild(input);
       chatBox.appendChild(container);
       input.focus();
     }
-
     function handleResponse(val, container) {
       if (!val || ended) return;
-      if (/[^a-zA-Z0-9\s]/.test(val) || val.length < 2) spam++;
-      if (spam >= 2) {
-        appendMsg("Looks like you're not ready for this yet. Come back when you're locked in. 💭");
-        ended = true;
-        return;
-      }
-      const field = fields[step];
-      data[field] = val;
+      appendMsg(val, 'user');
+      data[fields[step]] = val;
       container.remove();
-      appendMsg(val, true);
-
-      if (field === "age" && parseInt(val) < 17) {
-        appendMsg("Respect your hustle — but this is for 17+ only. Start with the free course & circle back. 🚀");
+      if (fields[step] === "age" && parseInt(val) < 17) {
+        appendMsg("Appreciate the hustle, but this is 17+ only. Start with the free course first. 🚀");
         ended = true;
         return;
       }
-
-      if (field === "savings" && /no|none|zero/i.test(val)) {
-        appendMsg("Appreciate your honesty. Start with our free course and build your base:");
-        const a = document.createElement("a");
-        a.href = "https://mxdenterprises.com/free-course.html";
-        a.innerText = "Watch Free Course";
-        a.className = "btn";
-        a.target = "_blank";
-        chatBox.appendChild(a);
+      if (fields[step] === "savings" && /no|none|zero/i.test(val)) {
+        appendMsg("Respect the honesty. Start with our free course and build up. ");
         ended = true;
         return;
       }
-
       step++;
       if (step < prompts.length) {
         setTimeout(() => {
           appendMsg(prompts[step]);
           showInput();
-        }, 600);
+        }, 500);
       } else {
         appendMsg("✅ You’re locked in. Time to move different.");
         setTimeout(() => {
-          appendMsg("🎯 This is your shot to speak with an MXD exec. Come correct.");
-          appendMsg("👇 Book your call now:");
+          appendMsg("🎯 Speak with an MXD exec next. Come correct.");
+          appendMsg("👇 Book your call:");
           const a = document.createElement("a");
           a.href = "https://calendly.com/jadafig1";
           a.innerText = "🎉 Book Executive Call";
@@ -235,16 +162,12 @@
           a.target = "_blank";
           chatBox.appendChild(a);
           confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-          fetch("https://plugbot-backend.jacoblemire20.repl.co/plugbot", {
+          fetch("https://plugbot-system.jacoblemire20.repl.co/plugbot", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              source: "PlugBot Ultra",
-              timestamp: new Date().toISOString(),
-              ...data
-            })
+            body: JSON.stringify({ ...data })
           });
-        }, 800);
+        }, 600);
       }
     }
   </script>
