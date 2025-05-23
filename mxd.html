@@ -48,6 +48,7 @@
     }
     .assistant { background: var(--assistant); align-self: flex-start; }
     .user { background: var(--user); align-self: flex-end; }
+    .typing { opacity: 0.5; font-style: italic; }
     .input-container {
       display: flex;
       margin-top: 1rem;
@@ -77,34 +78,92 @@
   <div class="header">MXD Enterprises</div>
   <img src="https://jacoblemire.github.io/plugbot-ai/plugbot.png" class="avatar" alt="PlugBot" />
   <div class="chat-box" id="chatBox">
-    <div class="msg assistant">🤖 <strong>PlugBot here.</strong> Let's get real about remote income. You in?</div>
+    <div class="msg assistant">🤖 <strong>PlugBot here.</strong> Let’s get real about remote income. You in?</div>
+    <button onclick="startChat()" id="startBtn">Start Qualification</button>
   </div>
-  <div class="input-container">
+  <div class="input-container" id="inputContainer" style="display:none;">
     <input type="text" id="userInput" placeholder="Type here..." />
     <button onclick="sendMessage()">Send</button>
   </div>
+
   <script>
+    const prompts = [
+      "What’s your name?",
+      "How old are you?",
+      "Where are you based right now?",
+      "What's your current monthly income?",
+      "Do you have at least $500 saved or available?",
+      "Why do you want remote income?",
+      "Have you ever tried anything online before?",
+      "What’s your freedom goal? Like, $/mo that feels good?",
+      "What’s your best email?",
+      "Phone number in case we need to follow up?"
+    ];
+    const data = {};
+    let step = 0;
+    let ended = false;
     const chatBox = document.getElementById('chatBox');
     const input = document.getElementById('userInput');
+    const inputContainer = document.getElementById('inputContainer');
+    const startBtn = document.getElementById('startBtn');
+
     function appendMessage(text, sender = 'assistant') {
-      const div = document.createElement('div');
-      div.className = `msg ${sender}`;
-      div.innerText = text;
-      chatBox.appendChild(div);
+      const msg = document.createElement('div');
+      msg.className = `msg ${sender}`;
+      msg.innerText = text;
+      chatBox.appendChild(msg);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
+
+    function appendTyping() {
+      const typing = document.createElement('div');
+      typing.className = 'msg assistant typing';
+      typing.id = 'typing';
+      typing.innerText = 'PlugBot is typing...';
+      chatBox.appendChild(typing);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function removeTyping() {
+      const typing = document.getElementById('typing');
+      if (typing) typing.remove();
+    }
+
+    function startChat() {
+      startBtn.style.display = 'none';
+      inputContainer.style.display = 'flex';
+      appendMessage(prompts[step]);
+    }
+
     async function sendMessage() {
       const userText = input.value.trim();
-      if (!userText) return;
+      if (!userText || ended) return;
       appendMessage(userText, 'user');
       input.value = '';
-      const response = await fetch('https://plugbot.replit.app/plugbot', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ input: userText })
-      });
-      const data = await response.json();
-      appendMessage(data.response, 'assistant');
+      data[`q${step + 1}`] = userText;
+      step++;
+      if (step < prompts.length) {
+        appendTyping();
+        setTimeout(() => {
+          removeTyping();
+          appendMessage(prompts[step]);
+        }, 600);
+      } else {
+        appendTyping();
+        const res = await fetch('https://plugbot.replit.app/plugbot', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ input: Object.values(data).join(' | ') })
+        });
+        const response = await res.json();
+        removeTyping();
+        appendMessage(response.response);
+        if (response.response.includes('Book Executive Call')) {
+          confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        }
+        input.disabled = true;
+        ended = true;
+      }
     }
   </script>
 </body>
