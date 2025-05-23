@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -14,13 +14,11 @@
       --card: #1a1a1a;
       --rounded: 16px;
     }
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-
     body {
       background-color: var(--bg);
       color: var(--text);
@@ -29,7 +27,6 @@
       padding: 1rem;
       position: relative;
     }
-
     .header {
       position: fixed;
       top: 20px;
@@ -41,7 +38,6 @@
       opacity: 0.8;
       z-index: 1000;
     }
-
     .avatar-bg {
       position: absolute;
       top: 20px;
@@ -51,11 +47,9 @@
       pointer-events: none;
       animation: floatBot 4s ease-in-out infinite, glowPulse 3s ease-in-out infinite;
     }
-
     .avatar-bg img {
       width: 150px;
     }
-
     .interface {
       display: flex;
       flex-direction: column;
@@ -69,7 +63,6 @@
       z-index: 2;
       position: relative;
     }
-
     .chat-section {
       background: var(--card);
       border-radius: 24px;
@@ -82,18 +75,6 @@
       overflow-y: auto;
       scroll-behavior: smooth;
     }
-
-    .chat-section::-webkit-scrollbar {
-      width: 8px;
-    }
-    .chat-section::-webkit-scrollbar-thumb {
-      background: #333;
-      border-radius: 10px;
-    }
-    .chat-section::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
     .msg-box {
       background: rgba(255, 255, 255, 0.07);
       padding: 0.9rem 1.1rem;
@@ -103,13 +84,11 @@
       text-align: left;
       animation: fadeIn 0.3s ease;
     }
-
     .input-row {
       display: none;
       flex-direction: column;
       gap: 0.75rem;
     }
-
     input {
       padding: 1rem;
       border-radius: var(--rounded);
@@ -118,7 +97,6 @@
       color: #fff;
       font-size: 1rem;
     }
-
     .btn {
       background: #000;
       color: #fff;
@@ -132,28 +110,23 @@
       text-align: center;
       width: 100%;
     }
-
     .btn:hover {
       background: #fff;
       color: #000;
     }
-
     .typing {
       font-style: italic;
       opacity: 0.7;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     @keyframes floatBot {
       0% { transform: translateY(0px); }
       50% { transform: translateY(-8px); }
       100% { transform: translateY(0px); }
     }
-
     @keyframes glowPulse {
       0%, 100% { filter: drop-shadow(0 0 0px #ffffff); }
       50% { filter: drop-shadow(0 0 12px #ffffff); }
@@ -162,7 +135,7 @@
 </head>
 <body>
   <div class="header">MXD Enterprises</div>
-  <div class="avatar-bg"><img src="https://jacoblemire.github.io/plugbot-ai/plugbot.png" alt="PlugBot"></div>
+  <div class="avatar-bg"><img src="/mnt/data/b6ac1e1a-69f9-4541-b1b3-83661667bdb4.png" alt="PlugBot Avatar" style="width: 150px; border-radius: 12px; box-shadow: 0 0 18px rgba(255,255,255,0.4);" /></div>
   <div class="interface">
     <div class="chat-section" id="chat">
       <div class="msg-box"><strong>Get Qualified for MXD Sales Academy</strong></div>
@@ -176,7 +149,6 @@
       <button class="btn" id="startBtn" onclick="startChat()">GET QUALIFIED</button>
     </div>
   </div>
-
   <script>
     const input = document.getElementById("input");
     const chat = document.getElementById("chat");
@@ -201,14 +173,14 @@
     const responses = {
       name: val => `Nice to meet you, ${val}.`,
       age: val => parseInt(val) < 20 ? "Young & hungry — let’s build." : "Solid — maturity helps in this game.",
-      location: val => `Got it. We’ve got people crushing it from ${val}.`,
-      income: () => `Thanks — that gives us a starting point.`,
-      savings: () => `Respect for stacking.`,
-      reason: () => `That’s real. You're not alone.`,
-      experience: () => `Noted. Whether you’ve done this or not, we teach it from scratch.`,
-      goal: val => `🔥 $${val}/month — let’s aim for that and more.`,
-      email: () => `Email locked in.`,
-      phone: () => `Phone saved. You’re almost there.`
+      location: val => `Got it. ${val} is a solid base to build from.`,
+      income: val => `Thanks for keeping it real — that gives us a baseline.`,
+      savings: val => /yes|some|bit|of course|yeah/i.test(val) ? "Respect — that gives you leverage." : "Alright, we’ll factor that in.",
+      reason: val => `That’s powerful. A lot of our people started for the same reason.`,
+      experience: val => /no|never/.test(val.toLowerCase()) ? "No worries — we teach everything step by step." : "Dope — that background might give you a slight edge.",
+      goal: val => `🔥 $${val}/month sounds like freedom. Let’s get it.",
+      email: () => "Email locked in.",
+      phone: () => "Phone saved. You’re almost there."
     };
 
     let step = -1, data = {}, spamCount = 0, conversationEnded = false, userName = "";
@@ -290,11 +262,7 @@
           await delay(600);
           appendMsg("✨ Start your journey to earning remote income.");
 
-          confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.6 }
-          });
+          confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
 
           const link = document.createElement("a");
           link.href = "https://calendly.com/jadafig1";
