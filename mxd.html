@@ -4,20 +4,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PlugBot | MXD Enterprises</title>
+  <title>PlugBot | MXD GPT-4 Chat</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
     :root {
       --bg: #0b0b0b;
       --text: #ffffff;
-      --accent: #3a7bfd;
-      --card: #1a1a1a;
       --user: #333333;
       --assistant: #1f1f1f;
+      --accent: #ffffff;
       --rounded: 18px;
     }
-
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
@@ -29,27 +26,23 @@
       padding: 2rem 1rem;
       min-height: 100vh;
     }
-
     .header {
       font-size: 0.9rem;
       opacity: 0.7;
       margin-bottom: 1rem;
     }
-
     .avatar {
       width: 110px;
       animation: float 3s ease-in-out infinite;
     }
-
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
     }
-
     .chat-box {
       width: 100%;
       max-width: 600px;
-      background: var(--card);
+      background: #121212;
       border-radius: var(--rounded);
       padding: 1.5rem;
       display: flex;
@@ -57,33 +50,23 @@
       gap: 1rem;
       overflow-y: auto;
     }
-
     .msg {
       max-width: 80%;
       padding: 0.9rem 1rem;
       border-radius: var(--rounded);
       line-height: 1.5;
+      white-space: pre-wrap;
     }
-
-    .assistant {
-      align-self: flex-start;
-      background: var(--assistant);
-    }
-
-    .user {
-      align-self: flex-end;
-      background: var(--user);
-    }
-
+    .assistant { align-self: flex-start; background: var(--assistant); }
+    .user { align-self: flex-end; background: var(--user); }
+    .typing { font-style: italic; opacity: 0.6; }
     .input-container {
-      display: none;
+      display: flex;
       width: 100%;
       max-width: 600px;
       margin-top: 1rem;
-      display: flex;
       gap: 0.75rem;
     }
-
     input {
       flex: 1;
       padding: 0.85rem;
@@ -93,9 +76,8 @@
       border: none;
       border-radius: var(--rounded);
     }
-
     button {
-      background: #fff;
+      background: var(--accent);
       color: #000;
       font-weight: 600;
       padding: 0.85rem 1.1rem;
@@ -103,50 +85,28 @@
       border: none;
       cursor: pointer;
     }
-
-    .btn-start {
-      margin-top: 1rem;
-    }
-
-    .typing {
-      font-style: italic;
-      opacity: 0.6;
-      font-size: 0.95rem;
-    }
   </style>
 </head>
 <body>
   <div class="header">MXD Enterprises</div>
-  <img src="https://jacoblemire.github.io/plugbot-ai/plugbot.png" class="avatar" alt="PlugBot"/>
+  <img src="https://jacoblemire.github.io/plugbot-ai/plugbot.png" class="avatar" alt="PlugBot" />
   <div class="chat-box" id="chatBox">
-    <div class="msg assistant"><strong>🤖 PlugBot here.</strong> Let's get real about remote income. You in?</div>
-    <button class="btn-start" onclick="startChat()">Start Qualification</button>
+    <div class="msg assistant">🤖 <strong>PlugBot here.</strong> Let’s talk remote income. What’s on your mind?</div>
   </div>
-  <div class="input-container" id="inputArea">
-    <input id="userInput" type="text" placeholder="Type here..." />
+  <div class="input-container">
+    <input id="userInput" type="text" placeholder="Type your message..." />
     <button onclick="sendMessage()">Send</button>
   </div>
 
   <script>
-    const prompts = [
-      "First up — what's your name?",
-      "Cool. How old are you?",
-      "Where you based right now?",
-      "What’s your current monthly income?",
-      "You got $500 saved or available credit?",
-      "Be real — why you want remote income?",
-      "Ever tried anything online before?",
-      "What's your freedom goal? Like $/mo that feels good?",
-      "Drop your best email:",
-      "And lastly — phone number in case we follow up:"
-    ];
-
-    const fields = ["name", "age", "location", "income", "savings", "reason", "experience", "goal", "email", "phone"];
-    let step = 0, data = {}, ended = false;
-
     const chatBox = document.getElementById('chatBox');
     const input = document.getElementById('userInput');
-    const inputArea = document.getElementById('inputArea');
+    let conversation = [
+      {
+        role: "system",
+        content: "You are PlugBot, a calm, persuasive, real-sounding assistant for MXD Enterprises. You talk like a grounded, chill Gen Z pro. You start casual and fun, but get more serious toward the end of the convo. Your job is to qualify the user for a high-level remote income opportunity, filtering out those under 17 or with no savings/credit. Be sharp, never robotic, and mirror their vibe."
+      }
+    ];
 
     function appendMessage(text, sender = 'assistant') {
       const div = document.createElement('div');
@@ -156,62 +116,39 @@
       chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    function startChat() {
-      document.querySelector('.btn-start').style.display = 'none';
-      inputArea.style.display = 'flex';
-      appendMessage(prompts[step], 'assistant');
+    function appendTyping() {
+      const div = document.createElement('div');
+      div.className = 'msg assistant typing';
+      div.id = 'typing';
+      div.innerText = 'PlugBot is typing...';
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function removeTyping() {
+      const typing = document.getElementById('typing');
+      if (typing) typing.remove();
     }
 
     async function sendMessage() {
       const userText = input.value.trim();
-      if (!userText || ended) return;
+      if (!userText) return;
+
       appendMessage(userText, 'user');
-      data[fields[step]] = userText;
+      conversation.push({ role: 'user', content: userText });
       input.value = '';
-      step++;
+      appendTyping();
 
-      if (fields[step - 1] === "age" && parseInt(data.age) < 17) {
-        appendMessage("You’re a bit early for this move. Start with our free training & loop back when you're 17+ 🚀", "assistant");
-        input.disabled = true;
-        ended = true;
-        return;
-      }
+      const res = await fetch('https://plugbot.replit.app/plugbot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ input: userText, history: conversation })
+      });
 
-      if (fields[step - 1] === "savings" && /no|none|zero|0/i.test(data.savings)) {
-        appendMessage("Respect for being honest. Lock in the free course, stack up, and come back ready.", "assistant");
-        const a = document.createElement("a");
-        a.href = "https://mxdenterprises.com/free-course.html";
-        a.className = "msg assistant";
-        a.innerText = "Watch Free Training";
-        a.target = "_blank";
-        chatBox.appendChild(a);
-        input.disabled = true;
-        ended = true;
-        return;
-      }
-
-      if (step < prompts.length) {
-        setTimeout(() => appendMessage(prompts[step], 'assistant'), 600);
-      } else {
-        appendMessage("✅ You’re qualified. Let’s move different now.");
-        setTimeout(() => {
-          appendMessage("🎯 Book a real call with an MXD exec. Bring your A-game.", "assistant");
-          const a = document.createElement("a");
-          a.href = "https://calendly.com/jadafig1";
-          a.className = "msg assistant";
-          a.innerText = "🎉 Book Executive Call";
-          a.target = "_blank";
-          chatBox.appendChild(a);
-          input.disabled = true;
-          confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
-
-          fetch("https://plugbot.replit.app/plugbot", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ input: JSON.stringify(data) })
-          });
-        }, 800);
-      }
+      const data = await res.json();
+      removeTyping();
+      appendMessage(data.response, 'assistant');
+      conversation.push({ role: 'assistant', content: data.response });
     }
   </script>
 </body>
