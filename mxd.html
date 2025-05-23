@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +11,7 @@
       --bg: #0b0b0b;
       --text: #ffffff;
       --assistant: #1f1f1f;
-      --user: #3a3a3a;
+      --user: #333333;
       --accent: #ffffff;
       --rounded: 16px;
     }
@@ -26,8 +27,15 @@
       min-height: 100vh;
     }
     .header { font-size: 1rem; opacity: 0.6; margin-bottom: 1rem; }
-    .avatar { width: 120px; animation: float 3s ease-in-out infinite; }
-    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    .avatar {
+      width: 120px;
+      animation: float 3s ease-in-out infinite;
+      margin-bottom: 1rem;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
     .chat-box {
       width: 100%;
       max-width: 600px;
@@ -43,13 +51,21 @@
       padding: 1rem;
       border-radius: var(--rounded);
       max-width: 80%;
+      white-space: pre-wrap;
     }
-    .assistant { background: var(--assistant); align-self: flex-start; }
-    .user { background: var(--user); align-self: flex-end; }
+    .assistant { background: var(--assistant); align-self: flex-start; animation: fadeIn 0.4s ease; }
+    .user { background: var(--user); align-self: flex-end; animation: fadeIn 0.4s ease; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .typing { font-size: 0.9rem; opacity: 0.5; }
     .input-container {
       display: flex;
       margin-top: 1rem;
       gap: 0.5rem;
+      width: 100%;
+      max-width: 600px;
     }
     input {
       flex: 1;
@@ -69,25 +85,34 @@
       font-weight: bold;
       cursor: pointer;
     }
+    #startBtn {
+      margin-top: 1rem;
+    }
   </style>
 </head>
 <body>
   <div class="header">MXD Enterprises</div>
   <img src="https://jacoblemire.github.io/plugbot-ai/plugbot.png" class="avatar" alt="PlugBot" />
   <div class="chat-box" id="chatBox">
-    <div class="msg assistant">🤖 <strong>PlugBot here.</strong> Let's get real about remote income. You in?</div>
+    <div class="msg assistant">🤖 <strong>PlugBot here.</strong> Let’s get real about remote income. You in?</div>
   </div>
+  <button id="startBtn" onclick="startChat()">Start Qualification</button>
   <div class="input-container">
-    <input type="text" id="userInput" placeholder="Type here..." />
-    <button onclick="sendMessage()">Send</button>
+    <input type="text" id="userInput" placeholder="Type here..." disabled />
+    <button onclick="sendMessage()" disabled id="sendBtn">Send</button>
   </div>
-  <script>
-    const chatBox = document.getElementById('chatBox');
-    const input = document.getElementById('userInput');
-    let typingEl = null;
 
-    function appendMessage(text, sender = 'assistant') {
-      const div = document.createElement('div');
+  <script>
+    let started = false;
+    let messages = [];
+
+    const chatBox = document.getElementById("chatBox");
+    const input = document.getElementById("userInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const startBtn = document.getElementById("startBtn");
+
+    function appendMessage(text, sender) {
+      const div = document.createElement("div");
       div.className = `msg ${sender}`;
       div.innerText = text;
       chatBox.appendChild(div);
@@ -95,46 +120,56 @@
     }
 
     function appendTyping() {
-      typingEl = document.createElement('div');
-      typingEl.className = 'msg assistant';
-      typingEl.innerText = 'Typing...';
-      chatBox.appendChild(typingEl);
+      const div = document.createElement("div");
+      div.className = "msg assistant typing";
+      div.innerText = "Typing...";
+      div.id = "typingMsg";
+      chatBox.appendChild(div);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
 
     function removeTyping() {
-      if (typingEl) {
-        chatBox.removeChild(typingEl);
-        typingEl = null;
-      }
+      const typing = document.getElementById("typingMsg");
+      if (typing) typing.remove();
+    }
+
+    function startChat() {
+      started = true;
+      input.disabled = false;
+      sendBtn.disabled = false;
+      startBtn.style.display = "none";
+      appendMessage("Alright, let’s get into it. First up — what’s your name?", "assistant");
     }
 
     async function sendMessage() {
       const userText = input.value.trim();
-      if (!userText) return;
+      if (!userText || !started) return;
 
-      appendMessage(userText, 'user');
-      input.value = '';
+      appendMessage(userText, "user");
+      messages.push({ role: "user", content: userText });
+      input.value = "";
+
       appendTyping();
 
       try {
-        const response = await fetch('https://plugbot.replit.app/plugbot', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+        const response = await fetch("https://plugbot.replit.app/plugbot", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ input: userText })
         });
 
         const data = await response.json();
         removeTyping();
 
-        if (data.response) {
-          appendMessage(data.response, 'assistant');
+        if (data && data.response) {
+          appendMessage(data.response, "assistant");
+          messages.push({ role: "assistant", content: data.response });
         } else {
-          appendMessage('⚠️ Something went wrong. Try again later.', 'assistant');
+          appendMessage("⚠️ Something went wrong. Try again later.", "assistant");
         }
       } catch (err) {
         removeTyping();
-        appendMessage('⚠️ Something went wrong. Try again later.', 'assistant');
+        appendMessage("⚠️ Something went wrong. Try again later.", "assistant");
       }
     }
   </script>
