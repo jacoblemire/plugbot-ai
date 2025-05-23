@@ -1,497 +1,239 @@
-
-
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
   <meta charset="UTF-8" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>PlugBot | MXD Enterprises</title>
-
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
-
   <style>
-
     :root {
-
       --bg: #0b0b0b;
-
       --text: #ffffff;
-
       --accent: #c0c0c0;
-
       --card: #1a1a1a;
-
       --rounded: 16px;
-
     }
-
-
-
     * {
-
       box-sizing: border-box;
-
       margin: 0;
-
       padding: 0;
-
     }
-
-
-
     body {
-
       background-color: var(--bg);
-
       color: var(--text);
-
       font-family: 'Inter', sans-serif;
-
       min-height: 100vh;
-
       display: flex;
-
       flex-direction: column;
-
       align-items: center;
-
       justify-content: start;
-
       padding: 1rem;
-
     }
-
-
-
     .header {
-
       font-size: 1rem;
-
       opacity: 0.7;
-
       margin-bottom: 1rem;
-
     }
-
-
-
     .avatar {
-
       width: 120px;
-
       animation: float 3s ease-in-out infinite, glow 4s ease-in-out infinite;
-
     }
-
-
-
     @keyframes float {
-
       0%, 100% { transform: translateY(0); }
-
       50% { transform: translateY(-10px); }
-
     }
-
-
-
     @keyframes glow {
-
       0%, 100% { filter: drop-shadow(0 0 5px var(--accent)); }
-
       50% { filter: drop-shadow(0 0 15px var(--accent)); }
-
     }
-
-
-
     .chat-box {
-
       background: var(--card);
-
       border-radius: var(--rounded);
-
       width: 100%;
-
       max-width: 480px;
-
       padding: 1.5rem;
-
       display: flex;
-
       flex-direction: column;
-
       gap: 1rem;
-
       overflow-y: auto;
-
     }
-
-
-
     .msg {
-
       background: rgba(255, 255, 255, 0.07);
-
       padding: 0.9rem;
-
       border-radius: var(--rounded);
-
       font-size: 0.95rem;
-
       line-height: 1.4;
-
     }
-
-
-
     .input-container {
-
       display: flex;
-
       flex-direction: column;
-
       gap: 0.75rem;
-
       margin-top: 1rem;
-
     }
-
-
-
     input {
-
       padding: 0.9rem;
-
       border-radius: var(--rounded);
-
       border: none;
-
       background: #111;
-
       color: #ffffff;
-
       font-size: 1rem;
-
     }
-
-
-
     .btn {
-
       padding: 0.9rem;
-
-      background: #ffffff; color: #000000;
-
+      background: #ffffff;
       color: #000000;
-
       font-weight: 600;
-
       border: none;
-
       border-radius: var(--rounded);
-
       cursor: pointer;
-
       transition: 0.3s ease;
-
     }
-
-
-
     .btn:hover {
-
       background: #fff;
-
     }
-
-
-
     .typing-dots {
-
       display: inline-block;
-
       font-size: 20px;
-
       line-height: 1;
-
     }
-
-
-
     .typing-dots::after {
-
       content: '...';
-
       animation: blink 1s steps(1) infinite;
-
     }
-
-
-
     @keyframes blink {
-
       0%, 100% { opacity: 0; }
-
       50% { opacity: 1; }
-
     }
-
   </style>
-
 </head>
-
 <body>
-
   <div class="header">MXD Enterprises</div>
-
   <img src="https://jacoblemire.github.io/plugbot-ai/plugbot.png" alt="PlugBot" class="avatar">
-
   <div class="chat-box" id="chatBox">
-
     <div class="msg"><strong>PlugBot here.</strong> Let’s see if you’re aligned to earn $3K–$10K/month remote. 🔍</div>
-
     <div class="msg">Tap the button when you're ready to get qualified:</div>
-
     <button class="btn" onclick="startChat()">Start Qualification</button>
-
   </div>
 
-
-
   <script>
-
     const prompts = [
-
       "First things first — what’s your name?",
-
       "How old are you right now?",
-
       "Where you based at the moment?",
-
       "What’s your current monthly income?",
-
       "You got at least $500 saved or available?",
-
       "Be real — why do you want remote income?",
-
       "Ever tried anything online before?",
-
       "What’s your freedom goal? Like, $/mo that feels good?",
-
       "Drop your best email:",
-
       "Last one — phone number in case we need to follow up:"
-
     ];
-
-
-
     const fields = ["name", "age", "location", "income", "savings", "reason", "experience", "goal", "email", "phone"];
-
     let step = 0, data = {}, spam = 0, ended = false;
-
-
-
     const chatBox = document.getElementById('chatBox');
 
-
-
-    function appendMsg(msg, typing = false) {
-
+    function appendMsg(msg) {
       const div = document.createElement('div');
-
       div.className = 'msg';
-
       div.innerText = msg;
-
       chatBox.appendChild(div);
-
       chatBox.scrollTop = chatBox.scrollHeight;
-
     }
-
-
 
     function startChat() {
-
       step = 0;
-
       appendMsg(prompts[step]);
-
       showInput();
-
     }
-
-
 
     function showInput() {
-
       const container = document.createElement('div');
-
       container.className = 'input-container';
-
-
-
       const input = document.createElement('input');
-
       input.placeholder = 'Type here...';
-
       input.addEventListener('keydown', (e) => {
-
         if (e.key === 'Enter') handleResponse(input.value.trim(), container);
-
       });
-
-
-
       container.appendChild(input);
-
       chatBox.appendChild(container);
-
       input.focus();
-
     }
 
-
-
     function handleResponse(val, container) {
-
       if (!val || ended) return;
-
-
-
       if (/[^a-zA-Z0-9\s]/.test(val) || val.length < 2) spam++;
-
       if (spam >= 2) {
-
         appendMsg("Looks like you're not ready for this yet. Come back when you're locked in. 💭");
-
         ended = true;
-
         return;
-
       }
-
-
 
       const field = fields[step];
-
       data[field] = val;
-
       container.remove();
-
       appendMsg(val);
 
-
-
       if (field === "age" && parseInt(val) < 17) {
-
         appendMsg("Respect your hustle — but this is for 17+ only. Start with the free course & circle back. 🚀");
-
         ended = true;
-
         return;
-
       }
-
-
 
       if (field === "savings" && /no|none|zero/i.test(val)) {
-
         appendMsg("Appreciate your honesty. Start with our free course and build your base:");
-
         const a = document.createElement("a");
-
         a.href = "https://mxdenterprises.com/free-course.html";
-
         a.innerText = "Watch Free Course";
-
         a.className = "btn";
-
         a.target = "_blank";
-
         chatBox.appendChild(a);
-
         ended = true;
-
         return;
-
       }
 
-
-
       step++;
-
       if (step < prompts.length) {
-
         setTimeout(() => {
-
           appendMsg(prompts[step]);
-
           showInput();
-
         }, 600);
-
       } else {
-
         appendMsg("✅ You’re locked in. Time to move different.");
-
         setTimeout(() => {
-
           appendMsg("🎯 This is your shot to speak with an MXD exec. Come correct.");
-
           appendMsg("👇 Book your call now:");
-
           const a = document.createElement("a");
-
           a.href = "https://calendly.com/jadafig1";
-
           a.innerText = "🎉 Book Executive Call";
-
           a.className = "btn";
-
           a.target = "_blank";
-
           chatBox.appendChild(a);
-
           confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
 
-
-
-          fetch("https://hook.us2.make.com/y1tdeyvxp8gqtaifqsthdpiwayas40fp", {
-
+          fetch("https://plugbotsystem.jacoblemire20.repl.co/plugbot", {
             method: "POST",
-
             headers: { "Content-Type": "application/json" },
-
             body: JSON.stringify({
-
-              source: "PlugBot V4 Ultra",
-
-              timestamp: new Date().toISOString(),
-
-              ...data
-
+              name: data.name,
+              age: data.age,
+              savings: data.savings,
+              input: data.reason
             })
-
+          })
+          .then(res => res.json())
+          .then(response => {
+            if (response.response) {
+              appendMsg("🤖 " + response.response);
+            }
+          })
+          .catch(() => {
+            appendMsg("Something went wrong. Try again later.");
           });
 
         }, 800);
-
       }
-
     }
-
   </script>
-
 </body>
-
 </html>
