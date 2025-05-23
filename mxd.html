@@ -29,10 +29,14 @@
       justify-content: center;
       height: 100vh;
     }
+    #avatar {
+      width: 120px;
+      margin-bottom: 12px;
+    }
     #chatbox {
       width: 90%;
       max-width: 600px;
-      height: 80vh;
+      height: 70vh;
       background-color: #1f1f1f;
       border-radius: var(--rounded);
       padding: 20px;
@@ -71,6 +75,12 @@
       background-color: #111;
       color: white;
     }
+    #gateMessage {
+      color: var(--accent);
+      margin: 12px 0;
+      text-align: center;
+      font-weight: 600;
+    }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(5px); }
       to { opacity: 1; transform: translateY(0); }
@@ -78,8 +88,10 @@
   </style>
 </head>
 <body>
+  <img id="avatar" src="https://plugbot.mxdenterprises.com/assets/plugbot-avatar.png" alt="PlugBot Avatar">
   <div id="chatbox"></div>
-  <input type="text" id="userInput" placeholder="Type your message..." autocomplete="off">
+  <p id="gateMessage">🔒 Get qualified to unlock your PlugBot assistant. Just answer a few quick questions below!</p>
+  <input type="text" id="userInput" placeholder="Type your message..." autocomplete="off" disabled>
 
   <script>
     const chatbox = document.getElementById('chatbox');
@@ -101,12 +113,6 @@
       const trimmedInput = inputValue.trim();
       if (!trimmedInput) return;
       addMessage(trimmedInput, 'user');
-
-      if (gptReady) {
-        addMessage("[GPT activated here — backend will respond]", 'bot');
-        input.value = '';
-        return;
-      }
 
       switch (step) {
         case 1:
@@ -153,7 +159,10 @@
           userData.savings = true;
           addMessage("Locked in 🔐 That’s all I needed to know. Let’s map this out for real.");
           gptReady = true;
-          addMessage("[Now GPT will take over — qualified lead]");
+          addMessage("[GPT response will now be fetched from backend]");
+          // This is where you plug in the fetch call
+          input.disabled = false;
+          document.getElementById('gateMessage').innerText = "✅ You’re qualified. Ask PlugBot anything now.";
           break;
       }
 
@@ -168,6 +177,7 @@
 
     // Start convo
     addMessage("Yo, quick question... you ever actually thought about building remote income or doing your own thing?");
+    input.disabled = false;
   </script>
 </body>
 </html>
