@@ -30,8 +30,10 @@
       height: 100vh;
     }
     #avatar {
-      width: 120px;
+      width: 100px;
       margin-bottom: 12px;
+      border-radius: 50%;
+      box-shadow: 0 0 12px rgba(0, 255, 174, 0.3);
     }
     #chatbox {
       width: 90%;
@@ -81,6 +83,20 @@
       text-align: center;
       font-weight: 600;
     }
+    #startButton {
+      background-color: var(--accent);
+      color: black;
+      font-weight: bold;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: var(--rounded);
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    #startButton:hover {
+      background-color: #00c597;
+    }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(5px); }
       to { opacity: 1; transform: translateY(0); }
@@ -88,18 +104,22 @@
   </style>
 </head>
 <body>
-  <img id="avatar" src="https://plugbot.mxdenterprises.com/assets/plugbot-avatar.png" alt="PlugBot Avatar">
+  <img id="avatar" src="https://raw.githubusercontent.com/jacoblemire20/plugbot-ai/main/public/plugbot-avatar.png" alt="PlugBot Avatar">
   <div id="chatbox"></div>
   <p id="gateMessage">🔒 Get qualified to unlock your PlugBot assistant. Just answer a few quick questions below!</p>
+  <button id="startButton">Get Qualified</button>
   <input type="text" id="userInput" placeholder="Type your message..." autocomplete="off" disabled>
 
   <script>
     const chatbox = document.getElementById('chatbox');
     const input = document.getElementById('userInput');
+    const startButton = document.getElementById('startButton');
+    const gateMessage = document.getElementById('gateMessage');
 
     let step = 1;
     let userData = {};
     let gptReady = false;
+    let started = false;
 
     function addMessage(text, sender = 'bot') {
       const msg = document.createElement('div');
@@ -159,25 +179,29 @@
           userData.savings = true;
           addMessage("Locked in 🔐 That’s all I needed to know. Let’s map this out for real.");
           gptReady = true;
-          addMessage("[GPT response will now be fetched from backend]");
-          // This is where you plug in the fetch call
-          input.disabled = false;
-          document.getElementById('gateMessage').innerText = "✅ You’re qualified. Ask PlugBot anything now.";
+          gateMessage.innerText = "✅ You’re qualified. Ask PlugBot anything now.";
           break;
       }
 
       input.value = '';
     }
 
+    startButton.addEventListener('click', () => {
+      if (!started) {
+        started = true;
+        input.disabled = false;
+        input.focus();
+        addMessage("Yo, quick question... you ever actually thought about building remote income or doing your own thing?");
+        startButton.style.display = 'none';
+        gateMessage.innerText = "⌛ Qualifying in progress...";
+      }
+    });
+
     input.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
         handleUserInput(input.value);
       }
     });
-
-    // Start convo
-    addMessage("Yo, quick question... you ever actually thought about building remote income or doing your own thing?");
-    input.disabled = false;
   </script>
 </body>
 </html>
