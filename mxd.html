@@ -23,18 +23,12 @@
       background-color: var(--bg);
       color: var(--text);
       font-family: 'Inter', sans-serif;
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: start;
       padding: 1rem;
     }
-    .header {
-      font-size: 1rem;
-      opacity: 0.7;
-      margin-bottom: 1rem;
-    }
+    .header { font-size: 1rem; opacity: 0.7; margin-bottom: 1rem; }
     .avatar {
       width: 120px;
       animation: float 3s ease-in-out infinite, glow 4s ease-in-out infinite;
@@ -63,13 +57,17 @@
       padding: 0.9rem;
       border-radius: var(--rounded);
       font-size: 0.95rem;
-      line-height: 1.4;
+    }
+    .msg.user { align-self: flex-end; background: #111; }
+    .msg.typing::after { content: ' \2026'; animation: blink 1s steps(1) infinite; }
+    @keyframes blink {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
     }
     .input-container {
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
-      margin-top: 1rem;
     }
     input {
       padding: 0.9rem;
@@ -87,23 +85,6 @@
       border: none;
       border-radius: var(--rounded);
       cursor: pointer;
-      transition: 0.3s ease;
-    }
-    .btn:hover {
-      background: #fff;
-    }
-    .typing-dots {
-      display: inline-block;
-      font-size: 20px;
-      line-height: 1;
-    }
-    .typing-dots::after {
-      content: '...';
-      animation: blink 1s steps(1) infinite;
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 0; }
-      50% { opacity: 1; }
     }
   </style>
 </head>
@@ -111,39 +92,51 @@
   <div class="header">MXD Enterprises</div>
   <img src="https://jacoblemire.github.io/plugbot-ai/plugbot.png" alt="PlugBot" class="avatar">
   <div class="chat-box" id="chatBox">
-    <div class="msg"><strong>PlugBot here.</strong> Let’s see if you’re aligned to earn $3K–$10K/month remote. 🔍</div>
-    <div class="msg">Tap the button when you're ready to get qualified:</div>
+    <div class="msg">🔌 <strong>PlugBot</strong> here. Let’s get real about remote income. You in?</div>
     <button class="btn" onclick="startChat()">Start Qualification</button>
   </div>
-
   <script>
     const prompts = [
-      "First things first — what’s your name?",
-      "How old are you right now?",
-      "Where you based at the moment?",
+      "First up — what’s your name?",
+      "Cool. How old are you?",
+      "Where you based right now?",
       "What’s your current monthly income?",
-      "You got at least $500 saved or available?",
-      "Be real — why do you want remote income?",
+      "You got at least $500 saved or available credit?",
+      "Be honest — why are you chasing remote income?",
       "Ever tried anything online before?",
-      "What’s your freedom goal? Like, $/mo that feels good?",
+      "What’s your freedom number? Like $/mo?",
       "Drop your best email:",
-      "Last one — phone number in case we need to follow up:"
+      "Last one — phone number for follow-up:"
     ];
+
     const fields = ["name", "age", "location", "income", "savings", "reason", "experience", "goal", "email", "phone"];
     let step = 0, data = {}, spam = 0, ended = false;
+
     const chatBox = document.getElementById('chatBox');
 
-    function appendMsg(msg) {
+    function appendMsg(msg, className = '') {
       const div = document.createElement('div');
-      div.className = 'msg';
+      div.className = 'msg ' + className;
       div.innerText = msg;
       chatBox.appendChild(div);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
 
+    function appendTyping(callback) {
+      const typing = document.createElement('div');
+      typing.className = 'msg typing';
+      typing.innerText = 'PlugBot is typing';
+      chatBox.appendChild(typing);
+      chatBox.scrollTop = chatBox.scrollHeight;
+      setTimeout(() => {
+        typing.remove();
+        callback();
+      }, 900);
+    }
+
     function startChat() {
       step = 0;
-      appendMsg(prompts[step]);
+      appendTyping(() => appendMsg(prompts[step]));
       showInput();
     }
 
@@ -162,29 +155,18 @@
 
     function handleResponse(val, container) {
       if (!val || ended) return;
-      if (/[^a-zA-Z0-9\s]/.test(val) || val.length < 2) spam++;
-      if (spam >= 2) {
-        appendMsg("Looks like you're not ready for this yet. Come back when you're locked in. 💭");
-        ended = true;
-        return;
-      }
-
-      const field = fields[step];
-      data[field] = val;
+      if (/[^a-zA-Z0-9\s@.$+-]/.test(val)) spam++;
+      if (spam >= 2) return appendMsg("Come back when you're locked in. 💭");
+      data[fields[step]] = val;
       container.remove();
-      appendMsg(val);
+      appendMsg(val, 'user');
 
-      if (field === "age" && parseInt(val) < 17) {
-        appendMsg("Respect your hustle — but this is for 17+ only. Start with the free course & circle back. 🚀");
-        ended = true;
-        return;
-      }
-
-      if (field === "savings" && /no|none|zero/i.test(val)) {
-        appendMsg("Appreciate your honesty. Start with our free course and build your base:");
-        const a = document.createElement("a");
+      if (fields[step] === "age" && parseInt(val) < 17) return appendMsg("🔥 This is built for 17+ — circle back when you're ready.");
+      if (fields[step] === "savings" && /no|none|zero/i.test(val)) {
+        appendMsg("Build your base first — start here:");
+        const a = document.createElement('a');
         a.href = "https://mxdenterprises.com/free-course.html";
-        a.innerText = "Watch Free Course";
+        a.innerText = "Free Training";
         a.className = "btn";
         a.target = "_blank";
         chatBox.appendChild(a);
@@ -194,44 +176,31 @@
 
       step++;
       if (step < prompts.length) {
-        setTimeout(() => {
-          appendMsg(prompts[step]);
-          showInput();
-        }, 600);
+        appendTyping(() => appendMsg(prompts[step]));
+        showInput();
       } else {
-        appendMsg("✅ You’re locked in. Time to move different.");
-        setTimeout(() => {
-          appendMsg("🎯 This is your shot to speak with an MXD exec. Come correct.");
-          appendMsg("👇 Book your call now:");
-          const a = document.createElement("a");
-          a.href = "https://calendly.com/jadafig1";
-          a.innerText = "🎉 Book Executive Call";
-          a.className = "btn";
-          a.target = "_blank";
-          chatBox.appendChild(a);
-          confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-
-          fetch("https://plugbotsystem.jacoblemire20.repl.co/plugbot", {
+        appendTyping(() => {
+          appendMsg("You're locked in. Give me a sec to analyze your alignment...");
+          fetch("https://plugBot.system.repl.co/plugbot", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              name: data.name,
-              age: data.age,
-              savings: data.savings,
-              input: data.reason
-            })
+            body: JSON.stringify(data)
           })
           .then(res => res.json())
-          .then(response => {
-            if (response.response) {
-              appendMsg("🤖 " + response.response);
-            }
-          })
-          .catch(() => {
-            appendMsg("Something went wrong. Try again later.");
+          .then(result => {
+            appendTyping(() => {
+              appendMsg(result.response);
+              appendMsg("📅 Ready to take the next step?");
+              const a = document.createElement("a");
+              a.href = "https://calendly.com/jadafig1";
+              a.innerText = "🎯 Book Executive Call";
+              a.className = "btn";
+              a.target = "_blank";
+              chatBox.appendChild(a);
+              confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            });
           });
-
-        }, 800);
+        });
       }
     }
   </script>
