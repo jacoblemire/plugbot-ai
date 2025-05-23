@@ -3,101 +3,150 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PlugBot | MXD Enterprises</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
     :root {
       --bg: #0b0b0b;
       --text: #ffffff;
+      --accent: #3a7bfd;
+      --card: #1a1a1a;
+      --user: #333333;
       --assistant: #1f1f1f;
-      --user: #3a3a3a;
-      --accent: #ffffff;
-      --rounded: 16px;
+      --rounded: 18px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      background: var(--bg);
+      margin: 0;
       font-family: 'Inter', sans-serif;
+      background: var(--bg);
       color: var(--text);
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 1rem;
+      padding: 2rem 1rem;
       min-height: 100vh;
     }
-    .header { font-size: 1rem; opacity: 0.6; margin-bottom: 1rem; }
-    .avatar {
-      width: 120px;
-      animation: float 3s ease-in-out infinite;
+
+    .header {
+      font-size: 0.9rem;
+      opacity: 0.7;
       margin-bottom: 1rem;
     }
-    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+    .avatar {
+      width: 110px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
     .chat-box {
       width: 100%;
       max-width: 600px;
-      background: #121212;
-      padding: 1.25rem;
+      background: var(--card);
       border-radius: var(--rounded);
+      padding: 1.5rem;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 1rem;
       overflow-y: auto;
     }
+
     .msg {
-      padding: 1rem;
+      max-width: 80%;
+      padding: 0.9rem 1rem;
       border-radius: var(--rounded);
-      max-width: 75%;
-      white-space: pre-wrap;
-      line-height: 1.4;
+      line-height: 1.5;
     }
-    .assistant { background: var(--assistant); align-self: flex-start; }
-    .user { background: var(--user); align-self: flex-end; }
+
+    .assistant {
+      align-self: flex-start;
+      background: var(--assistant);
+    }
+
+    .user {
+      align-self: flex-end;
+      background: var(--user);
+    }
+
     .input-container {
-      display: flex;
+      display: none;
+      width: 100%;
+      max-width: 600px;
       margin-top: 1rem;
-      gap: 0.5rem;
+      display: flex;
+      gap: 0.75rem;
     }
+
     input {
       flex: 1;
-      padding: 0.9rem;
-      border-radius: var(--rounded);
-      background: #222;
-      border: none;
-      color: var(--text);
+      padding: 0.85rem;
+      background: #111;
+      color: #fff;
       font-size: 1rem;
-    }
-    button {
-      padding: 0.9rem 1.2rem;
       border: none;
       border-radius: var(--rounded);
-      background: var(--accent);
+    }
+
+    button {
+      background: #fff;
       color: #000;
-      font-weight: bold;
+      font-weight: 600;
+      padding: 0.85rem 1.1rem;
+      border-radius: var(--rounded);
+      border: none;
       cursor: pointer;
     }
-    .typing-dots::after {
-      content: '...';
-      animation: blink 1s steps(1) infinite;
+
+    .btn-start {
+      margin-top: 1rem;
     }
-    @keyframes blink { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+
+    .typing {
+      font-style: italic;
+      opacity: 0.6;
+      font-size: 0.95rem;
+    }
   </style>
 </head>
 <body>
   <div class="header">MXD Enterprises</div>
-  <img src="https://jacoblemire.github.io/plugbot-ai/plugbot.png" class="avatar" alt="PlugBot" />
+  <img src="https://jacoblemire.github.io/plugbot-ai/plugbot.png" class="avatar" alt="PlugBot"/>
   <div class="chat-box" id="chatBox">
-    <div class="msg assistant">🤖 <strong>PlugBot here.</strong> Let's get real about remote income. You in?</div>
+    <div class="msg assistant"><strong>🤖 PlugBot here.</strong> Let's get real about remote income. You in?</div>
+    <button class="btn-start" onclick="startChat()">Start Qualification</button>
   </div>
-  <div class="input-container">
-    <input type="text" id="userInput" placeholder="Type here..." />
+  <div class="input-container" id="inputArea">
+    <input id="userInput" type="text" placeholder="Type here..." />
     <button onclick="sendMessage()">Send</button>
   </div>
 
   <script>
+    const prompts = [
+      "First up — what's your name?",
+      "Cool. How old are you?",
+      "Where you based right now?",
+      "What’s your current monthly income?",
+      "You got $500 saved or available credit?",
+      "Be real — why you want remote income?",
+      "Ever tried anything online before?",
+      "What's your freedom goal? Like $/mo that feels good?",
+      "Drop your best email:",
+      "And lastly — phone number in case we follow up:"
+    ];
+
+    const fields = ["name", "age", "location", "income", "savings", "reason", "experience", "goal", "email", "phone"];
+    let step = 0, data = {}, ended = false;
+
     const chatBox = document.getElementById('chatBox');
     const input = document.getElementById('userInput');
+    const inputArea = document.getElementById('inputArea');
 
     function appendMessage(text, sender = 'assistant') {
       const div = document.createElement('div');
@@ -107,45 +156,61 @@
       chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    function appendTyping() {
-      const typing = document.createElement('div');
-      typing.className = 'msg assistant typing-dots';
-      typing.id = 'typing';
-      typing.innerText = 'PlugBot is typing';
-      chatBox.appendChild(typing);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    function removeTyping() {
-      const typing = document.getElementById('typing');
-      if (typing) typing.remove();
+    function startChat() {
+      document.querySelector('.btn-start').style.display = 'none';
+      inputArea.style.display = 'flex';
+      appendMessage(prompts[step], 'assistant');
     }
 
     async function sendMessage() {
       const userText = input.value.trim();
-      if (!userText) return;
+      if (!userText || ended) return;
       appendMessage(userText, 'user');
+      data[fields[step]] = userText;
       input.value = '';
-      appendTyping();
+      step++;
 
-      try {
-        const response = await fetch('https://plugbot.replit.app/plugbot', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ input: userText })
-        });
+      if (fields[step - 1] === "age" && parseInt(data.age) < 17) {
+        appendMessage("You’re a bit early for this move. Start with our free training & loop back when you're 17+ 🚀", "assistant");
+        input.disabled = true;
+        ended = true;
+        return;
+      }
 
-        const data = await response.json();
-        removeTyping();
-        appendMessage(data.response, 'assistant');
+      if (fields[step - 1] === "savings" && /no|none|zero|0/i.test(data.savings)) {
+        appendMessage("Respect for being honest. Lock in the free course, stack up, and come back ready.", "assistant");
+        const a = document.createElement("a");
+        a.href = "https://mxdenterprises.com/free-course.html";
+        a.className = "msg assistant";
+        a.innerText = "Watch Free Training";
+        a.target = "_blank";
+        chatBox.appendChild(a);
+        input.disabled = true;
+        ended = true;
+        return;
+      }
 
-        if (data.response.includes("Book Executive Call")) {
-          confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+      if (step < prompts.length) {
+        setTimeout(() => appendMessage(prompts[step], 'assistant'), 600);
+      } else {
+        appendMessage("✅ You’re qualified. Let’s move different now.");
+        setTimeout(() => {
+          appendMessage("🎯 Book a real call with an MXD exec. Bring your A-game.", "assistant");
+          const a = document.createElement("a");
+          a.href = "https://calendly.com/jadafig1";
+          a.className = "msg assistant";
+          a.innerText = "🎉 Book Executive Call";
+          a.target = "_blank";
+          chatBox.appendChild(a);
           input.disabled = true;
-        }
-      } catch (error) {
-        removeTyping();
-        appendMessage("⚠️ Something went wrong. Try again later.", 'assistant');
+          confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+
+          fetch("https://plugbot.replit.app/plugbot", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ input: JSON.stringify(data) })
+          });
+        }, 800);
       }
     }
   </script>
