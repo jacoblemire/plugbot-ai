@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PlugBot V4 | MXD Enterprises</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js">});
-});
-</script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
   <style>
     :root {
       --bg: #0b0b0b;
@@ -147,17 +145,18 @@
       <div class="input-row" id="inputRow">
         <input type="text" id="input" placeholder="Type here..." onkeydown="if(event.key==='Enter'){sendInput()}" />
       </div>
-      <button class="btn" id="startBtn" onclick="startChat()">GET QUALIFIED</button>
+      <button class="btn" id="startBtn">GET QUALIFIED</button>
     </div>
   </div>
 <script>
-window.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('DOMContentLoaded', () => {
 const input = document.getElementById("input");
 const chat = document.getElementById("chat");
 const inputRow = document.getElementById("inputRow");
 const startBtn = document.getElementById("startBtn");
 const startInfo = document.getElementById("startInfo");
+
+startBtn.onclick = startChat;
 
 const prompts = [
   "First up — what’s your name?",
@@ -286,6 +285,7 @@ async function sendInput() {
     }
   }
 }
+});
 </script>
 </body>
 </html>
