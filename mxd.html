@@ -20,6 +20,9 @@
       font-family: 'Inter', sans-serif;
       padding: 1rem;
       min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     .header {
       position: fixed; top: 20px; left: 20px;
@@ -63,6 +66,27 @@
       cursor: pointer; transition: 0.3s ease; width: 100%;
     }
     .btn:hover { background: #fff; color: #000; }
+    .typing {
+      font-size: 0.85rem;
+      opacity: 0.7;
+      animation: blink 1s infinite;
+    }
+    .final-cta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    .cta-link {
+      background: #fff;
+      color: #000;
+      padding: 0.75rem;
+      border-radius: var(--rounded);
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s ease;
+    }
+    .cta-link:hover { background: var(--accent); color: #fff; }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -75,6 +99,10 @@
     @keyframes glowPulse {
       0%, 100% { filter: drop-shadow(0 0 0px #ffffff); }
       50% { filter: drop-shadow(0 0 12px #ffffff); }
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 0.2; }
     }
   </style>
 </head>
@@ -100,7 +128,16 @@
     const inputRow = document.getElementById('inputRow');
     const input = document.getElementById('input');
     const startBtn = document.getElementById('startBtn');
-    const sessionId = Date.now().toString() + Math.random().toString(36).substring(2);
+
+    let step = 0;
+    const questions = [
+      "Yo, quick question... you ever actually thought about building remote income or doing your own thing?",
+      "Real quick — what’s your name?",
+      "How old are you?",
+      "What’s your goal with income? More freedom, travel, or just extra cash?",
+      "Ever tried building something of your own before, or would this be your first time?",
+      "Last thing — you got at least $500 saved or available in credit right now?"
+    ];
 
     function appendMessage(msg, isUser = false) {
       const msgBox = document.createElement('div');
@@ -112,7 +149,7 @@
 
     function appendTyping() {
       const typing = document.createElement('div');
-      typing.className = 'msg-box bot-msg';
+      typing.className = 'typing';
       typing.id = 'typing';
       typing.innerText = 'PlugBot is typing...';
       chat.appendChild(typing);
@@ -127,55 +164,57 @@
     function startChat() {
       startBtn.style.display = 'none';
       inputRow.style.display = 'flex';
-      appendTyping();
-
-      fetch('https://94bc3c6c-e11b-4c7f-819f-625beecf2d0f-00-3kwvsei4enxro.janeway.replit.dev/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId, message: 'start' })
-      })
-      .then(res => res.json())
-      .then(data => {
-        removeTyping();
-        if (data && data.response) {
-          appendMessage(data.response);
-        } else {
-          appendMessage("Something went wrong. Try again.");
-        }
-      })
-      .catch(err => {
-        removeTyping();
-        appendMessage("Server error. Try again.");
-        console.error(err);
-      });
+      appendMessage(questions[step]);
     }
 
     function sendInput() {
-      const message = input.value.trim();
-      if (!message) return;
-      appendMessage(message, true);
+      const userInput = input.value.trim();
+      if (!userInput) return;
+      appendMessage(userInput, true);
       input.value = '';
       appendTyping();
 
-      fetch('https://94bc3c6c-e11b-4c7f-819f-625beecf2d0f-00-3kwvsei4enxro.janeway.replit.dev/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId, message })
-      })
-      .then(res => res.json())
-      .then(data => {
+      setTimeout(() => {
         removeTyping();
-        if (data && data.response) {
-          appendMessage(data.response);
-        } else {
-          appendMessage("Something went wrong. Try again.");
+        if (step === 0) {
+          appendMessage("Bet, that’s the type of energy I like 🔒");
+        } else if (step === 1) {
+          appendMessage(`Good to meet you, ${userInput} 🙌`);
+        } else if (step === 2) {
+          const age = parseInt(userInput);
+          if (age < 17) {
+            appendMessage("Hey, keep grinding! We only work with people 17+, but you’ll be ready soon.");
+            inputRow.style.display = 'none';
+            return;
+          }
+          appendMessage(`Fire. You’re ahead of the game at ${age} 💼`);
+        } else if (step === 3) {
+          appendMessage(`Respect — ${userInput}. That’s why a lot of people start with us.`);
+        } else if (step === 4) {
+          appendMessage("Got it. That helps me understand where you're coming from 💡");
+        } else if (step === 5) {
+          if (userInput.toLowerCase().includes('no')) {
+            appendMessage("Thanks for being real! You’d need at least $500 ready to get started — come back soon!");
+            inputRow.style.display = 'none';
+            return;
+          }
+          appendMessage("Locked in 🔐 That’s all I needed to know. Let’s map this out for real.");
+          const ctaDiv = document.createElement('div');
+          ctaDiv.className = 'final-cta';
+          ctaDiv.innerHTML = `
+            <a class="cta-link" href="https://calendly.com/jadafig1" target="_blank">📅 Book a Call on Calendly</a>
+            <a class="cta-link" href="https://whop.com/checkout/plan_AdfT42YiEJpCa?d2c=true" target="_blank">🚀 Join MXD Academy on Whop</a>
+          `;
+          chat.appendChild(ctaDiv);
+          inputRow.style.display = 'none';
+          chat.scrollTop = chat.scrollHeight;
+          return;
         }
-      })
-      .catch(err => {
-        removeTyping();
-        appendMessage("Server error. Try again.");
-        console.error(err);
-      });
+        step++;
+        if (step < questions.length) {
+          appendMessage(questions[step]);
+        }
+      }, 800);
     }
   </script>
 </body>
