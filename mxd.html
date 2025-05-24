@@ -192,6 +192,7 @@
       startBtn.style.display = 'none';
       inputRow.style.display = 'flex';
       appendTyping();
+
       fetch('https://plugbotsystem.jacoblemire20.repl.co/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -205,6 +206,11 @@
         } else {
           appendMessage("Something went wrong. Try again.");
         }
+      })
+      .catch(err => {
+        removeTyping();
+        appendMessage("Server error. Try again.");
+        console.error(err);
       });
     }
 
@@ -214,6 +220,7 @@
       appendMessage(message, true);
       input.value = '';
       appendTyping();
+
       fetch('https://plugbotsystem.jacoblemire20.repl.co/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -227,6 +234,11 @@
         } else {
           appendMessage("Something went wrong. Try again.");
         }
+      })
+      .catch(err => {
+        removeTyping();
+        appendMessage("Server error. Try again.");
+        console.error(err);
       });
     }
   </script>
