@@ -13,6 +13,12 @@
       --card: #1a1a1a;
       --rounded: 16px;
     }
+    [data-theme='light'] {
+      --bg: #ffffff;
+      --text: #000000;
+      --accent: #000000;
+      --card: #f0f0f0;
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background-color: var(--bg);
@@ -24,22 +30,37 @@
       justify-content: center;
       align-items: center;
       overflow-x: hidden;
+      transition: background-color 0.3s, color 0.3s;
+      position: relative;
     }
     .header {
       position: fixed; top: 20px; left: 20px;
       font-weight: 600; font-size: 1rem; opacity: 0.8;
+      z-index: 2;
     }
+    .theme-toggle, .mute-toggle {
+      position: fixed; top: 20px;
+      background: none; border: 2px solid var(--text);
+      color: var(--text); padding: 0.5rem 1rem;
+      border-radius: var(--rounded);
+      cursor: pointer; font-weight: 600;
+      z-index: 2;
+    }
+    .theme-toggle { right: 80px; }
+    .mute-toggle { right: 20px; }
     .avatar-bg {
       position: absolute; top: 20px; left: 50%;
       transform: translateX(-50%);
       animation: floatBot 4s ease-in-out infinite, glowPulse 3s ease-in-out infinite;
       pointer-events: none;
+      z-index: 2;
     }
     .avatar-bg img { width: 150px; }
     .interface {
       display: flex; flex-direction: column; align-items: center;
       text-align: center; gap: 1rem; max-width: 480px; margin: 0 auto;
       padding-top: 200px; position: relative;
+      z-index: 2;
     }
     .progress {
       width: 100%; background: #333; border-radius: var(--rounded);
@@ -69,12 +90,18 @@
       padding: 1rem; border-radius: var(--rounded); border: none;
       background: #111; color: #fff; font-size: 1rem; width: 100%;
     }
+    [data-theme='light'] input {
+      background: #ddd; color: #000;
+    }
     .btn {
       background: #000; color: #fff; font-weight: 700; border: 1px solid #fff;
       border-radius: var(--rounded); padding: 1rem; font-size: 1rem;
       cursor: pointer; transition: 0.3s ease; width: 100%;
     }
-    .btn:hover { background: #fff; color: #000; }
+    [data-theme='light'] .btn {
+      background: #fff; color: #000; border: 1px solid #000;
+    }
+    .btn:hover { background: var(--text); color: var(--bg); }
     .typing {
       font-size: 0.85rem;
       opacity: 0.7;
@@ -96,6 +123,27 @@
       transition: 0.3s ease;
     }
     .cta-link:hover { background: var(--accent); color: #fff; }
+
+    @media (max-width: 480px) {
+      .avatar-bg img { width: 100px; }
+      .interface {
+        padding-top: 150px;
+        gap: 1rem;
+      }
+      .msg-box {
+        font-size: 0.85rem;
+        max-width: 100%;
+      }
+      input {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+      }
+      .btn {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+      }
+    }
+
     @keyframes bubbleIn {
       from { opacity: 0; transform: scale(0.95); }
       to { opacity: 1; transform: scale(1); }
@@ -117,6 +165,8 @@
 </head>
 <body>
   <div class="header">MXD Enterprises</div>
+  <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+  <button class="mute-toggle" onclick="toggleMute()">🔊</button>
   <div class="avatar-bg">
     <img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot" />
   </div>
@@ -133,118 +183,169 @@
     <button class="btn" id="startBtn" onclick="startChat()">GET QUALIFIED</button>
   </div>
 
-  <script>
-    const chat = document.getElementById('chat');
-    const inputRow = document.getElementById('inputRow');
-    const input = document.getElementById('input');
-    const startBtn = document.getElementById('startBtn');
-    const progressBar = document.getElementById('progressBar');
+  <!-- 🚀 Part B + Part C script will go here -->
+  <!-- 👇 Place this above </body> in your mxd.html file -->
+<script>
+// === PLUGBOT FULL SCRIPT ===
+const chat = document.getElementById('chat');
+const inputRow = document.getElementById('inputRow');
+const input = document.getElementById('input');
+const startBtn = document.getElementById('startBtn');
+const progressBar = document.getElementById('progressBar');
+const themeToggle = document.querySelector('.theme-toggle');
+const muteToggle = document.querySelector('.mute-toggle');
+let muted = false;
 
-    let step = 0;
-    const questions = [
-      "Yo, quick question... you ever actually thought about building remote income or doing your own thing?",
-      "Real quick — what’s your name?",
-      "How old are you?",
-      "What’s your goal with income? More freedom, travel, or just extra cash?",
-      "Ever tried building something of your own before, or would this be your first time?",
-      "What excites you most about this opportunity so far?",
-      "If we told you you seem aligned, would you be ready to book a real meeting with one of our top executives or coaches? (Note: These meetings are limited — come prepared, look sharp, and be ready to seriously plan how to hit $5–10K/month!)",
-      "Last thing — you got at least $500 saved or available in credit right now?"
-    ];
+const questions = [
+  "Yo, quick question... you ever actually thought about building remote income or doing your own thing?",
+  "Real quick — what’s your name?",
+  "How old are you?",
+  "What’s your goal with income? More freedom, travel, or just extra cash?",
+  "Ever tried building something of your own before, or would this be your first time?",
+  "What excites you most about this opportunity so far?",
+  "If we told you you seem aligned, would you be ready to book a real meeting with one of our top executives or coaches? (Note: These meetings are limited — come prepared, look sharp, and take this seriously if you want to earn $5–10K/month!)",
+  "Last thing — you got at least $500 saved or available in credit right now?"
+];
 
-    function appendMessage(msg, isUser = false) {
-      const msgBox = document.createElement('div');
-      msgBox.className = 'msg-box ' + (isUser ? 'user-msg' : 'bot-msg');
-      msgBox.innerText = msg;
-      chat.appendChild(msgBox);
+let step = 0;
+
+function playSound(src) {
+  if (!muted) {
+    const sound = new Audio(src);
+    sound.play();
+  }
+}
+
+function toggleMute() {
+  muted = !muted;
+  muteToggle.textContent = muted ? '🔇' : '🔊';
+}
+
+function appendMessage(msg, isUser = false) {
+  const msgBox = document.createElement('div');
+  msgBox.className = 'msg-box ' + (isUser ? 'user-msg' : 'bot-msg');
+  msgBox.innerText = msg;
+  chat.appendChild(msgBox);
+  chat.scrollTop = chat.scrollHeight;
+  playSound(isUser
+    ? 'https://actions.google.com/sounds/v1/alarms/beep_short.ogg'
+    : 'https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg');
+}
+
+function appendTyping() {
+  const typing = document.createElement('div');
+  typing.className = 'typing';
+  typing.id = 'typing';
+  typing.innerText = 'PlugBot is typing...';
+  chat.appendChild(typing);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function removeTyping() {
+  const typing = document.getElementById('typing');
+  if (typing) typing.remove();
+}
+
+function updateProgress() {
+  const percent = ((step + 1) / questions.length) * 100;
+  progressBar.style.width = percent + '%';
+}
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme');
+  const next = current === 'light' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', next);
+  themeToggle.textContent = next === 'light' ? '🌙' : '☀️';
+  localStorage.setItem('theme', next);
+}
+
+window.onload = () => {
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  themeToggle.textContent = savedTheme === 'light' ? '🌙' : '☀️';
+};
+
+function startChat() {
+  startBtn.style.display = 'none';
+  inputRow.style.display = 'flex';
+  appendMessage(questions[step]);
+  updateProgress();
+}
+
+function sendInput() {
+  const userInput = input.value.trim();
+  if (!userInput) return;
+  appendMessage(userInput, true);
+  input.value = '';
+  appendTyping();
+
+  setTimeout(() => {
+    removeTyping();
+    let mirrorResponse = '';
+
+    if (step === 0) {
+      mirrorResponse = "Bet, that’s the type of energy I like 🔒";
+    } else if (step === 1) {
+      mirrorResponse = `Good to meet you, ${userInput} 🙌`;
+    } else if (step === 2) {
+      const age = parseInt(userInput);
+      if (age < 17) {
+        appendMessage("Hey, keep grinding! We only work with people 17+, but you’ll be ready soon.");
+        inputRow.style.display = 'none';
+        return;
+      }
+      mirrorResponse = `Fire. You’re ahead of the game at ${age} 💼`;
+    } else if (step === 3) {
+      mirrorResponse = `Respect — wanting ${userInput} is why a lot of people start with us.`;
+    } else if (step === 4) {
+      if (userInput.toLowerCase().includes('first')) {
+        mirrorResponse = "Got it. First-timers usually crush it here 💡";
+      } else {
+        mirrorResponse = "Nice, some experience already — love that energy! 🚀";
+      }
+    } else if (step === 5) {
+      mirrorResponse = `Love that — getting hyped about ${userInput} is exactly what helps people win here ⚡`;
+    } else if (step === 6) {
+      mirrorResponse = "Perfect. This is a legit opportunity — our executives' time is limited, so come prepared, look fresh, and take this seriously if you want to earn $5–10K/month 💼🔥";
+    } else if (step === 7) {
+      if (userInput.toLowerCase().includes('no')) {
+        appendMessage("Thanks for being real! You’d need at least $500 ready to get started — come back soon!");
+        inputRow.style.display = 'none';
+        return;
+      }
+      mirrorResponse = "🎉 Locked in! Let’s map this out for real.";
+      const ctaDiv = document.createElement('div');
+      ctaDiv.className = 'final-cta';
+      ctaDiv.innerHTML = `
+        <a class="cta-link" href="https://calendly.com/jadafig1" target="_blank">📅 Book a Call on Calendly</a>
+        <a class="cta-link" href="https://whop.com/checkout/plan_AdfT42YiEJpCa?d2c=true" target="_blank">🚀 Join MXD Academy on Whop</a>
+      `;
+      chat.appendChild(ctaDiv);
+      inputRow.style.display = 'none';
       chat.scrollTop = chat.scrollHeight;
+      confettiEffect();
+      return;
     }
 
-    function appendTyping() {
-      const typing = document.createElement('div');
-      typing.className = 'typing';
-      typing.id = 'typing';
-      typing.innerText = 'PlugBot is typing...';
-      chat.appendChild(typing);
-      chat.scrollTop = chat.scrollHeight;
-    }
-
-    function removeTyping() {
-      const typing = document.getElementById('typing');
-      if (typing) typing.remove();
-    }
-
-    function updateProgress() {
-      const percent = ((step + 1) / questions.length) * 100;
-      progressBar.style.width = percent + '%';
-    }
-
-    function startChat() {
-      startBtn.style.display = 'none';
-      inputRow.style.display = 'flex';
+    appendMessage(mirrorResponse);
+    step++;
+    updateProgress();
+    if (step < questions.length) {
       appendMessage(questions[step]);
-      updateProgress();
     }
+  }, 800);
+}
 
-    function sendInput() {
-      const userInput = input.value.trim();
-      if (!userInput) return;
-      appendMessage(userInput, true);
-      input.value = '';
-      appendTyping();
+function confettiEffect() {
+  if (typeof confetti === 'function') {
+    confetti({
+      particleCount: 150,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+  }
+}
+</script>
 
-      setTimeout(() => {
-        removeTyping();
-        if (step === 0) {
-          appendMessage("Bet, that’s the type of energy I like 🔒");
-        } else if (step === 1) {
-          appendMessage(`Good to meet you, ${userInput} 🙌`);
-        } else if (step === 2) {
-          const age = parseInt(userInput);
-          if (age < 17) {
-            appendMessage("Hey, keep grinding! We only work with people 17+, but you’ll be ready soon.");
-            inputRow.style.display = 'none';
-            return;
-          }
-          appendMessage(`Fire. You’re ahead of the game at ${age} 💼`);
-        } else if (step === 3) {
-          appendMessage(`Respect — ${userInput}. That’s why a lot of people start with us.`);
-        } else if (step === 4) {
-          appendMessage("Got it. That helps me understand where you're coming from 💡");
-        } else if (step === 5) {
-          appendMessage("Love that energy! You sound aligned with the kind of people we help scale up 🚀");
-        } else if (step === 6) {
-          appendMessage("Perfect. This is a legit opportunity — our executives' time is limited, so come prepared, look fresh, and take this seriously if you want to earn $5–10K/month 💼🔥");
-        } else if (step === 7) {
-          if (userInput.toLowerCase().includes('no')) {
-            appendMessage("Thanks for being real! You’d need at least $500 ready to get started — come back soon!");
-            inputRow.style.display = 'none';
-            return;
-          }
-          appendMessage("🎉 Locked in! Let’s map this out for real.");
-          const ctaDiv = document.createElement('div');
-          ctaDiv.className = 'final-cta';
-          ctaDiv.innerHTML = `
-            <a class="cta-link" href="https://calendly.com/jadafig1" target="_blank">📅 Book a Call on Calendly</a>
-            <a class="cta-link" href="https://whop.com/checkout/plan_AdfT42YiEJpCa?d2c=true" target="_blank">🚀 Join MXD Academy on Whop</a>
-          `;
-          chat.appendChild(ctaDiv);
-          inputRow.style.display = 'none';
-          chat.scrollTop = chat.scrollHeight;
-          confettiEffect();
-          return;
-        }
-        step++;
-        updateProgress();
-        if (step < questions.length) {
-          appendMessage(questions[step]);
-        }
-      }, 800);
-    }
-
-    function confettiEffect() {
-      alert('🎉 Congratulations! This is where confetti would fire!');
-    }
-  </script>
 </body>
 </html>
