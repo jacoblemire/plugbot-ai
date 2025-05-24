@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PlugBot V4 | MXD Enterprises</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PlugBot | MXD Enterprises</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
   <style>
     :root {
       --bg: #0b0b0b;
@@ -14,24 +13,18 @@
       --card: #1a1a1a;
       --rounded: 16px;
     }
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background-color: var(--bg);
       color: var(--text);
       font-family: 'Inter', sans-serif;
-      min-height: 100vh;
       padding: 1rem;
-      position: relative;
+      min-height: 100vh;
     }
     .header {
       position: fixed;
       top: 20px;
       left: 20px;
-      color: #fff;
       font-weight: 600;
       font-size: 1rem;
       opacity: 0.8;
@@ -42,9 +35,9 @@
       top: 20px;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 0;
-      pointer-events: none;
       animation: floatBot 4s ease-in-out infinite, glowPulse 3s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
     }
     .avatar-bg img {
       width: 150px;
@@ -55,12 +48,11 @@
       align-items: center;
       text-align: center;
       gap: 1.5rem;
-      width: 100%;
       max-width: 480px;
       margin: 0 auto;
       padding-top: 200px;
-      z-index: 2;
       position: relative;
+      z-index: 2;
     }
     .chat-section {
       background: var(--card);
@@ -72,7 +64,6 @@
       gap: 1rem;
       max-height: 70vh;
       overflow-y: auto;
-      scroll-behavior: smooth;
     }
     .msg-box {
       background: rgba(255, 255, 255, 0.07);
@@ -80,8 +71,12 @@
       border-radius: var(--rounded);
       font-size: 0.95rem;
       line-height: 1.4;
-      text-align: left;
       animation: fadeIn 0.3s ease;
+      text-align: left;
+    }
+    .user-msg {
+      align-self: flex-end;
+      background: rgba(255, 255, 255, 0.15);
     }
     .input-row {
       display: none;
@@ -106,16 +101,11 @@
       font-size: 1rem;
       cursor: pointer;
       transition: 0.3s ease;
-      text-align: center;
       width: 100%;
     }
     .btn:hover {
       background: #fff;
       color: #000;
-    }
-    .typing {
-      font-style: italic;
-      opacity: 0.7;
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
@@ -134,22 +124,81 @@
 </head>
 <body>
   <div class="header">MXD Enterprises</div>
-  <div class="avatar-bg"><img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot"></div>
+  <div class="avatar-bg"><img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot" /></div>
+
   <div class="interface">
     <div class="chat-section" id="chat">
       <div class="msg-box"><strong>Get Qualified for MXD Sales Academy</strong></div>
       <div class="msg-box">Learn how to earn $3K–$10K/month remotely through high-ticket sales — even if you’ve never done this before.</div>
-      <div id="startInfo" style="display:none">
-        <div class="msg-box">We’ll ask a few quick questions to see if this is a fit. Be real — and if you’re serious, don’t leave anything blank.</div>
-      </div>
-      <div class="input-row" id="inputRow">
-        <input type="text" id="input" placeholder="Type here..." onkeydown="if(event.key==='Enter'){sendInput()}" />
-      </div>
-      <button class="btn" id="startBtn" onclick="startChat()">GET QUALIFIED</button>
     </div>
+    <div class="input-row" id="inputRow">
+      <input type="text" id="input" placeholder="Type here..." onkeydown="if(event.key==='Enter'){sendInput()}" />
+    </div>
+    <button class="btn" id="startBtn" onclick="startChat()">GET QUALIFIED</button>
   </div>
-<script>
-// Code inside script (omitted here for brevity - uses correct startChat, sendInput, Replit POST)
-</script>
+
+  <script>
+    const chat = document.getElementById('chat');
+    const inputRow = document.getElementById('inputRow');
+    const input = document.getElementById('input');
+    const startBtn = document.getElementById('startBtn');
+    const sessionId = Date.now().toString() + Math.random().toString(36).substring(2);
+
+    function appendMessage(msg, isUser = false) {
+      const msgBox = document.createElement('div');
+      msgBox.className = 'msg-box' + (isUser ? ' user-msg' : '');
+      msgBox.innerText = msg;
+      chat.appendChild(msgBox);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function appendTyping() {
+      const typing = document.createElement('div');
+      typing.className = 'msg-box';
+      typing.id = 'typing';
+      typing.innerText = 'PlugBot is typing...';
+      chat.appendChild(typing);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function removeTyping() {
+      const typing = document.getElementById('typing');
+      if (typing) typing.remove();
+    }
+
+    function startChat() {
+      startBtn.style.display = 'none';
+      inputRow.style.display = 'flex';
+      appendTyping();
+      fetch('https://plugbotsystem.jacoblemire20.repl.co/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId, message: 'start' })
+      })
+      .then(res => res.json())
+      .then(data => {
+        removeTyping();
+        appendMessage(data.response);
+      });
+    }
+
+    function sendInput() {
+      const message = input.value.trim();
+      if (!message) return;
+      appendMessage(message, true);
+      input.value = '';
+      appendTyping();
+      fetch('https://plugbotsystem.jacoblemire20.repl.co/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId, message })
+      })
+      .then(res => res.json())
+      .then(data => {
+        removeTyping();
+        appendMessage(data.response);
+      });
+    }
+  </script>
 </body>
 </html>
