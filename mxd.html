@@ -14,11 +14,7 @@
       --rounded: 16px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background-color: var(--bg);
@@ -204,7 +200,11 @@
       .then(res => res.json())
       .then(data => {
         removeTyping();
-        appendMessage(data.response);
+        if (data && data.response) {
+          appendMessage(data.response);
+        } else {
+          appendMessage("Something went wrong. Try again.");
+        }
       });
     }
 
@@ -222,7 +222,11 @@
       .then(res => res.json())
       .then(data => {
         removeTyping();
-        appendMessage(data.response);
+        if (data && data.response) {
+          appendMessage(data.response);
+        } else {
+          appendMessage("Something went wrong. Try again.");
+        }
       });
     }
   </script>
