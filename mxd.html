@@ -13,7 +13,13 @@
       --card: #1a1a1a;
       --rounded: 16px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       background-color: var(--bg);
       color: var(--text);
@@ -21,6 +27,7 @@
       padding: 1rem;
       min-height: 100vh;
     }
+
     .header {
       position: fixed;
       top: 20px;
@@ -30,6 +37,7 @@
       opacity: 0.8;
       z-index: 1000;
     }
+
     .avatar-bg {
       position: absolute;
       top: 20px;
@@ -39,9 +47,11 @@
       pointer-events: none;
       z-index: 0;
     }
+
     .avatar-bg img {
       width: 150px;
     }
+
     .interface {
       display: flex;
       flex-direction: column;
@@ -54,6 +64,7 @@
       position: relative;
       z-index: 2;
     }
+
     .chat-section {
       background: var(--card);
       border-radius: 24px;
@@ -65,6 +76,7 @@
       max-height: 70vh;
       overflow-y: auto;
     }
+
     .msg-box {
       background: rgba(255, 255, 255, 0.07);
       padding: 0.9rem 1.1rem;
@@ -72,17 +84,25 @@
       font-size: 0.95rem;
       line-height: 1.4;
       animation: fadeIn 0.3s ease;
-      text-align: left;
+      max-width: 80%;
     }
+
     .user-msg {
       align-self: flex-end;
       background: rgba(255, 255, 255, 0.15);
     }
+
+    .bot-msg {
+      align-self: flex-start;
+    }
+
     .input-row {
       display: none;
       flex-direction: column;
       gap: 0.75rem;
+      width: 100%;
     }
+
     input {
       padding: 1rem;
       border-radius: var(--rounded);
@@ -90,7 +110,9 @@
       background: #111;
       color: #fff;
       font-size: 1rem;
+      width: 100%;
     }
+
     .btn {
       background: #000;
       color: #fff;
@@ -103,19 +125,23 @@
       transition: 0.3s ease;
       width: 100%;
     }
+
     .btn:hover {
       background: #fff;
       color: #000;
     }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
     @keyframes floatBot {
       0% { transform: translateY(0px); }
       50% { transform: translateY(-8px); }
       100% { transform: translateY(0px); }
     }
+
     @keyframes glowPulse {
       0%, 100% { filter: drop-shadow(0 0 0px #ffffff); }
       50% { filter: drop-shadow(0 0 12px #ffffff); }
@@ -128,8 +154,8 @@
 
   <div class="interface">
     <div class="chat-section" id="chat">
-      <div class="msg-box"><strong>Get Qualified for MXD Sales Academy</strong></div>
-      <div class="msg-box">Learn how to earn $3K–$10K/month remotely through high-ticket sales — even if you’ve never done this before.</div>
+      <div class="msg-box bot-msg"><strong>Get Qualified for MXD Sales Academy</strong></div>
+      <div class="msg-box bot-msg">Learn how to earn $3K–$10K/month remotely through high-ticket sales — even if you’ve never done this before.</div>
     </div>
     <div class="input-row" id="inputRow">
       <input type="text" id="input" placeholder="Type here..." onkeydown="if(event.key==='Enter'){sendInput()}" />
@@ -146,7 +172,7 @@
 
     function appendMessage(msg, isUser = false) {
       const msgBox = document.createElement('div');
-      msgBox.className = 'msg-box' + (isUser ? ' user-msg' : '');
+      msgBox.className = 'msg-box ' + (isUser ? 'user-msg' : 'bot-msg');
       msgBox.innerText = msg;
       chat.appendChild(msgBox);
       chat.scrollTop = chat.scrollHeight;
@@ -154,7 +180,7 @@
 
     function appendTyping() {
       const typing = document.createElement('div');
-      typing.className = 'msg-box';
+      typing.className = 'msg-box bot-msg';
       typing.id = 'typing';
       typing.innerText = 'PlugBot is typing...';
       chat.appendChild(typing);
