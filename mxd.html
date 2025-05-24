@@ -13,9 +13,7 @@
       --card: #1a1a1a;
       --rounded: 16px;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       background-color: var(--bg);
       color: var(--text);
@@ -23,121 +21,57 @@
       padding: 1rem;
       min-height: 100vh;
     }
-
     .header {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      font-weight: 600;
-      font-size: 1rem;
-      opacity: 0.8;
-      z-index: 1000;
+      position: fixed; top: 20px; left: 20px;
+      font-weight: 600; font-size: 1rem; opacity: 0.8;
     }
-
     .avatar-bg {
-      position: absolute;
-      top: 20px;
-      left: 50%;
+      position: absolute; top: 20px; left: 50%;
       transform: translateX(-50%);
       animation: floatBot 4s ease-in-out infinite, glowPulse 3s ease-in-out infinite;
       pointer-events: none;
-      z-index: 0;
     }
-
-    .avatar-bg img {
-      width: 150px;
-    }
-
+    .avatar-bg img { width: 150px; }
     .interface {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 1.5rem;
-      max-width: 480px;
-      margin: 0 auto;
-      padding-top: 200px;
-      position: relative;
-      z-index: 2;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; gap: 1.5rem; max-width: 480px; margin: 0 auto;
+      padding-top: 200px; position: relative;
     }
-
     .chat-section {
-      background: var(--card);
-      border-radius: 24px;
-      padding: 1.5rem;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      max-height: 70vh;
-      overflow-y: auto;
+      background: var(--card); border-radius: 24px; padding: 1.5rem;
+      width: 100%; display: flex; flex-direction: column; gap: 1rem;
+      max-height: 70vh; overflow-y: auto;
     }
-
     .msg-box {
       background: rgba(255, 255, 255, 0.07);
-      padding: 0.9rem 1.1rem;
-      border-radius: var(--rounded);
-      font-size: 0.95rem;
-      line-height: 1.4;
+      padding: 0.9rem 1.1rem; border-radius: var(--rounded);
+      font-size: 0.95rem; line-height: 1.4; max-width: 80%;
       animation: fadeIn 0.3s ease;
-      max-width: 80%;
     }
-
-    .user-msg {
-      align-self: flex-end;
-      background: rgba(255, 255, 255, 0.15);
-    }
-
-    .bot-msg {
-      align-self: flex-start;
-    }
-
+    .user-msg { align-self: flex-end; background: rgba(255, 255, 255, 0.15); }
+    .bot-msg { align-self: flex-start; }
     .input-row {
-      display: none;
-      flex-direction: column;
-      gap: 0.75rem;
-      width: 100%;
+      display: none; flex-direction: column; gap: 0.75rem; width: 100%;
     }
-
     input {
-      padding: 1rem;
-      border-radius: var(--rounded);
-      border: none;
-      background: #111;
-      color: #fff;
-      font-size: 1rem;
-      width: 100%;
+      padding: 1rem; border-radius: var(--rounded); border: none;
+      background: #111; color: #fff; font-size: 1rem; width: 100%;
     }
-
     .btn {
-      background: #000;
-      color: #fff;
-      font-weight: 700;
-      border: 1px solid #fff;
-      border-radius: var(--rounded);
-      padding: 1rem;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: 0.3s ease;
-      width: 100%;
+      background: #000; color: #fff; font-weight: 700; border: 1px solid #fff;
+      border-radius: var(--rounded); padding: 1rem; font-size: 1rem;
+      cursor: pointer; transition: 0.3s ease; width: 100%;
     }
-
-    .btn:hover {
-      background: #fff;
-      color: #000;
-    }
-
+    .btn:hover { background: #fff; color: #000; }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     @keyframes floatBot {
       0% { transform: translateY(0px); }
       50% { transform: translateY(-8px); }
       100% { transform: translateY(0px); }
     }
-
     @keyframes glowPulse {
       0%, 100% { filter: drop-shadow(0 0 0px #ffffff); }
       50% { filter: drop-shadow(0 0 12px #ffffff); }
@@ -195,7 +129,7 @@
       inputRow.style.display = 'flex';
       appendTyping();
 
-      fetch('https://jacoblemire20-plugbotsystem.replit.app/chat', {
+      fetch('https://jacoblemire20-plugbotsystem.repl.co/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sessionId, message: 'start' })
@@ -223,7 +157,7 @@
       input.value = '';
       appendTyping();
 
-      fetch('https://jacoblemire20-plugbotsystem.replit.app/chat', {
+      fetch('https://jacoblemire20-plugbotsystem.repl.co/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sessionId, message })
