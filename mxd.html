@@ -32,6 +32,8 @@
       overflow-x: hidden;
       transition: background-color 0.3s, color 0.3s;
       position: relative;
+      background: radial-gradient(circle at center, #0b0b0b, #050505);
+      background-size: cover;
     }
     .header {
       position: fixed; top: 20px; left: 20px;
@@ -74,6 +76,7 @@
       background: var(--card); border-radius: 24px; padding: 1.5rem;
       width: 100%; display: flex; flex-direction: column; gap: 1rem;
       max-height: 70vh; overflow-y: auto;
+      box-shadow: 0 0 20px rgba(255,255,255,0.1);
     }
     .msg-box {
       background: rgba(255, 255, 255, 0.07);
@@ -182,11 +185,10 @@
     </div>
     <button class="btn" id="startBtn" onclick="startChat()">GET QUALIFIED</button>
   </div>
-
-  <!-- 🚀 Part B + Part C script will go here -->
-  <!-- 👇 Place this above </body> in your mxd.html file -->
 <script>
-// === PLUGBOT FULL SCRIPT ===
+// === PLUGBOT SCRIPT START ===
+
+// Grab elements
 const chat = document.getElementById('chat');
 const inputRow = document.getElementById('inputRow');
 const input = document.getElementById('input');
@@ -196,19 +198,19 @@ const themeToggle = document.querySelector('.theme-toggle');
 const muteToggle = document.querySelector('.mute-toggle');
 let muted = false;
 
+// Define upgraded, smoother, more human questions
 const questions = [
-  "Yo, quick question... you ever actually thought about building remote income or doing your own thing?",
-  "Real quick — what’s your name?",
-  "How old are you?",
-  "What’s your goal with income? More freedom, travel, or just extra cash?",
-  "Ever tried building something of your own before, or would this be your first time?",
+  "Hey, just curious — have you ever thought about working for yourself or earning income online?",
+  "Awesome. What’s your first name?",
+  "Thanks, [name]! And how old are you?",
+  "What’s motivating you most right now — more freedom, travel, or stacking extra income?",
+  "Have you ever tried to build something on your own before, or would this be your first time?",
   "What excites you most about this opportunity so far?",
-  "If we told you you seem aligned, would you be ready to book a real meeting with one of our top executives or coaches? (Note: These meetings are limited — come prepared, look sharp, and take this seriously if you want to earn $5–10K/month!)",
-  "Last thing — you got at least $500 saved or available in credit right now?"
+  "If I told you you seem like a good fit, would you be open to booking a real meeting with one of our coaches? (These calls are limited, so only book if you're ready to show up sharp and focused!)",
+  "Last step — do you currently have at least $500 saved or available in credit to get started?"
 ];
 
 let step = 0;
-
 function playSound(src) {
   if (!muted) {
     const sound = new Audio(src);
@@ -236,7 +238,7 @@ function appendTyping() {
   const typing = document.createElement('div');
   typing.className = 'typing';
   typing.id = 'typing';
-  typing.innerText = 'PlugBot is typing...';
+  typing.innerText = 'PlugBot is thinking...';
   chat.appendChild(typing);
   chat.scrollTop = chat.scrollHeight;
 }
@@ -271,7 +273,6 @@ function startChat() {
   appendMessage(questions[step]);
   updateProgress();
 }
-
 function sendInput() {
   const userInput = input.value.trim();
   if (!userInput) return;
@@ -284,36 +285,36 @@ function sendInput() {
     let mirrorResponse = '';
 
     if (step === 0) {
-      mirrorResponse = "Bet, that’s the type of energy I like 🔒";
+      mirrorResponse = "Nice, love that mindset 🔒";
     } else if (step === 1) {
-      mirrorResponse = `Good to meet you, ${userInput} 🙌`;
+      mirrorResponse = `Great to meet you, ${userInput}! 🙌`;
     } else if (step === 2) {
       const age = parseInt(userInput);
       if (age < 17) {
-        appendMessage("Hey, keep grinding! We only work with people 17+, but you’ll be ready soon.");
+        appendMessage("Hey, you’re a bit early! We only work with 17+, but keep learning — you’ll be ready soon 🚀");
         inputRow.style.display = 'none';
         return;
       }
-      mirrorResponse = `Fire. You’re ahead of the game at ${age} 💼`;
+      mirrorResponse = `Awesome, ${age} is a great age to be jumping in 💼`;
     } else if (step === 3) {
-      mirrorResponse = `Respect — wanting ${userInput} is why a lot of people start with us.`;
+      mirrorResponse = `Love that — aiming for ${userInput} is what drives most of our top earners ⚡`;
     } else if (step === 4) {
       if (userInput.toLowerCase().includes('first')) {
-        mirrorResponse = "Got it. First-timers usually crush it here 💡";
+        mirrorResponse = "Got it — first-timers often crush it here 💡";
       } else {
-        mirrorResponse = "Nice, some experience already — love that energy! 🚀";
+        mirrorResponse = "Nice, sounds like you’ve got some experience under your belt! 🚀";
       }
     } else if (step === 5) {
-      mirrorResponse = `Love that — getting hyped about ${userInput} is exactly what helps people win here ⚡`;
+      mirrorResponse = `Exciting — being hyped about ${userInput} is exactly the right energy 🔥`;
     } else if (step === 6) {
-      mirrorResponse = "Perfect. This is a legit opportunity — our executives' time is limited, so come prepared, look fresh, and take this seriously if you want to earn $5–10K/month 💼🔥";
+      mirrorResponse = "Perfect. This is a serious opportunity, so only book if you’re ready to show up sharp and focused 💼🔥";
     } else if (step === 7) {
       if (userInput.toLowerCase().includes('no')) {
-        appendMessage("Thanks for being real! You’d need at least $500 ready to get started — come back soon!");
+        appendMessage("Thanks for being upfront! You’ll need at least $500 ready to get started — come back when you’re set 💪");
         inputRow.style.display = 'none';
         return;
       }
-      mirrorResponse = "🎉 Locked in! Let’s map this out for real.";
+      mirrorResponse = "🎉 Locked in! Let’s get you mapped out for success.";
       const ctaDiv = document.createElement('div');
       ctaDiv.className = 'final-cta';
       ctaDiv.innerHTML = `
@@ -333,7 +334,7 @@ function sendInput() {
     if (step < questions.length) {
       appendMessage(questions[step]);
     }
-  }, 800);
+  }, Math.random() * 600 + 400); // random delay for realism
 }
 
 function confettiEffect() {
