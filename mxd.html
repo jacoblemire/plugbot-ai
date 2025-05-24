@@ -146,7 +146,9 @@
 </head>
 <body>
   <div class="header">MXD Enterprises</div>
-  <div class="avatar-bg"><img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot" /></div>
+  <div class="avatar-bg">
+    <img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot" />
+  </div>
 
   <div class="interface">
     <div class="chat-section" id="chat">
@@ -193,7 +195,7 @@
       inputRow.style.display = 'flex';
       appendTyping();
 
-      fetch('https://jacoblemire20-plugbotsystem.repl.co/chat', {
+      fetch('https://jacoblemire20-plugbotsystem.replit.app/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sessionId, message: 'start' })
@@ -221,7 +223,7 @@
       input.value = '';
       appendTyping();
 
-      fetch('https://jacoblemire20-plugbotsystem.repl.co/chat', {
+      fetch('https://jacoblemire20-plugbotsystem.replit.app/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sessionId, message })
