@@ -193,7 +193,7 @@
       inputRow.style.display = 'flex';
       appendTyping();
 
-      fetch('https://plugbotsystem.jacoblemire20.repl.co/chat', {
+      fetch('https://jacoblemire20-plugbotsystem.repl.co/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sessionId, message: 'start' })
@@ -221,7 +221,7 @@
       input.value = '';
       appendTyping();
 
-      fetch('https://plugbotsystem.jacoblemire20.repl.co/chat', {
+      fetch('https://jacoblemire20-plugbotsystem.repl.co/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sessionId, message })
