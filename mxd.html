@@ -147,6 +147,8 @@
       "How old are you?",
       "What’s your goal with income? More freedom, travel, or just extra cash?",
       "Ever tried building something of your own before, or would this be your first time?",
+      "What excites you most about this opportunity so far?",
+      "If we told you you seem aligned, would you be ready to book a real meeting with one of our top executives or coaches? (Note: These meetings are limited — come prepared, look sharp, and be ready to seriously plan how to hit $5–10K/month!)",
       "Last thing — you got at least $500 saved or available in credit right now?"
     ];
 
@@ -210,6 +212,10 @@
         } else if (step === 4) {
           appendMessage("Got it. That helps me understand where you're coming from 💡");
         } else if (step === 5) {
+          appendMessage("Love that energy! You sound aligned with the kind of people we help scale up 🚀");
+        } else if (step === 6) {
+          appendMessage("Perfect. This is a legit opportunity — our executives' time is limited, so come prepared, look fresh, and take this seriously if you want to earn $5–10K/month 💼🔥");
+        } else if (step === 7) {
           if (userInput.toLowerCase().includes('no')) {
             appendMessage("Thanks for being real! You’d need at least $500 ready to get started — come back soon!");
             inputRow.style.display = 'none';
