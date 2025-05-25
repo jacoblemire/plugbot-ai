@@ -2,351 +2,412 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PlugBot | MXD Enterprises</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MXD Sales Academy | Align, Grow, Succeed</title>
+  <meta name="description" content="Join MXD Sales Academy and align with a community focused on freedom, growth, and ethical high-ticket success." />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0b0b0b;
-      --text: #ffffff;
-      --accent: #ffffff;
-      --card: #1a1a1a;
-      --rounded: 16px;
+      --primary: #0b0b0b;
+      --secondary: #ffffff;
+      --accent: #d4af37;
+      --card-bg: rgba(255, 255, 255, 0.1);
     }
-    [data-theme='light'] {
-      --bg: #ffffff;
-      --text: #000000;
-      --accent: #000000;
-      --card: #f0f0f0;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      padding: 1rem;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(120deg, #0b0b0b, #1a1a1a);
+      color: var(--secondary);
       overflow-x: hidden;
-      transition: background-color 0.3s, color 0.3s;
-      position: relative;
-      background: radial-gradient(circle at center, #0b0b0b, #050505);
-      background-size: cover;
     }
-    .header {
-      position: fixed; top: 20px; left: 20px;
-      font-weight: 600; font-size: 1rem; opacity: 0.8;
-      z-index: 2;
+    header {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      z-index: 10;
     }
-    .theme-toggle, .mute-toggle {
-      position: fixed; top: 20px;
-      background: none; border: 2px solid var(--text);
-      color: var(--text); padding: 0.5rem 1rem;
-      border-radius: var(--rounded);
-      cursor: pointer; font-weight: 600;
-      z-index: 2;
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+      color: var(--accent);
     }
-    .theme-toggle { right: 80px; }
-    .mute-toggle { right: 20px; }
-    .avatar-bg {
-      position: absolute; top: 20px; left: 50%;
-      transform: translateX(-50%);
-      animation: floatBot 4s ease-in-out infinite, glowPulse 3s ease-in-out infinite;
-      pointer-events: none;
-      z-index: 2;
+    nav a {
+      color: var(--secondary);
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-weight: 600;
+      transition: color 0.3s ease;
     }
-    .avatar-bg img { width: 150px; }
-    .interface {
-      display: flex; flex-direction: column; align-items: center;
-      text-align: center; gap: 1rem; max-width: 480px; margin: 0 auto;
-      padding-top: 200px; position: relative;
-      z-index: 2;
+    nav a:hover {
+      color: var(--accent);
     }
-    .progress {
-      width: 100%; background: #333; border-radius: var(--rounded);
-      overflow: hidden; height: 10px; margin-bottom: 1rem;
-    }
-    .progress-bar {
-      height: 100%; width: 0%; background: var(--accent);
-      transition: width 0.4s ease;
-    }
-    .chat-section {
-      background: var(--card); border-radius: 24px; padding: 1.5rem;
-      width: 100%; display: flex; flex-direction: column; gap: 1rem;
-      max-height: 70vh; overflow-y: auto;
-      box-shadow: 0 0 20px rgba(255,255,255,0.1);
-    }
-    .msg-box {
-      background: rgba(255, 255, 255, 0.07);
-      padding: 0.9rem 1.1rem; border-radius: var(--rounded);
-      font-size: 0.95rem; line-height: 1.4; max-width: 80%;
-      animation: bubbleIn 0.3s ease;
-    }
-    .user-msg { align-self: flex-end; background: rgba(255, 255, 255, 0.15); }
-    .bot-msg { align-self: flex-start; }
-    .input-row {
-      display: none; flex-direction: column; gap: 0.75rem; width: 100%;
-    }
-    input {
-      padding: 1rem; border-radius: var(--rounded); border: none;
-      background: #111; color: #fff; font-size: 1rem; width: 100%;
-    }
-    [data-theme='light'] input {
-      background: #ddd; color: #000;
-    }
-    .btn {
-      background: #000; color: #fff; font-weight: 700; border: 1px solid #fff;
-      border-radius: var(--rounded); padding: 1rem; font-size: 1rem;
-      cursor: pointer; transition: 0.3s ease; width: 100%;
-    }
-    [data-theme='light'] .btn {
-      background: #fff; color: #000; border: 1px solid #000;
-    }
-    .btn:hover { background: var(--text); color: var(--bg); }
-    .typing {
-      font-size: 0.85rem;
-      opacity: 0.7;
-      animation: blink 1s infinite;
-    }
-    .final-cta {
+    .hero {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-      margin-top: 1rem;
+      align-items: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
     }
-    .cta-link {
-      background: #fff;
-      color: #000;
-      padding: 0.75rem;
-      border-radius: var(--rounded);
-      text-decoration: none;
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.05), transparent 70%);
+      animation: rotate 30s linear infinite;
+    }
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .hero h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin-bottom: 2rem;
+      opacity: 0.85;
+    }
+    .cta-button {
+      padding: 1rem 2rem;
+      font-size: 1rem;
       font-weight: 600;
-      transition: 0.3s ease;
+      color: var(--primary);
+      background: var(--accent);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .cta-link:hover { background: var(--accent); color: #fff; }
-
-    @media (max-width: 480px) {
-      .avatar-bg img { width: 100px; }
-      .interface {
-        padding-top: 150px;
-        gap: 1rem;
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    .chat-container {
+      margin: 4rem auto;
+      max-width: 600px;
+      padding: 2rem;
+      background: var(--card-bg);
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      display: none;
+    }
+    @media (max-width: 600px) {
+      .hero h2 {
+        font-size: 2rem;
       }
-      .msg-box {
-        font-size: 0.85rem;
-        max-width: 100%;
+      .cta-button {
+        width: 100%;
       }
-      input {
-        padding: 0.8rem;
-        font-size: 0.9rem;
-      }
-      .btn {
-        padding: 0.8rem;
-        font-size: 0.9rem;
-      }
-    }
-
-    @keyframes bubbleIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-    @keyframes floatBot {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-8px); }
-      100% { transform: translateY(0px); }
-    }
-    @keyframes glowPulse {
-      0%, 100% { filter: drop-shadow(0 0 0px #ffffff); }
-      50% { filter: drop-shadow(0 0 12px #ffffff); }
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 0.7; }
-      50% { opacity: 0.2; }
     }
   </style>
 </head>
 <body>
-  <div class="header">MXD Enterprises</div>
-  <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-  <button class="mute-toggle" onclick="toggleMute()">🔊</button>
-  <div class="avatar-bg">
-    <img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot" />
-  </div>
+  <header>
+    <h1>MXD Sales Academy</h1>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#get-qualified">Get Qualified</a>
+    </nav>
+  </header>
 
-  <div class="interface">
-    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
-    <div class="chat-section" id="chat">
-      <div class="msg-box bot-msg"><strong>Get Qualified for MXD Sales Academy</strong></div>
-      <div class="msg-box bot-msg">Learn how to earn $3K–$10K/month remotely through high-ticket sales — even if you’ve never done this before.</div>
-    </div>
-    <div class="input-row" id="inputRow">
-      <input type="text" id="input" placeholder="Type here..." onkeydown="if(event.key==='Enter'){sendInput()}" />
-    </div>
-    <button class="btn" id="startBtn" onclick="startChat()">GET QUALIFIED</button>
-  </div>
+  <section class="hero">
+    <h2>Align. Grow. Succeed.</h2>
+    <p>This is where people align with MXD. Ready to see if you’re a fit?</p>
+    <button class="cta-button" onclick="startQualification()">Start Your Qualification</button>
+  </section>
+
+  <section class="chat-container" id="chatContainer">
+    <!-- Placeholder for future chat system (Sections 3–5) -->
+    <p>Chat system loading...</p>
+  </section>
+<style>
+/* Additional Section 2 upgrades */
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  right: -20%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.03), transparent 70%);
+  animation: pulse 10s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1) rotate(0deg); opacity: 0.4; }
+  100% { transform: scale(1.1) rotate(30deg); opacity: 0.6; }
+}
+
+.cta-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.3), rgba(255,255,255,0));
+  transform: skewX(-20deg);
+  transition: left 0.5s ease;
+}
+
+.cta-button:hover::before {
+  left: 125%;
+}
+
+header nav a {
+  position: relative;
+}
+
+header nav a::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+header nav a:hover::after {
+  width: 100%;
+}
+
+.chat-container {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.chat-container.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
 <script>
-// === PLUGBOT SCRIPT START ===
+// SECTION 3 — Basic Interactivity
 
 // Grab elements
-const chat = document.getElementById('chat');
-const inputRow = document.getElementById('inputRow');
-const input = document.getElementById('input');
-const startBtn = document.getElementById('startBtn');
-const progressBar = document.getElementById('progressBar');
-const themeToggle = document.querySelector('.theme-toggle');
-const muteToggle = document.querySelector('.mute-toggle');
-let muted = false;
+const ctaButton = document.querySelector('.cta-button');
+const chatContainer = document.getElementById('chatContainer');
 
-// Define upgraded, smoother, more human questions
-const questions = [
-  "Hey, just curious — have you ever thought about working for yourself or earning income online?",
-  "Awesome. What’s your first name?",
-  "Thanks, [name]! And how old are you?",
-  "What’s motivating you most right now — more freedom, travel, or stacking extra income?",
-  "Have you ever tried to build something on your own before, or would this be your first time?",
-  "What excites you most about this opportunity so far?",
-  "If I told you you seem like a good fit, would you be open to booking a real meeting with one of our coaches? (These calls are limited, so only book if you're ready to show up sharp and focused!)",
-  "Last step — do you currently have at least $500 saved or available in credit to get started?"
-];
-
-let step = 0;
-function playSound(src) {
-  if (!muted) {
-    const sound = new Audio(src);
-    sound.play();
-  }
+// Function to start the qualification flow
+function startQualification() {
+  chatContainer.classList.add('active');
+  chatContainer.innerHTML = `
+    <h3>Qualification Chat</h3>
+    <p>Hi there — let’s get started. Please enter your first name below:</p>
+    <input type="text" id="userInput" placeholder="Your name..." />
+    <button onclick="nextStep()">Next</button>
+    <div id="botResponse"></div>
+  `;
 }
 
-function toggleMute() {
-  muted = !muted;
-  muteToggle.textContent = muted ? '🔇' : '🔊';
-}
-
-function appendMessage(msg, isUser = false) {
-  const msgBox = document.createElement('div');
-  msgBox.className = 'msg-box ' + (isUser ? 'user-msg' : 'bot-msg');
-  msgBox.innerText = msg;
-  chat.appendChild(msgBox);
-  chat.scrollTop = chat.scrollHeight;
-  playSound(isUser
-    ? 'https://actions.google.com/sounds/v1/alarms/beep_short.ogg'
-    : 'https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg');
-}
-
-function appendTyping() {
-  const typing = document.createElement('div');
-  typing.className = 'typing';
-  typing.id = 'typing';
-  typing.innerText = 'PlugBot is thinking...';
-  chat.appendChild(typing);
-  chat.scrollTop = chat.scrollHeight;
-}
-
-function removeTyping() {
-  const typing = document.getElementById('typing');
-  if (typing) typing.remove();
-}
-
-function updateProgress() {
-  const percent = ((step + 1) / questions.length) * 100;
-  progressBar.style.width = percent + '%';
-}
-
-function toggleTheme() {
-  const current = document.documentElement.getAttribute('data-theme');
-  const next = current === 'light' ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', next);
-  themeToggle.textContent = next === 'light' ? '🌙' : '☀️';
-  localStorage.setItem('theme', next);
-}
-
-window.onload = () => {
-  const savedTheme = localStorage.getItem('theme') || 'dark';
-  document.documentElement.setAttribute('data-theme', savedTheme);
-  themeToggle.textContent = savedTheme === 'light' ? '🌙' : '☀️';
-};
-
-function startChat() {
-  startBtn.style.display = 'none';
-  inputRow.style.display = 'flex';
-  appendMessage(questions[step]);
-  updateProgress();
-}
-function sendInput() {
-  const userInput = input.value.trim();
-  if (!userInput) return;
-  appendMessage(userInput, true);
-  input.value = '';
-  appendTyping();
-
-  setTimeout(() => {
-    removeTyping();
-    let mirrorResponse = '';
-
-    if (step === 0) {
-      mirrorResponse = "Nice, love that mindset 🔒";
-    } else if (step === 1) {
-      mirrorResponse = `Great to meet you, ${userInput}! 🙌`;
-    } else if (step === 2) {
-      const age = parseInt(userInput);
-      if (age < 17) {
-        appendMessage("Hey, you’re a bit early! We only work with 17+, but keep learning — you’ll be ready soon 🚀");
-        inputRow.style.display = 'none';
-        return;
-      }
-      mirrorResponse = `Awesome, ${age} is a great age to be jumping in 💼`;
-    } else if (step === 3) {
-      mirrorResponse = `Love that — aiming for ${userInput} is what drives most of our top earners ⚡`;
-    } else if (step === 4) {
-      if (userInput.toLowerCase().includes('first')) {
-        mirrorResponse = "Got it — first-timers often crush it here 💡";
-      } else {
-        mirrorResponse = "Nice, sounds like you’ve got some experience under your belt! 🚀";
-      }
-    } else if (step === 5) {
-      mirrorResponse = `Exciting — being hyped about ${userInput} is exactly the right energy 🔥`;
-    } else if (step === 6) {
-      mirrorResponse = "Perfect. This is a serious opportunity, so only book if you’re ready to show up sharp and focused 💼🔥";
-    } else if (step === 7) {
-      if (userInput.toLowerCase().includes('no')) {
-        appendMessage("Thanks for being upfront! You’ll need at least $500 ready to get started — come back when you’re set 💪");
-        inputRow.style.display = 'none';
-        return;
-      }
-      mirrorResponse = "🎉 Locked in! Let’s get you mapped out for success.";
-      const ctaDiv = document.createElement('div');
-      ctaDiv.className = 'final-cta';
-      ctaDiv.innerHTML = `
-        <a class="cta-link" href="https://calendly.com/jadafig1" target="_blank">📅 Book a Call on Calendly</a>
-        <a class="cta-link" href="https://whop.com/checkout/plan_AdfT42YiEJpCa?d2c=true" target="_blank">🚀 Join MXD Academy on Whop</a>
-      `;
-      chat.appendChild(ctaDiv);
-      inputRow.style.display = 'none';
-      chat.scrollTop = chat.scrollHeight;
-      confettiEffect();
-      return;
-    }
-
-    appendMessage(mirrorResponse);
-    step++;
-    updateProgress();
-    if (step < questions.length) {
-      appendMessage(questions[step]);
-    }
-  }, Math.random() * 600 + 400); // random delay for realism
-}
-
-function confettiEffect() {
-  if (typeof confetti === 'function') {
-    confetti({
-      particleCount: 150,
-      spread: 70,
-      origin: { y: 0.6 }
-    });
+// Placeholder function — we’ll replace this in later sections
+function nextStep() {
+  const userInput = document.getElementById('userInput').value.trim();
+  const botResponse = document.getElementById('botResponse');
+  if (userInput) {
+    botResponse.innerHTML = `<p>Nice to meet you, ${userInput}. We’ll keep going in the next phase build!</p>`;
+  } else {
+    botResponse.innerHTML = `<p>Please enter your name to continue.</p>`;
   }
 }
 </script>
+<script>
+let step = 0;
+let userName = '';
+let userAge = '';
+const questions = [
+  "What’s your first name?",
+  "How old are you?",
+  "What’s pushing you right now — freedom, growth, or income?",
+  "Have you worked on your own project before, or would this be your first time?",
+  "What draws you to something like MXD?",
+  "If we qualify you, would you be ready for a focused, private call with an MXD coach?",
+  "Do you currently have at least $500 saved or available in credit — meaning, funds you can responsibly invest without draining everything you have?"
+];
 
-</body>
-</html>
+function startQualification() {
+  chatContainer.classList.add('active');
+  chatContainer.innerHTML = `
+    <h3>Qualification Chat</h3>
+    <div id="chatFlow">
+      <p>${questions[step]}</p>
+      <input type="text" id="userInput" placeholder="Type here..." />
+      <button onclick="nextStep()">Next</button>
+      <div id="botResponse"></div>
+    </div>
+  `;
+}
+
+function nextStep() {
+  const inputEl = document.getElementById('userInput');
+  const userInput = inputEl.value.trim();
+  const botResponse = document.getElementById('botResponse');
+
+  if (!userInput) {
+    botResponse.innerHTML = `<p>Please enter a response to continue.</p>`;
+    return;
+  }
+
+  // Fallback spam filter
+  if (userInput.length < 2 || /(.)\1{3,}/.test(userInput) || /[^a-zA-Z0-9\s]/.test(userInput)) {
+    botResponse.innerHTML = `<p>Hmm, let’s keep this real — can you answer more clearly?</p>`;
+    return;
+  }
+
+  if (step === 0) {
+    userName = userInput;
+    botResponse.innerHTML = `<p>Good to meet you, ${userName}.</p>`;
+  } else if (step === 1) {
+    userAge = parseInt(userInput);
+    if (userAge < 17) {
+      botResponse.innerHTML = `<p>You’re ahead of the curve! But MXD is only open to 17+ — we’ll be here when you’re ready.</p>`;
+      inputEl.disabled = true;
+      return;
+    } else {
+      botResponse.innerHTML = `<p>Perfect — this is the right time to invest in yourself.</p>`;
+    }
+  } else if (step === 2) {
+    botResponse.innerHTML = `<p>That clarity matters. A lot of people come here to align with ${userInput}.</p>`;
+  } else if (step === 3) {
+    if (userInput.toLowerCase().includes('first')) {
+      botResponse.innerHTML = `<p>Fresh starts often lead to the biggest breakthroughs.</p>`;
+    } else {
+      botResponse.innerHTML = `<p>Love it — sounds like you’re already building momentum.</p>`;
+    }
+  } else if (step === 4) {
+    botResponse.innerHTML = `<p>That’s the kind of alignment we’re looking for.</p>`;
+  } else if (step === 5) {
+    botResponse.innerHTML = `<p>That’s the level of commitment we value here.</p>`;
+  } else if (step === 6) {
+    if (userInput.toLowerCase().includes('no')) {
+      botResponse.innerHTML = `<p>Thanks for your honesty. We recommend having at least a small financial buffer so you can step in responsibly — we’ll be here when you’re ready.</p>`;
+      inputEl.disabled = true;
+      return;
+    } else {
+      botResponse.innerHTML = `<p>Perfect — being financially prepared makes all the difference.</p>`;
+    }
+    showFinalCTA();
+    return;
+  }
+
+  inputEl.value = '';
+  step++;
+  if (step < questions.length) {
+    document.querySelector('#chatFlow p').innerText = questions[step];
+  }
+}
+
+function showFinalCTA() {
+  document.getElementById('chatFlow').innerHTML = `
+    <p>🎉 You’re qualified. Let’s move you to the next step.</p>
+    <a class="cta-button" href="https://calendly.com/jadafig1" target="_blank">📅 Book Your Alignment Call</a>
+    <a class="cta-button" href="https://whop.com/checkout/plan_AdfT42YiEJpCa?d2c=true" target="_blank">🚀 Join MXD Academy</a>
+    <p>We look forward to helping you align, grow, and succeed with us.</p>
+  `;
+}
+</script>
+<style>
+/* Section 5: Elite finish */
+.cta-button {
+  display: inline-block;
+  margin: 0.5rem;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary);
+  background: var(--accent);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.success-checkmark {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  margin: 2rem auto;
+  box-shadow: inset 0px 0px 0px #7ac142;
+  animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+}
+
+.checkmark-circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: #7ac142;
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+}
+
+@keyframes stroke {
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes scale {
+  0%, 100% { transform: none; }
+  50% { transform: scale3d(1.1, 1.1, 1); }
+}
+
+@keyframes fill {
+  100% { box-shadow: inset 0px 0px 0px 30px #7ac142; }
+}
+</style>
+
+<script>
+function showFinalCTA() {
+  document.getElementById('chatFlow').innerHTML = `
+    <svg class="success-checkmark" viewBox="0 0 52 52">
+      <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+      <path class="checkmark" fill="none" d="M14 27l7 7 16-16"/>
+    </svg>
+    <p>🎉 You’re qualified. Let’s move you to the next step.</p>
+    <a class="cta-button" href="https://calendly.com/jadafig1" target="_blank">📅 Book Your Alignment Call</a>
+    <a class="cta-button" href="https://whop.com/checkout/plan_AdfT42YiEJpCa?d2c=true" target="_blank">🚀 Join MXD Academy</a>
+    <p>We look forward to helping you align, grow, and succeed with us.</p>
+  `;
+}
+</script>
