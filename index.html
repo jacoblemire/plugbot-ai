@@ -4,12 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PlugBot | Powered by MXD</title>
+  <meta name="description" content="PlugBot by MXD is your 24/7 AI lead qualification agency, replacing appointment setters and maximizing sales conversions.">
+  <meta property="og:title" content="PlugBot | Powered by MXD">
+  <meta property="og:description" content="Exclusive AI sales closers that qualify leads, automate appointments, and scale your business effortlessly.">
+  <meta property="og:image" content="https://plugbot.mxdenterprises.com/og-image.jpg">
+  <meta property="og:url" content="https://plugbot.mxdenterprises.com/">
+  <meta name="twitter:card" content="summary_large_image">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <style>
     :root { --bg: #ffffff; --text: #111111; --dim: #555; --accent: #000000; --highlight: #ffb400; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Poppins', sans-serif; background-color: var(--bg); color: var(--text); overflow-x: hidden; }
+    header { position: sticky; top: 0; background: #fff; border-bottom: 1px solid #ddd; padding: 1rem; text-align: center; z-index: 999; }
+    header a { text-decoration: none; color: var(--accent); font-weight: 600; }
     .section { max-width: 1000px; margin: 0 auto; padding: 4rem 1.5rem; text-align: center; }
     .hero { background: #000; color: #fff; border-radius: 16px; padding: 4rem 2rem; box-shadow: 0 4px 25px rgba(0,0,0,0.2); }
     .hero h1 { font-size: 3rem; font-weight: 700; margin-bottom: 1.25rem; white-space: nowrap; overflow: hidden; border-right: 3px solid #fff; width: 0; animation: typing 2.5s steps(20, end) forwards, blink 0.7s step-end infinite; }
@@ -28,18 +36,22 @@
     .card p, .compare-box ul li { font-size: 0.95rem; line-height: 1.5; }
     .compare-box ul { list-style: none; padding: 0; }
     .badge { display: inline-block; background: var(--highlight); color: #fff; padding: 0.3rem 0.8rem; border-radius: 12px; font-size: 0.8rem; margin-bottom: 1rem; letter-spacing: 0.5px; text-transform: uppercase; }
-    .table { width: 100%; margin-top: 2rem; border-collapse: collapse; }
-    .table th, .table td { border: 1px solid #ddd; padding: 1rem; text-align: center; }
+    .table { width: 100%; margin-top: 2rem; border-collapse: collapse; overflow-x: auto; display: block; }
+    .table th, .table td { border: 1px solid #ddd; padding: 1rem; text-align: center; min-width: 120px; }
     .table th { background: #f5f5f5; font-size: 1rem; }
     .table td { font-size: 0.95rem; }
     .check { color: green; font-weight: bold; }
+    .back-to-top { position: fixed; bottom: 20px; right: 20px; background: var(--accent); color: #fff; padding: 0.7rem 1rem; border-radius: 50px; font-size: 0.9rem; text-decoration: none; display: none; }
+    .back-to-top.show { display: block; }
     footer { text-align: center; padding: 2rem 1rem; font-size: 0.9rem; color: var(--dim); }
   </style>
 </head>
 <body>
+  <header><a href="#">PlugBot by MXD Enterprises</a></header>
+
   <section class="section hero" data-aos="fade-up">
     <h1>PlugBot</h1>
-    <p>Your 24/7 automated closer. Qualify leads. Route them to sales. Convert attention into income — hands-free.</p>
+    <p>24/7 AI-powered automation designed to qualify and route your leads.</p>
     <p style="margin-top: 1rem; font-weight: 500; max-width: 680px; margin-left: auto; margin-right: auto;">
       PlugBot is a high-performance AI lead qualification agency. We specialize in setting only hot, ready-to-close leads — fully replacing appointment setters with advanced sales logic designed to drive conversions and eliminate wasted time.
     </p>
@@ -86,57 +98,61 @@
 
   <section class="section" data-aos="fade-up">
     <h2>Feature Comparison</h2>
-    <table class="table">
-      <tr>
-        <th>Feature</th>
-        <th>Basic</th>
-        <th>Custom</th>
-        <th>Ultra</th>
-      </tr>
-      <tr>
-        <td>Prebuilt Automation</td>
-        <td class="check">✔</td>
-        <td class="check">✔</td>
-        <td class="check">✔</td>
-      </tr>
-      <tr>
-        <td>Brand Customization</td>
-        <td>—</td>
-        <td class="check">✔</td>
-        <td class="check">✔</td>
-      </tr>
-      <tr>
-        <td>Advanced AI Learning</td>
-        <td>—</td>
-        <td>—</td>
-        <td class="check">✔</td>
-      </tr>
-      <tr>
-        <td>Human-Like Sales Closing</td>
-        <td>—</td>
-        <td>—</td>
-        <td class="check">✔</td>
-      </tr>
-      <tr>
-        <td>Advanced Sales Logic</td>
-        <td>Basic Filtering</td>
-        <td>Custom Logic</td>
-        <td class="check">Elite Multi-Branch Logic</td>
-      </tr>
-      <tr>
-        <td>Multi-Channel Mastery</td>
-        <td>—</td>
-        <td>—</td>
-        <td class="check">✔</td>
-      </tr>
-      <tr>
-        <td>Personalized Onboarding</td>
-        <td>Basic Setup</td>
-        <td class="check">✔</td>
-        <td class="check">✔ (priority)</td>
-      </tr>
-    </table>
+    <div style="overflow-x:auto;">
+      <table class="table">
+        <tr>
+          <th>Feature</th>
+          <th>Basic</th>
+          <th>Custom</th>
+          <th>Ultra</th>
+        </tr>
+        <tr>
+          <td>Prebuilt Automation</td>
+          <td class="check">✔</td>
+          <td class="check">✔</td>
+          <td class="check">✔</td>
+        </tr>
+        <tr>
+          <td>Brand Customization</td>
+          <td>—</td>
+          <td class="check">✔</td>
+          <td class="check">✔</td>
+        </tr>
+        <tr>
+          <td>Advanced AI Learning</td>
+          <td>—</td>
+          <td>—</td>
+          <td class="check">✔</td>
+        </tr>
+        <tr>
+          <td>Human-Like Sales Closing</td>
+          <td>—</td>
+          <td>—</td>
+          <td class="check">✔</td>
+        </tr>
+        <tr>
+          <td>Advanced Sales Logic</td>
+          <td>Basic Filtering</td>
+          <td>Custom Logic</td>
+          <td class="check">Elite Multi-Branch Logic</td>
+        </tr>
+        <tr>
+          <td>Multi-Channel Mastery</td>
+          <td>—</td>
+          <td>—</td>
+          <td class="check">✔</td>
+        </tr>
+        <tr>
+          <td>Personalized Onboarding</td>
+          <td>Basic Setup</td>
+          <td class="check">✔</td>
+          <td class="check">✔ (priority)</td>
+        </tr>
+      </table>
+    </div>
   </section>
+
+  <a href="#" class="back-to-top" id="backToTop">↑ Top</a>
 
   <footer>
     <p>© 2025 PlugBot | Powered by MXD Enterprises. All rights reserved.</p>
@@ -144,5 +160,15 @@
 
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>AOS.init({ once: true });</script>
+  <script>
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTop.classList.add('show');
+      } else {
+        backToTop.classList.remove('show');
+      }
+    });
+  </script>
 </body>
 </html>
