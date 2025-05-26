@@ -7,88 +7,98 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <style>
-    :root {
-      --bg: #ffffff;
-      --text: #111111;
-      --dim: #555;
-      --accent: #000000;
-    }
+    :root { --bg: #ffffff; --text: #111111; --dim: #555; --accent: #000000; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Poppins', sans-serif; background-color: var(--bg); color: var(--text); overflow-x: hidden; }
-    .section { max-width: 1200px; margin: 0 auto; padding: 4rem 1.5rem; text-align: center; }
+    .section { max-width: 900px; margin: 0 auto; padding: 4rem 1.5rem; text-align: center; }
     .hero h1 { font-size: 3rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--accent); white-space: nowrap; overflow: hidden; border-right: 3px solid var(--accent); width: 0; animation: typing 2.5s steps(20, end) forwards, blink 0.7s step-end infinite; }
     @keyframes typing { from { width: 0 } to { width: 100% } }
     @keyframes blink { 50% { border-color: transparent } }
     @media (min-width: 768px) { .hero h1 { font-size: 5rem; } }
     .hero p { max-width: 700px; margin: 0 auto 2rem; font-size: 1.2rem; color: var(--dim); }
-    .cta-button { background: var(--accent); color: #fff; padding: 1rem 2rem; font-weight: 600; font-size: 1rem; border-radius: 8px; text-decoration: none; display: inline-block; transition: all 0.3s ease; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
-    .cta-button:hover { background-color: #222; transform: scale(1.05); box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); }
-    .spacer { height: 80px; }
+    .cta-button { background: var(--accent); color: #fff; padding: 1rem 2rem; font-weight: 600; font-size: 1rem; border-radius: 8px; text-decoration: none; display: inline-block; transition: all 0.3s ease; margin-top: 1rem; }
+    .cta-button:hover { background-color: #222; transform: scale(1.05); }
     .grid { display: grid; grid-template-columns: 1fr; gap: 2rem; margin-top: 2rem; }
     @media (min-width: 768px) { .grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); } }
-    .card { background: #f9f9f9; border-radius: 16px; padding: 2rem; text-align: left; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); transition: all 0.3s ease; }
-    .card:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); }
+    .card { background: #f9f9f9; border-radius: 16px; padding: 2rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
     .card h3 { font-size: 1.4rem; margin-bottom: 0.75rem; color: var(--accent); }
     .card p { color: var(--dim); font-size: 1rem; line-height: 1.6; }
+    .badge { display: inline-block; background: #e0e0e0; color: #333; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.8rem; margin-bottom: 1rem; }
+    table { width: 100%; border-collapse: collapse; margin-top: 2rem; }
+    th, td { border: 1px solid #ddd; padding: 0.75rem; text-align: center; font-size: 0.95rem; }
+    th { background-color: #f0f0f0; }
     footer { text-align: center; padding: 2rem 1rem; font-size: 0.9rem; color: var(--dim); }
-    .section h2 span { display: inline-block; border-bottom: 2px solid var(--accent); padding-bottom: 0.2rem; }
+    .section h2 { font-size: 2rem; margin-bottom: 1rem; border-bottom: 2px solid var(--accent); display: inline-block; padding-bottom: 0.5rem; }
   </style>
 </head>
 <body>
   <section class="section hero">
     <h1>PlugBot</h1>
     <p>Your 24/7 automated closer. Qualify leads. Route them to sales. Convert attention into income — hands-free.</p>
+    <a href="https://whop.com/checkout/plan_90VaIA48j7qxA?d2c=true" class="cta-button">Get Your PlugBot →</a>
+  </section>
+
+  <section class="section" data-aos="fade-up">
+    <h2>Why We Built PlugBot</h2>
+    <p>We created PlugBot to help brands and creators reclaim their time. Instead of wasting hours on repetitive DMs, PlugBot automates lead conversations and filters, letting you focus on what truly matters — growth and connection.</p>
+  </section>
+
+  <section class="section" data-aos="fade-up">
+    <h2>Who It's For</h2>
+    <div class="grid">
+      <div class="card"><h3>Creators</h3><p>Turn followers into booked calls and paying clients, effortlessly.</p></div>
+      <div class="card"><h3>Closers</h3><p>Talk only to qualified leads — no more wasted conversations.</p></div>
+      <div class="card"><h3>Agencies & Coaches</h3><p>Scale outreach and save team resources without hiring more staff.</p></div>
+    </div>
+  </section>
+
+  <section class="section" data-aos="fade-up">
+    <h2>What PlugBot Basic Includes</h2>
+    <div class="grid">
+      <div class="card"><h3>Plug-and-Play Bot</h3><p>Prebuilt, ready to launch — no coding or setup stress.</p></div>
+      <div class="card"><h3>24/7 Automation</h3><p>Qualify leads automatically, even when you're offline.</p></div>
+      <div class="card"><h3>Easy Onboarding</h3><p>Launch within 48 hours with our clear step-by-step guide.</p></div>
+      <div class="card"><h3>Basic Support</h3><p>We help you get started, but customization is not included.</p></div>
+    </div>
     <a href="https://whop.com/checkout/plan_90VaIA48j7qxA?d2c=true" class="cta-button">Get PlugBot Basic →</a>
-    <div class="spacer"></div>
   </section>
 
-  <section class="section" data-aos="fade-up">
-    <h2><span>Who It's For</span></h2>
+  <section class="section" data-aos="fade-up" style="background-color:#f0f0f0;">
+    <div class="badge">COMING SOON</div>
+    <h2>PlugBot Custom</h2>
+    <p>PlugBot Custom is built for brands that want more — more control, more brand alignment, more precision.</p>
     <div class="grid">
-      <div class="card"><h3>Creators</h3><p>Automate lead capture while you focus on growing your audience and content.</p></div>
-      <div class="card"><h3>Closers</h3><p>PlugBot filters for you — no more wasting time with unqualified leads.</p></div>
-      <div class="card"><h3>Agencies</h3><p>Scale outreach and pre-qualification without hiring extra hands.</p></div>
-      <div class="card"><h3>Coaches</h3><p>Fill your calendar with aligned prospects ready to book and buy.</p></div>
+      <div class="card"><h3>Branded Experience</h3><p>Your logo, colors, and voice, making the bot an authentic part of your brand.</p></div>
+      <div class="card"><h3>Tailored Conversations</h3><p>Custom flows and scripts designed specifically for your goals.</p></div>
+      <div class="card"><h3>Tool Integrations</h3><p>Connect to your calendars, CRMs, and other systems easily.</p></div>
+      <div class="card"><h3>Hands-Free Setup</h3><p>We handle the build, testing, and optimization — you stay focused.</p></div>
     </div>
+    <a href="#" class="cta-button">Join Custom Waitlist →</a>
   </section>
 
   <section class="section" data-aos="fade-up">
-    <h2><span>What You Get with PlugBot Basic</span></h2>
+    <div class="badge">COMING SOON</div>
+    <h2>PlugBot Ultra</h2>
+    <p>PlugBot Ultra is the top-tier solution for elite businesses, offering unmatched power, scale, and VIP support.</p>
     <div class="grid">
-      <div class="card"><h3>Prebuilt System</h3><p>Plug-and-play chatbot designed to run out of the box — no dev work required.</p></div>
-      <div class="card"><h3>Smart Conversations</h3><p>Tested flows that mirror natural DM chats, guiding leads toward action.</p></div>
-      <div class="card"><h3>Automated Qualification</h3><p>Save time by pre-filtering and only forwarding serious prospects.</p></div>
-      <div class="card"><h3>Fast Setup</h3><p>Includes step-by-step setup guide so you’re live within 24–48 hours.</p></div>
-      <div class="card"><h3>Basic Support</h3><p>We’re here for simple setup questions — no long-term management included.</p></div>
+      <div class="card"><h3>Advanced AI Intelligence</h3><p>Ultra’s smart flows adapt and improve over time for better results.</p></div>
+      <div class="card"><h3>Enterprise Scale</h3><p>Handle large volumes and multi-channel workflows confidently.</p></div>
+      <div class="card"><h3>Dedicated Success Team</h3><p>Our top experts monitor and fine-tune your system for peak performance.</p></div>
+      <div class="card"><h3>Exclusive Features</h3><p>Get early access to new tools, priority support, and premium perks.</p></div>
     </div>
+    <a href="#" class="cta-button">Join Ultra Waitlist →</a>
   </section>
 
   <section class="section" data-aos="fade-up">
-    <h2><span>Coming Soon: PlugBot Premium & Ultra</span></h2>
-    <p>For brands ready to scale hard, our Premium and Ultra tiers unlock advanced power, customization, and AI intelligence.</p>
-    <div class="grid">
-      <div class="card"><h3>Custom Branding</h3><p>Your logo, colors, voice — no generic bot, fully aligned with your brand.</p></div>
-      <div class="card"><h3>AI-Enhanced Flows</h3><p>Adaptive conversations powered by OpenAI to boost conversions.</p></div>
-      <div class="card"><h3>Enterprise Integrations</h3><p>Zapier, CRMs, email tools — all connected for seamless backend ops.</p></div>
-      <div class="card"><h3>White-Glove Onboarding</h3><p>We install, configure, and optimize everything for you, hands-off.</p></div>
-      <div class="card"><h3>Exclusive Access</h3><p>Get early feature drops, roadmap influence, and VIP service priority.</p></div>
-    </div>
-  </section>
-
-  <section class="section" data-aos="fade-up">
-    <h2><span>Why Upgrade?</span></h2>
-    <div class="grid">
-      <div class="card"><h3>Boost Conversions</h3><p>Custom scripts and AI learn your audience, improving close rates.</p></div>
-      <div class="card"><h3>Scale with Ease</h3><p>Handle more volume and complexity with systems built for growth.</p></div>
-      <div class="card"><h3>Sharpen Your Brand</h3><p>Make your bot feel like an extension of your team, not an outsider.</p></div>
-      <div class="card"><h3>Work with Experts</h3><p>Our top team helps you fine-tune and optimize every step of the way.</p></div>
-    </div>
-  </section>
-
-  <section class="section" data-aos="fade-up">
-    <h2><span>Stay Connected</span></h2>
-    <p>Want early access to PlugBot Premium & Ultra? Join the waitlist to get updates, special offers, and beta invites before anyone else.</p>
-    <a href="#" class="cta-button">Join the Waitlist →</a>
+    <h2>Compare Plans</h2>
+    <table>
+      <tr><th>Feature</th><th>Basic</th><th>Custom</th><th>Ultra</th></tr>
+      <tr><td>Prebuilt Automation</td><td>✔</td><td>✔</td><td>✔</td></tr>
+      <tr><td>Custom Branding</td><td>-</td><td>✔</td><td>✔</td></tr>
+      <tr><td>Custom Conversation Flows</td><td>-</td><td>✔</td><td>✔</td></tr>
+      <tr><td>Advanced AI Learning</td><td>-</td><td>-</td><td>✔</td></tr>
+      <tr><td>Dedicated Support Team</td><td>Basic Only</td><td>✔</td><td>VIP Team</td></tr>
+    </table>
   </section>
 
   <footer>
