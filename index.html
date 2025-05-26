@@ -11,21 +11,21 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Poppins', sans-serif; background-color: var(--bg); color: var(--text); overflow-x: hidden; }
     .section { max-width: 1000px; margin: 0 auto; padding: 4rem 1.5rem; text-align: center; }
-    .hero h1 { font-size: 3rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--accent); white-space: nowrap; overflow: hidden; border-right: 3px solid var(--accent); width: 0; animation: typing 2.5s steps(20, end) forwards, blink 0.7s step-end infinite; }
+    .hero { background: #000; color: #fff; border-radius: 16px; padding: 4rem 2rem; box-shadow: 0 4px 25px rgba(0,0,0,0.2); }
+    .hero h1 { font-size: 3rem; font-weight: 700; margin-bottom: 1.25rem; white-space: nowrap; overflow: hidden; border-right: 3px solid #fff; width: 0; animation: typing 2.5s steps(20, end) forwards, blink 0.7s step-end infinite; }
     @keyframes typing { from { width: 0 } to { width: 100% } }
     @keyframes blink { 50% { border-color: transparent } }
     @media (min-width: 768px) { .hero h1 { font-size: 5rem; } }
-    .hero p { max-width: 700px; margin: 0 auto 2rem; font-size: 1.2rem; color: var(--dim); }
-    .cta-button { background: var(--accent); color: #fff; padding: 1rem 2rem; font-weight: 600; font-size: 1rem; border-radius: 8px; text-decoration: none; display: inline-block; transition: all 0.3s ease; margin-top: 1rem; }
-    .cta-button:hover { background-color: #222; transform: scale(1.05); }
-    .cta-button.highlight { background: var(--highlight); color: #fff; }
+    .hero p { max-width: 700px; margin: 0 auto 1.5rem; font-size: 1.2rem; color: #ddd; }
+    .cta-button { background: #fff; color: #000; padding: 1rem 2rem; font-weight: 600; font-size: 1rem; border-radius: 8px; text-decoration: none; display: inline-block; transition: all 0.3s ease; margin-top: 1rem; }
+    .cta-button:hover { background-color: var(--highlight); color: #fff; transform: scale(1.05); }
     .compare, .grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-top: 2rem; }
     .compare-box, .card { flex: 1 1 300px; background: #f0f0f0; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); text-align: left; transition: transform 0.3s; }
     .compare-box:hover, .card:hover { transform: translateY(-5px); }
-    .compare-box.bold { background: #000; color: #fff; border: 2px solid var(--highlight); }
-    .compare-box.bold h3 { color: #fff; }
-    .card h3, .compare-box h3 { font-size: 1.3rem; margin-bottom: 1rem; color: var(--accent); }
-    .card p, .compare-box ul li { font-size: 0.95rem; line-height: 1.5; color: var(--dim); }
+    .compare-box.bold, .compare-highlight { background: #000; color: #fff; border: 2px solid var(--highlight); }
+    .compare-box.bold h3, .compare-highlight h2 { color: #fff; }
+    .card h3, .compare-box h3 { font-size: 1.3rem; margin-bottom: 1rem; }
+    .card p, .compare-box ul li { font-size: 0.95rem; line-height: 1.5; }
     .compare-box ul { list-style: none; padding: 0; }
     .badge { display: inline-block; background: var(--highlight); color: #fff; padding: 0.3rem 0.8rem; border-radius: 12px; font-size: 0.8rem; margin-bottom: 1rem; letter-spacing: 0.5px; text-transform: uppercase; }
     .table { width: 100%; margin-top: 2rem; border-collapse: collapse; }
@@ -37,11 +37,11 @@
   </style>
 </head>
 <body>
-  <section class="section hero">
+  <section class="section hero" data-aos="fade-up">
     <h1>PlugBot</h1>
     <p>Your 24/7 automated closer. Qualify leads. Route them to sales. Convert attention into income — hands-free.</p>
     <p style="margin-top: 1rem; font-weight: 500; max-width: 680px; margin-left: auto; margin-right: auto;">
-      PlugBot is a high-performance AI lead qualification agency. We specialize in setting only hot, ready-to-close leads — fully replacing appointment setters and integrating advanced sales logic for maximum conversion.
+      PlugBot is a high-performance AI lead qualification agency. We specialize in setting only hot, ready-to-close leads — fully replacing appointment setters with advanced sales logic designed to drive conversions and eliminate wasted time.
     </p>
     <a href="https://whop.com/checkout/plan_90VaIA48j7qxA?d2c=true" class="cta-button">Get Your PlugBot →</a>
   </section>
@@ -49,32 +49,35 @@
   <section class="section" data-aos="fade-up">
     <h2>Who It's For</h2>
     <div class="grid">
-      <div class="card"><h3>Creators</h3><p>Turn followers into booked calls while you focus on content.</p></div>
-      <div class="card"><h3>Closers</h3><p>Only talk to qualified buyers. PlugBot filters leads so you never chase unqualified prospects again.</p></div>
-      <div class="card"><h3>Service Brands</h3><p>Auto-screen leads, save time, and push serious prospects forward without extra staff.</p></div>
+      <div class="card"><h3>Creators</h3><p>Turn followers into booked calls while you focus on creating content and growing your audience.</p></div>
+      <div class="card"><h3>Closers</h3><p>Only talk to qualified buyers. PlugBot filters leads so you never waste time chasing dead ends.</p></div>
+      <div class="card"><h3>Service Brands</h3><p>Auto-screen leads, push serious prospects forward, and scale without extra staff or manual outreach.</p></div>
     </div>
   </section>
 
-  <section class="section" data-aos="fade-up">
+  <section class="section compare-highlight" data-aos="fade-up">
     <div class="badge">Exclusive • Coming Soon</div>
+    <h2>PlugBot Premium Tiers</h2>
     <div class="compare">
-      <div class="compare-box">
+      <div class="compare-box bold">
         <h3>✨ PlugBot Custom</h3>
         <ul>
-          <li>✅ Full brand customization (logo, colors, voice)</li>
-          <li>✅ Tailored conversation flows crafted for your audience</li>
-          <li>✅ Seamless integrations with your tools & CRM</li>
+          <li>✅ Full brand customization (logo, colors, tone)</li>
+          <li>✅ Tailored conversation flows built for your niche and audience</li>
+          <li>✅ Advanced integrations with tools, CRMs, and booking systems</li>
+          <li>✅ Personalized onboarding and expert setup consultation</li>
+          <li>✅ Designed for scaling brands wanting precision and control</li>
         </ul>
-        <a href="#" class="cta-button">Join Custom Waitlist →</a>
+        <a href="#" class="cta-button highlight">Join Custom Waitlist →</a>
       </div>
       <div class="compare-box bold">
         <h3>🚀 PlugBot Ultra</h3>
         <ul>
-          <li>⭐ Advanced AI that adapts, learns, and sharpens over time</li>
-          <li>⭐ Functions like a human sales closer — replaces appointment setters</li>
-          <li>⭐ Handles complex lead flows with high-conversion logic</li>
-          <li>⭐ Enterprise-grade capacity and multi-channel mastery</li>
-          <li>⭐ Built for elite brands ready to dominate and scale</li>
+          <li>⭐ Advanced AI that adapts, sharpens, and improves over time</li>
+          <li>⭐ Fully replaces human appointment setters — acts as a live sales closer</li>
+          <li>⭐ Handles complex multi-step sales flows with elite conversion logic</li>
+          <li>⭐ Enterprise-grade multi-channel power, ready for high-scale operations</li>
+          <li>⭐ Built for top-tier brands demanding peak performance and domination</li>
         </ul>
         <a href="#" class="cta-button highlight">Join Ultra Waitlist →</a>
       </div>
@@ -115,14 +118,20 @@
         <td class="check">✔</td>
       </tr>
       <tr>
-        <td>Enterprise Multi-Channel</td>
+        <td>Advanced Sales Logic</td>
+        <td>Basic Filtering</td>
+        <td>Custom Logic</td>
+        <td class="check">Elite Multi-Branch Logic</td>
+      </tr>
+      <tr>
+        <td>Multi-Channel Mastery</td>
         <td>—</td>
         <td>—</td>
         <td class="check">✔</td>
       </tr>
       <tr>
-        <td>Dedicated Success Strategy</td>
-        <td>—</td>
+        <td>Personalized Onboarding</td>
+        <td>Basic Setup</td>
         <td class="check">✔</td>
         <td class="check">✔ (priority)</td>
       </tr>
