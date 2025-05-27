@@ -184,6 +184,7 @@
   <button class="btn" id="startBtn" onclick="startChat()">Start PlugBot</button>
 </div>
 <footer>&copy; 2025 PlugBot | Designed with ❤️ for premium creators</footer>
+
 <script>
 const chat = document.getElementById('chat');
 const inputRow = document.getElementById('inputRow');
@@ -195,6 +196,7 @@ let userData = {};
 const CLIENT_BOOKING_LINK = 'https://your-booking-link.com';
 const CLIENT_RESOURCE_LINK = 'https://your-resource-link.com';
 const CLIENT_FALLBACK_LINK = 'https://your-fallback-link.com';
+
 const questions = [
   "Hi there, I'm PlugBot. Ready to see if this opportunity is right for you?",
   "What's your name?",
@@ -205,8 +207,10 @@ const questions = [
   "How much are you currently making per month?",
   "How much would you like to make?",
   "Do you have savings or credit available to put toward your goals?",
-  "Are you serious about achieving your goals no matter what? (if no funds)"
+  "Are you building credit or close to a funding milestone?",
+  "Are you serious about achieving your goals no matter what?"
 ];
+
 function appendMessage(html, isUser = false) {
   const box = document.createElement('div');
   box.className = 'msg-box ' + (isUser ? 'user-msg' : 'bot-msg');
@@ -214,6 +218,7 @@ function appendMessage(html, isUser = false) {
   chat.appendChild(box);
   chat.scrollTop = chat.scrollHeight;
 }
+
 function appendTyping() {
   const typing = document.createElement('div');
   typing.className = 'typing';
@@ -222,14 +227,17 @@ function appendTyping() {
   chat.appendChild(typing);
   chat.scrollTop = chat.scrollHeight;
 }
+
 function removeTyping() {
   const typing = document.getElementById('typing');
   if (typing) typing.remove();
 }
+
 function updateProgress() {
   const percent = Math.min((step / questions.length) * 100, 100);
   progressBar.style.width = percent + '%';
 }
+
 function startChat() {
   startBtn.style.display = 'none';
   inputRow.style.display = 'block';
@@ -240,6 +248,7 @@ function startChat() {
     updateProgress();
   }, 800);
 }
+
 function sendInput() {
   const userInput = input.value.trim();
   if (!userInput) return;
@@ -252,75 +261,61 @@ function sendInput() {
     updateProgress();
   }, 800);
 }
+
 function handleLogic(userInput) {
   const lowerInput = userInput.toLowerCase();
-  if (step === 1) {
-    userData.name = userInput;
-    appendMessage(`Nice to meet you, ${userData.name}!`);
-  }
+
+  if (step === 1) userData.name = userInput;
   if (step === 2) {
     userData.age = parseInt(userInput);
     if (userData.age < 17) {
-      appendMessage(`We currently only accept applicants 17+, but we love your ambition. Here’s a resource to help you prepare: <a href='${CLIENT_FALLBACK_LINK}' target='_blank'>Click here</a>`);
-      inputRow.style.display = 'none';
-      return;
-    }
-    appendMessage(`${userData.age} — that’s a great age to get started!`);
-  }
-  if (step === 3) {
-    userData.experience = lowerInput;
-    if (lowerInput.includes('yes')) {
-      appendMessage(`That’s great experience! It’ll definitely help you here.`);
-    } else {
-      appendMessage(`No worries — everyone starts somewhere, and you’re in the right place.`);
+      appendMessage(`We currently only accept applicants 17+. <a href='${CLIENT_FALLBACK_LINK}' target='_blank'>Click here</a>`);
+      inputRow.style.display = 'none'; return;
     }
   }
-  if (step === 4) {
-    userData.invested = lowerInput;
-    if (lowerInput.includes('first') || lowerInput.includes('no')) {
-      appendMessage(`Congrats on stepping into your next level! That’s a big move.`);
-    } else {
-      appendMessage(`Awesome, sounds like you already know how to take action.`);
-    }
-  }
-  if (step === 5) {
-    userData.interest = userInput;
-    appendMessage(`That’s awesome — thanks for sharing what caught your attention!`);
-  }
-  if (step === 6) {
-    userData.income = userInput;
-    appendMessage(`Thanks for being transparent about where you’re at right now.`);
-  }
-  if (step === 7) {
-    userData.goalIncome = userInput;
-    appendMessage(`Love that goal — let’s explore how we can help you get there.`);
-  }
+  if (step === 3) userData.experience = lowerInput;
+  if (step === 4) userData.invested = lowerInput;
+  if (step === 5) userData.interest = userInput;
+  if (step === 6) userData.income = userInput;
+  if (step === 7) userData.goalIncome = userInput;
+
   if (step === 8) {
-    userData.hasFunds = /(yes|yea|yeah|yep|sure|i do|i have|credit|card|\$|\d+)/i.test(userInput);
+    userData.hasFunds = /(yes|yea|yeah|yep|sure|i do|i have|credit|card|\\$|\\d+)/i.test(userInput);
     if (!userData.hasFunds) {
-      appendMessage(`Thanks for your honesty. Let me ask — are you serious about achieving your goals no matter what?`);
-      step++;
-      updateProgress();
-      return;
+      appendMessage(\"Are you building credit or close to a funding milestone?\");
+      step++; return;
     }
   }
-  if (step === 9) {
+
+  if (step === 9 && !userData.hasFunds) {
+    userData.buildingCredit = /(yes|yea|yeah|yep|sure|almost|close)/i.test(userInput);
+    if (userData.buildingCredit) {
+      determineOutcome(\"aligned\"); return;
+    } else {
+      appendMessage(\"Are you serious about achieving your goals no matter what?\");
+      step++; return;
+    }
+  }
+
+  if (step === 10) {
     userData.mindset = /(yes|yea|yeah|yep|sure|absolutely|definitely|of course)/i.test(userInput);
   }
+
   step++;
-  if (step < questions.length && (userData.hasFunds || step !== 9)) {
+  if (step < questions.length && (userData.hasFunds || step !== 10)) {
     appendMessage(questions[step]);
   } else {
     determineOutcome();
   }
 }
-function determineOutcome() {
-  if (userData.hasFunds) {
-    appendMessage(`Awesome! Based on what you’ve shared, you’re aligned. <button onclick=\"window.open('${CLIENT_BOOKING_LINK}', '_blank')\">Book Your Call</button>`);
+
+function determineOutcome(force) {
+  if (force === \"aligned\" || userData.hasFunds) {
+    appendMessage(`Awesome! Based on what you’ve shared, you’re aligned. <button onclick=\\\"window.open('${CLIENT_BOOKING_LINK}', '_blank')\\\">Book Your Call</button>`);
   } else if (!userData.hasFunds && userData.mindset) {
     appendMessage(`That’s the mindset it takes! Use what you have, stay focused, and check out these prep resources: <a href='${CLIENT_RESOURCE_LINK}' target='_blank' style='color: #00f;'>Click here</a>`);
-  } else if (!userData.hasFunds && !userData.mindset) {
-    appendMessage(`Thanks for your honesty! Wishing you the best on your journey. Here are some other resources you can explore: <a href='${CLIENT_FALLBACK_LINK}' target='_blank' style='color: #00f;'>Click here</a>`);
+  } else {
+    appendMessage(`Thanks for your honesty! Here are some other resources you can explore: <a href='${CLIENT_FALLBACK_LINK}' target='_blank' style='color: #00f;'>Click here</a>`);
   }
   inputRow.style.display = 'none';
 }
