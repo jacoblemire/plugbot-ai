@@ -1,0 +1,312 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlugBot: Unlock Your Next Level</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --text: #ffffff;
+      --accent: #ffffff;
+      --card: #1a1a1a;
+      --rounded: 20px;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0b0b0b, #121212);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    header {
+      width: 100%;
+      padding: 2rem;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      background: linear-gradient(to right, #ffffff33, #ffffff11);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+      background-image: linear-gradient(90deg, #fff, #e0e0e0, #fff);
+      background-size: 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 3s infinite, pulse 2s infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: 0%; }
+      50% { background-position: 100%; }
+      100% { background-position: 0%; }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .avatar-bg img {
+      width: 160px;
+      margin-top: 1rem;
+      animation: float 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 15px var(--accent));
+    }
+    .interface {
+      width: 100%;
+      max-width: 600px;
+      background: var(--card);
+      border-radius: var(--rounded);
+      padding: 2rem;
+      margin: 2rem;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.3s ease;
+    }
+    .interface:hover {
+      transform: scale(1.02);
+    }
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: #333;
+      border-radius: var(--rounded);
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+    .progress {
+      width: 0%;
+      height: 100%;
+      background: var(--accent);
+      transition: width 0.4s ease;
+    }
+    .chat-section {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: var(--rounded);
+      padding: 1rem;
+      max-height: 50vh;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+      backdrop-filter: blur(6px);
+      scrollbar-width: thin;
+      scrollbar-color: #ffffff44 #1a1a1a;
+    }
+    .chat-section::-webkit-scrollbar {
+      width: 8px;
+    }
+    .chat-section::-webkit-scrollbar-thumb {
+      background-color: #ffffff44;
+      border-radius: 10px;
+    }
+    .chat-section::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+    .msg-box {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.85rem;
+      border-radius: var(--rounded);
+      margin-bottom: 0.5rem;
+      animation: fadeIn 0.3s ease;
+      font-size: 1rem;
+    }
+    .user-msg {
+      align-self: flex-end;
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .bot-msg {
+      align-self: flex-start;
+    }
+    .typing {
+      font-size: 0.85rem;
+      opacity: 0.7;
+      animation: blink 1s infinite;
+    }
+    .input-row {
+      width: 100%;
+      display: none;
+      margin-top: 1rem;
+    }
+    input {
+      width: 100%;
+      padding: 1rem;
+      border-radius: var(--rounded);
+      border: none;
+      background: #111;
+      color: #fff;
+      font-size: 1rem;
+    }
+    .btn {
+      width: 100%;
+      padding: 1rem;
+      background: var(--accent);
+      color: #000;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--rounded);
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      margin-top: 1rem;
+    }
+    .btn:hover {
+      background: #e0e0e0;
+      transform: scale(1.05);
+    }
+    footer {
+      margin-top: auto;
+      padding: 1rem;
+      font-size: 0.75rem;
+      opacity: 0.6;
+      text-align: center;
+    }
+    @media (max-width: 480px) {
+      .avatar-bg img { width: 100px; }
+      .msg-box { font-size: 0.9rem; }
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes blink { 0%, 100% { opacity: 0.7; } 50% { opacity: 0.2; } }
+  </style>
+</head>
+<body>
+<header>PlugBot: Unlock Your Next Level with Confidence</header>
+
+<!-- CLIENT: You can replace this avatar image link with your own mascot -->
+<div class="avatar-bg"><img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot Avatar"></div>
+
+<div class="interface">
+  <div class="progress-bar"><div class="progress" id="progress"></div></div>
+  <div class="chat-section" id="chat"></div>
+  <div class="input-row" id="inputRow"><input type="text" id="input" placeholder="Type here..." onkeydown="if(event.key==='Enter'){sendInput()}" /></div>
+  <button class="btn" id="startBtn" onclick="startChat()">Start PlugBot</button>
+</div>
+
+<footer>&copy; 2025 PlugBot | Designed with ❤️ for premium creators</footer>
+
+<script>
+const chat = document.getElementById('chat');
+const inputRow = document.getElementById('inputRow');
+const input = document.getElementById('input');
+const startBtn = document.getElementById('startBtn');
+const progressBar = document.getElementById('progress');
+let step = 0;
+let userData = {};
+const questions = [
+  "Hi there, I'm PlugBot. Ready to see if this opportunity is right for you?",
+  "What's your name?",
+  "How old are you?",
+  "Have you worked online or been part of a program like this before?",
+  "Have you invested in coaching or mentorship before, or is this your first time?",
+  "What caught your interest in this offer?",
+  "How much are you currently making per month?",
+  "How much would you like to make?",
+  "Do you have savings or credit available to put toward your goals?",
+  "Are you serious about achieving your goals no matter what? (if no funds)"
+];
+
+function appendMessage(text, isUser = false) {
+  const box = document.createElement('div');
+  box.className = 'msg-box ' + (isUser ? 'user-msg' : 'bot-msg');
+  box.textContent = text;
+  chat.appendChild(box);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function appendTyping() {
+  const typing = document.createElement('div');
+  typing.className = 'typing';
+  typing.id = 'typing';
+  typing.textContent = 'PlugBot is typing...';
+  chat.appendChild(typing);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function removeTyping() {
+  const typing = document.getElementById('typing');
+  if (typing) typing.remove();
+}
+
+function updateProgress() {
+  const percent = Math.min((step / questions.length) * 100, 100);
+  progressBar.style.width = percent + '%';
+}
+
+function startChat() {
+  startBtn.style.display = 'none';
+  inputRow.style.display = 'block';
+  appendTyping();
+  setTimeout(() => {
+    removeTyping();
+    appendMessage(questions[step]);
+    updateProgress();
+  }, 800);
+}
+
+function sendInput() {
+  const userInput = input.value.trim();
+  if (!userInput) return;
+  appendMessage(userInput, true);
+  input.value = '';
+  appendTyping();
+  setTimeout(() => {
+    removeTyping();
+    handleLogic(userInput);
+    updateProgress();
+  }, 800);
+}
+
+function handleLogic(userInput) {
+  const lowerInput = userInput.toLowerCase();
+  if (step === 1) {
+    userData.name = userInput;
+    appendMessage(`Great to meet you, ${userInput}!`);
+  }
+  if (step === 2) {
+    userData.age = parseInt(userInput);
+    if (userData.age < 17) {
+      appendMessage("We only accept applicants 17+. Check out these resources: [CLIENT: INSERT FALLBACK RESOURCE LINK HERE]");
+      inputRow.style.display = 'none';
+      return;
+    }
+    appendMessage(`${userData.age} — perfect age to get started!`);
+  }
+  if (step === 3) userData.experience = userInput;
+  if (step === 4) userData.invested = userInput;
+  if (step === 5) userData.interest = userInput;
+  if (step === 6) userData.income = userInput;
+  if (step === 7) userData.goalIncome = userInput;
+  if (step === 8) {
+    userData.hasFunds = /(yes|yea|yeah|yep|ok|sure|i do|i have|credit|card|\$|\d+)/i.test(userInput);
+  }
+  if (step === 9) {
+    userData.mindset = /(yes|yea|yeah|yep|sure|absolutely|definitely|of course)/i.test(userInput);
+  }
+
+  step++;
+  if (step < questions.length && (userData.hasFunds || step !== 9)) {
+    appendMessage(questions[step]);
+  } else {
+    determineOutcome();
+  }
+}
+
+function determineOutcome() {
+  if (userData.hasFunds) {
+    appendMessage("Awesome! You're aligned. Book a call here: [CLIENT: INSERT BOOKING LINK HERE]");
+  } else if (!userData.hasFunds && userData.mindset) {
+    appendMessage("That's the mindset it takes! Prep here: [CLIENT: INSERT RESOURCE LINK HERE]");
+  } else if (!userData.hasFunds && !userData.mindset) {
+    appendMessage("Thanks for your honesty! Explore more here: [CLIENT: INSERT FALLBACK LINK HERE]");
+  }
+  inputRow.style.display = 'none';
+}
+</script>
+</body>
+</html>
