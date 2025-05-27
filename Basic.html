@@ -51,8 +51,8 @@ let step = 0;
 let userData = {};
 const questions = [
   "Hi there, I'm PlugBot. Ready to see if this opportunity is right for you?",
-  "Awesome! What's your name?",
-  "Nice to meet you! How old are you?",
+  "What's your name?",
+  "How old are you?",
   "Have you worked online or been part of a program like this before?",
   "Have you invested in coaching or mentorship before, or is this your first time?",
   "What caught your interest in this offer (growth, income, freedom, etc.)?",
@@ -103,7 +103,7 @@ function handleLogic(userInput) {
   if (step === 2) {
     userData.age = parseInt(userInput);
     if (userData.age < 17) { appendMessage("We only accept applicants 17+. Check out these resources for now."); inputRow.style.display = 'none'; return; }
-    appendMessage(`Awesome, ${userData.age} is a perfect age to start!`);
+    appendMessage(`${userData.age} — perfect age to get started!`);
   }
   if (step === 3) userData.experience = userInput;
   if (step === 4) userData.invested = userInput;
