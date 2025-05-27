@@ -6,12 +6,12 @@
   <title>PlugBot Universal Microsite</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root { --bg: #0b0b0b; --text: #ffffff; --accent: #00ffe0; --card: #1a1a1a; --rounded: 16px; }
+    :root { --bg: #0b0b0b; --text: #ffffff; --accent: #ffffff; --card: #1a1a1a; --rounded: 16px; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: radial-gradient(circle at center, #0b0b0b, #050505); color: var(--text); font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 2rem; min-height: 100vh; background-size: cover; }
     header { width: 100%; text-align: center; font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px; }
     .avatar-bg img { width: 140px; animation: float 4s ease-in-out infinite, glow 3s ease-in-out infinite; margin-bottom: 1rem; }
-    .interface { width: 100%; max-width: 500px; background: var(--card); border-radius: var(--rounded); box-shadow: 0 0 30px rgba(0, 255, 224, 0.2); padding: 1.5rem; display: flex; flex-direction: column; align-items: center; }
+    .interface { width: 100%; max-width: 500px; background: var(--card); border-radius: var(--rounded); box-shadow: 0 0 30px rgba(255, 255, 255, 0.3); padding: 1.5rem; display: flex; flex-direction: column; align-items: center; }
     .progress-bar { width: 100%; height: 8px; background: #333; border-radius: var(--rounded); margin-bottom: 1rem; overflow: hidden; }
     .progress { width: 0%; height: 100%; background: var(--accent); transition: width 0.4s ease; }
     .chat-section { width: 100%; background: rgba(255,255,255,0.05); border-radius: var(--rounded); padding: 1rem; max-height: 50vh; overflow-y: auto; margin-bottom: 1rem; }
@@ -22,7 +22,7 @@
     .input-row { width: 100%; display: none; margin-top: 1rem; }
     input { width: 100%; padding: 1rem; border-radius: var(--rounded); border: none; background: #111; color: #fff; font-size: 1rem; }
     .btn { width: 100%; padding: 1rem; background: var(--accent); color: #000; font-weight: 700; border: none; border-radius: var(--rounded); cursor: pointer; transition: background 0.3s ease; margin-top: 1rem; }
-    .btn:hover { background: #00c8a6; }
+    .btn:hover { background: #e0e0e0; }
     footer { margin-top: 2rem; font-size: 0.75rem; opacity: 0.6; text-align: center; }
     @media (max-width: 480px) { .avatar-bg img { width: 90px; } .msg-box { font-size: 0.85rem; } }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -99,10 +99,11 @@ function sendInput() {
   setTimeout(() => { removeTyping(); handleLogic(userInput); updateProgress(); }, 800);
 }
 function handleLogic(userInput) {
-  if (step === 1) userData.name = userInput;
+  if (step === 1) { userData.name = userInput; appendMessage(`Great to meet you, ${userInput}!`); }
   if (step === 2) {
     userData.age = parseInt(userInput);
     if (userData.age < 17) { appendMessage("We only accept applicants 17+. Check out these resources for now."); inputRow.style.display = 'none'; return; }
+    appendMessage(`Awesome, ${userData.age} is a perfect age to start!`);
   }
   if (step === 3) userData.experience = userInput;
   if (step === 4) userData.invested = userInput;
