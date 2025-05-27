@@ -35,6 +35,20 @@
       background: linear-gradient(to right, #ffffff33, #ffffff11);
       backdrop-filter: blur(10px);
       box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+      background-image: linear-gradient(90deg, #fff, #e0e0e0, #fff);
+      background-size: 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 3s infinite, pulse 2s infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: 0%; }
+      50% { background-position: 100%; }
+      100% { background-position: 0%; }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
     }
     .avatar-bg img {
       width: 160px;
@@ -81,6 +95,18 @@
       overflow-y: auto;
       margin-bottom: 1rem;
       backdrop-filter: blur(6px);
+      scrollbar-width: thin;
+      scrollbar-color: #ffffff44 #1a1a1a;
+    }
+    .chat-section::-webkit-scrollbar {
+      width: 8px;
+    }
+    .chat-section::-webkit-scrollbar-thumb {
+      background-color: #ffffff44;
+      border-radius: 10px;
+    }
+    .chat-section::-webkit-scrollbar-track {
+      background: #1a1a1a;
     }
     .msg-box {
       background: rgba(255, 255, 255, 0.1);
@@ -125,11 +151,12 @@
       border: none;
       border-radius: var(--rounded);
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: background 0.3s ease, transform 0.2s ease;
       margin-top: 1rem;
     }
     .btn:hover {
       background: #e0e0e0;
+      transform: scale(1.05);
     }
     footer {
       margin-top: auto;
