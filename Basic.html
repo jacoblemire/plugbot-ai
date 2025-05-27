@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PlugBot Universal Microsite</title>
+  <title>PlugBot: Unlock Your Next Level</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -171,12 +171,13 @@ const questions = [
   "How old are you?",
   "Have you worked online or been part of a program like this before?",
   "Have you invested in coaching or mentorship before, or is this your first time?",
-  "What caught your interest in this offer (growth, income, freedom, etc.)?",
+  "What caught your interest in this offer?",
   "How much are you currently making per month?",
   "How much would you like to make?",
-  "Do you have at least $500 saved or available in credit to get started?",
+  "Do you have savings or credit available to put toward your goals?",
   "Are you serious about achieving your goals no matter what? (if no funds)"
 ];
+
 function appendMessage(text, isUser = false) {
   const box = document.createElement('div');
   box.className = 'msg-box ' + (isUser ? 'user-msg' : 'bot-msg');
@@ -184,6 +185,7 @@ function appendMessage(text, isUser = false) {
   chat.appendChild(box);
   chat.scrollTop = chat.scrollHeight;
 }
+
 function appendTyping() {
   const typing = document.createElement('div');
   typing.className = 'typing';
@@ -192,33 +194,54 @@ function appendTyping() {
   chat.appendChild(typing);
   chat.scrollTop = chat.scrollHeight;
 }
+
 function removeTyping() {
   const typing = document.getElementById('typing');
   if (typing) typing.remove();
 }
+
 function updateProgress() {
   const percent = Math.min((step / questions.length) * 100, 100);
   progressBar.style.width = percent + '%';
 }
+
 function startChat() {
   startBtn.style.display = 'none';
   inputRow.style.display = 'block';
   appendTyping();
-  setTimeout(() => { removeTyping(); appendMessage(questions[step]); updateProgress(); }, 800);
+  setTimeout(() => {
+    removeTyping();
+    appendMessage(questions[step]);
+    updateProgress();
+  }, 800);
 }
+
 function sendInput() {
   const userInput = input.value.trim();
   if (!userInput) return;
   appendMessage(userInput, true);
   input.value = '';
   appendTyping();
-  setTimeout(() => { removeTyping(); handleLogic(userInput); updateProgress(); }, 800);
+  setTimeout(() => {
+    removeTyping();
+    handleLogic(userInput);
+    updateProgress();
+  }, 800);
 }
+
 function handleLogic(userInput) {
-  if (step === 1) { userData.name = userInput; appendMessage(`Great to meet you, ${userInput}!`); }
+  const lowerInput = userInput.toLowerCase();
+  if (step === 1) {
+    userData.name = userInput;
+    appendMessage(`Great to meet you, ${userInput}!`);
+  }
   if (step === 2) {
     userData.age = parseInt(userInput);
-    if (userData.age < 17) { appendMessage("We only accept applicants 17+. Check out these resources for now."); inputRow.style.display = 'none'; return; }
+    if (userData.age < 17) {
+      appendMessage("We only accept applicants 17+. Check out these resources to prepare!");
+      inputRow.style.display = 'none';
+      return;
+    }
     appendMessage(`${userData.age} — perfect age to get started!`);
   }
   if (step === 3) userData.experience = userInput;
@@ -226,8 +249,12 @@ function handleLogic(userInput) {
   if (step === 5) userData.interest = userInput;
   if (step === 6) userData.income = userInput;
   if (step === 7) userData.goalIncome = userInput;
-  if (step === 8) userData.hasFunds = userInput.toLowerCase().includes('yes') || userInput.includes('$');
-  if (step === 9) userData.mindset = userInput.toLowerCase().includes('yes');
+  if (step === 8) {
+    userData.hasFunds = /(yes|yea|yeah|yep|ok|sure|i do|i have|credit|card|\$|\d+)/i.test(userInput);
+  }
+  if (step === 9) {
+    userData.mindset = /(yes|yea|yeah|yep|sure|absolutely|definitely|of course)/i.test(userInput);
+  }
 
   step++;
   if (step < questions.length && (userData.hasFunds || step !== 9)) {
@@ -236,13 +263,14 @@ function handleLogic(userInput) {
     determineOutcome();
   }
 }
+
 function determineOutcome() {
   if (userData.hasFunds) {
-    appendMessage("Awesome! You're aligned. Book a call and let's get you moving. (Insert custom CTA)");
+    appendMessage("Awesome! You're aligned. Book a call and let's get you moving. (Insert booking link)");
   } else if (!userData.hasFunds && userData.mindset) {
-    appendMessage("Strong mindset! Here's how you can prep while you build resources. (Insert resource link)");
+    appendMessage("That's the mindset it takes! Here's how you can prep while you build resources. (Insert resource link)");
   } else if (!userData.hasFunds && !userData.mindset) {
-    appendMessage("Thanks for your honesty! Best of luck on your journey — here are some resources. (Insert fallback link)");
+    appendMessage("Thanks for your honesty! Best of luck on your journey — here are some resources to explore. (Insert fallback link)");
   }
   inputRow.style.display = 'none';
 }
