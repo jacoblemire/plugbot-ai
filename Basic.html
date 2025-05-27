@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -176,14 +177,19 @@
 </head>
 <body>
 <header>PlugBot: Unlock Your Next Level with Confidence</header>
+
+<!-- CLIENT: Replace the avatar image link below if you want your own mascot -->
 <div class="avatar-bg"><img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot Avatar"></div>
+
 <div class="interface">
   <div class="progress-bar"><div class="progress" id="progress"></div></div>
   <div class="chat-section" id="chat"></div>
   <div class="input-row" id="inputRow"><input type="text" id="input" placeholder="Type here..." onkeydown="if(event.key==='Enter'){sendInput()}" /></div>
   <button class="btn" id="startBtn" onclick="startChat()">Start PlugBot</button>
 </div>
+
 <footer>&copy; 2025 PlugBot | Designed with ❤️ for premium creators</footer>
+
 <script>
 const chat = document.getElementById('chat');
 const inputRow = document.getElementById('inputRow');
@@ -192,6 +198,12 @@ const startBtn = document.getElementById('startBtn');
 const progressBar = document.getElementById('progress');
 let step = 0;
 let userData = {};
+
+// CLIENT: Insert your actual URLs below
+const CLIENT_BOOKING_LINK = 'https://your-booking-link.com';
+const CLIENT_RESOURCE_LINK = 'https://your-resource-link.com';
+const CLIENT_FALLBACK_LINK = 'https://your-fallback-link.com';
+
 const questions = [
   "Hi there, I'm PlugBot. Ready to see if this opportunity is right for you?",
   "What's your name?",
@@ -205,10 +217,10 @@ const questions = [
   "Are you serious about achieving your goals no matter what? (if no funds)"
 ];
 
-function appendMessage(text, isUser = false) {
+function appendMessage(html, isUser = false) {
   const box = document.createElement('div');
   box.className = 'msg-box ' + (isUser ? 'user-msg' : 'bot-msg');
-  box.textContent = text;
+  box.innerHTML = html;
   chat.appendChild(box);
   chat.scrollTop = chat.scrollHeight;
 }
@@ -265,7 +277,7 @@ function handleLogic(userInput) {
   if (step === 2) {
     userData.age = parseInt(userInput);
     if (userData.age < 17) {
-      appendMessage("We only accept applicants 17+. Check out these resources to prepare!");
+      appendMessage(`We only accept applicants 17+. <a href='${CLIENT_FALLBACK_LINK}' target='_blank' style='color: #00f;'>Check out these resources</a>`);
       inputRow.style.display = 'none';
       return;
     }
@@ -293,11 +305,11 @@ function handleLogic(userInput) {
 
 function determineOutcome() {
   if (userData.hasFunds) {
-    appendMessage("Awesome! You're aligned. Book a call and let's get you moving. (Insert booking link)");
+    appendMessage(`Awesome! You're aligned. <button onclick="window.open('${CLIENT_BOOKING_LINK}', '_blank')">Book Your Call</button>`);
   } else if (!userData.hasFunds && userData.mindset) {
-    appendMessage("That's the mindset it takes! Here's how you can prep while you build resources. (Insert resource link)");
+    appendMessage(`That's the mindset it takes! <a href='${CLIENT_RESOURCE_LINK}' target='_blank' style='color: #00f;'>Prep here</a>`);
   } else if (!userData.hasFunds && !userData.mindset) {
-    appendMessage("Thanks for your honesty! Best of luck on your journey — here are some resources to explore. (Insert fallback link)");
+    appendMessage(`Thanks for your honesty! <a href='${CLIENT_FALLBACK_LINK}' target='_blank' style='color: #00f;'>Explore more here</a>`);
   }
   inputRow.style.display = 'none';
 }
