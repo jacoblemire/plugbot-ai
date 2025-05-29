@@ -85,7 +85,7 @@
       border-radius: var(--rounded);
       text-decoration: none;
       display: inline-block;
-      transition: all 0.3s ease;
+      transition: all: 0.3s ease;
       margin-top: 1rem;
       animation: buttonPulse 4s infinite;
     }
@@ -327,12 +327,12 @@
     <p style="margin-top: 1rem; font-weight: 500; max-width: 680px; margin-left: auto; margin-right: auto;">
       PlugBot is a high-performance AI lead qualification agency. We specialize in setting only hot, ready-to-close leads — fully replacing appointment setters with advanced sales logic designed to drive conversions and eliminate wasted time.
     </p>
-    <a href="https://whop.com/checkout/plan_90VaIA48j7qxA?d2c=true" class="cta-button">Get Your PlugBot →</a>
+    <a href="https://whop.com/checkout/plan_mSdAop1LuIY20?d2c=true" class="cta-button">Get Your PlugBot →</a>
   </section>
 
   <section class="section" data-aos="fade-up">
     <h2>Try PlugBot Basic Demo</h2>
-    <p>Experience how PlugBot qualifies leads and routes them to bookings. Purchase for $995 to customize and deploy your own!</p>
+    <p>Experience how PlugBot qualifies leads and routes them to bookings. Try PlugBot Basic for free to customize and deploy your own!</p>
     <div class="demo-container">
       <div class="avatar-bg">
         <img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot Avatar" onerror="this.src='https://via.placeholder.com/180'">
@@ -346,7 +346,7 @@
         <button onclick="sendMessage()">Send</button>
       </div>
     </div>
-    <a href="https://whop.com/checkout/plan_90VaIA48j7qxA?d2c=true" class="cta-button">Buy PlugBot Basic ($995) →</a>
+    <a href="https://whop.com/checkout/plan_mSdAop1LuIY20?d2c=true" class="cta-button">Test PlugBot Basic (Free) →</a>
   </section>
 
   <section class="section" data-aos="fade-up">
@@ -503,9 +503,9 @@
           }
         } else if (demoState === 1) {
           if (text.toLowerCase() === 'book') {
-            addMessage('Awesome! I’d redirect you to a booking link now (e.g., Calendly). Buy PlugBot Basic to set yours!', 'bot');
+            addMessage('Awesome! I’d redirect you to a booking link now (e.g., Calendly). Test PlugBot Basic for free to set yours!', 'bot');
           } else {
-            addMessage('PlugBot filters leads like this to save you time. Buy now to customize it!', 'bot');
+            addMessage('PlugBot filters leads like this to save you time. Test now for free to customize it!', 'bot');
           }
           demoState = 2;
           updateProgress();
