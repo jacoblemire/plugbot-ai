@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlugBot Basic Setup | MXD Enterprises</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #ffffff; --text: #111111; --dim: #555; --accent: #000000; --highlight: #ffb400; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Poppins', sans-serif; background-color: var(--bg); color: var(--text); }
+    .container { max-width: 600px; margin: 4rem auto; padding: 2rem; text-align: center; }
+    h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+    p { font-size: 1.1rem; color: var(--dim); margin-bottom: 2rem; }
+    .form-group { margin-bottom: 1.5rem; text-align: left; }
+    label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
+    input { width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; }
+    button { background: var(--accent); color: #fff; padding: 1rem 2rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+    button:hover { background: var(--highlight); color: #000; }
+    #error { color: red; margin-top: 1rem; display: none; }
+    #success { color: green; margin-top: 1rem; display: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Setup Your PlugBot Basic</h1>
+    <p>Enter your booking and payment links to customize your PlugBot. You’ll get a downloadable file to deploy.</p>
+    <div class="form-group">
+      <label for="bookingLink">Booking Link (e.g., Calendly)</label>
+      <input type="url" id="bookingLink" placeholder="https://calendly.com/your-link">
+    </div>
+    <div class="form-group">
+      <label for="paymentLink">Payment Link (e.g., Stripe)</label>
+      <input type="url" id="paymentLink" placeholder="https://stripe.com/your-link">
+    </div>
+    <button onclick="saveSettings()">Save Settings</button>
+    <p id="error">Please enter valid URLs for both fields.</p>
+    <p id="success">Settings saved! Download your PlugBot below.</p>
+    <a id="downloadLink" style="display: none;" href="#" download="plugbot.html" class="button">Download PlugBot Basic</a>
+  </div>
+  <script>
+    function saveSettings() {
+      const bookingLink = document.getElementById('bookingLink').value.trim();
+      const paymentLink = document.getElementById('paymentLink').value.trim();
+      const error = document.getElementById('error');
+      const success = document.getElementById('success');
+      const downloadLink = document.getElementById('downloadLink');
+
+      if (!isValidUrl(bookingLink) || !isValidUrl(paymentLink)) {
+        error.style.display = 'block';
+        success.style.display = 'none';
+        downloadLink.style.display = 'none';
+        return;
+      }
+
+      localStorage.setItem('bookingLink', bookingLink);
+      localStorage.setItem('paymentLink', paymentLink);
+
+      const plugbotHtml = generatePlugbotHtml(bookingLink, paymentLink);
+      const blob = new Blob([plugbotHtml], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      downloadLink.href = url;
+      downloadLink.style.display = 'block';
+      success.style.display = 'block';
+      error.style.display = 'none';
+
+      console.log('Settings saved:', { bookingLink, paymentLink });
+    }
+
+    function isValidUrl(url) {
+      try {
+        new URL(url);
+        return url.startsWith('https://');
+      } catch {
+        return false;
+      }
+    }
+
+    function generatePlugbotHtml(bookingLink, paymentLink) {
+      return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your PlugBot Basic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #ffffff; --text: #111111; --accent: #000000; --highlight: #ffb400; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Poppins', sans-serif; background-color: var(--bg); color: var(--text); }
+    .container { max-width: 600px; margin: 4rem auto; padding: 2rem; }
+    .chat-window { background: #fff; border-radius: 8px; padding: 1rem; height: 400px; overflow-y: auto; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .chat-message { margin: 0.5rem 0; padding: 0.5rem 1rem; border-radius: 8px; max-width: 80%; }
+    .chat-message.bot { background: var(--highlight); color: #000; margin-left: auto; }
+    .chat-message.user { background: #000; color: #fff; margin-right: auto; }
+    .chat-input { display: flex; gap: 1rem; margin-top: 1rem; }
+    .chat-input input { flex: 1; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; }
+    .chat-input button { background: var(--accent); color: #fff; padding: 0.8rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; }
+    .chat-input button:hover { background: var(--highlight); color: #000; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Your PlugBot Basic</h1>
+    <div class="chat-window" id="chatWindow">
+      <div class="chat-message bot">Hi! I'm PlugBot. Are you interested in our services? (Type "Yes" or "No")</div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Type your response...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+  <script>
+    const chatWindow = document.getElementById('chatWindow');
+    const userInput = document.getElementById('userInput');
+    let state = 0;
+
+    function addMessage(text, sender) {
+      const message = document.createElement('div');
+      message.className = \`chat-message \${sender}\`;
+      message.textContent = text;
+      chatWindow.appendChild(message);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+
+    function sendMessage() {
+      const text = userInput.value.trim();
+      if (!text) return;
+      addMessage(text, 'user');
+      userInput.value = '';
+
+      setTimeout(() => {
+        if (state === 0) {
+          if (text.toLowerCase() === 'yes') {
+            addMessage('Great! Are you ready to book a call? (Type "Yes" or "No")', 'bot');
+            state = 1;
+          } else {
+            addMessage('No worries! Let me know if you change your mind.', 'bot');
+          }
+        } else if (state === 1) {
+          if (text.toLowerCase() === 'yes') {
+            addMessage('Redirecting you to the booking page...', 'bot');
+            setTimeout(() => {
+              window.location.href = '${bookingLink}';
+            }, 1000);
+          } else {
+            addMessage('Here’s the payment link to proceed manually: ${paymentLink}', 'bot');
+          }
+          state = 2;
+        }
+      }, 1000);
+    }
+
+    userInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+  </script>
+</body>
+</html>
+      `;
+    }
+  </script>
+</body>
+</html>
