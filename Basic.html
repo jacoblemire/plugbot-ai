@@ -9,15 +9,16 @@
 :root {
   --bg: #0b0b0b;
   --text: #ffffff;
-  --accent: #ffffff;
+  --accent: #00c4cc; /* Cyan accent for a modern feel */
   --card: #1a1a1a;
+  --highlight: #ff6b6b; /* Red highlight for contrast */
   --rounded: 20px;
+  --link-hover: #e0e0e0;
 }
 body {
   margin: 0;
-  padding: 0;
   font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, #0b0b0b, #121212);
+  background: linear-gradient(135deg, #0b0b0b, #1e1e1e);
   color: var(--text);
   display: flex;
   flex-direction: column;
@@ -29,9 +30,9 @@ header {
   width: 100%;
   padding: 2rem;
   text-align: center;
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  background-image: linear-gradient(90deg, #fff, #e0e0e0, #fff);
+  background: linear-gradient(90deg, var(--accent), var(--highlight), var(--accent));
   background-size: 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -46,115 +47,172 @@ header {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.05); }
 }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes buttonPulse {
+  0%, 100% { box-shadow: 0 0 10px var(--accent); }
+  50% { box-shadow: 0 0 20px var(--highlight); }
+}
 .avatar-bg img {
-  width: 160px;
-  margin-top: 1rem;
+  width: 180px; /* Slightly larger for emphasis */
+  margin-top: 2rem;
   animation: float 4s ease-in-out infinite;
-  filter: drop-shadow(0 0 15px var(--accent));
+  filter: drop-shadow(0 0 20px var(--accent));
 }
 .interface {
   width: 100%;
-  max-width: 600px;
-  background: var(--card);
+  max-width: 650px;
+  background: linear-gradient(135deg, var(--card), #252525);
   border-radius: var(--rounded);
-  padding: 2rem;
+  padding: 2.5rem;
   margin: 2rem;
-  box-shadow: 0 0 40px rgba(255,255,255,0.2);
+  box-shadow: 0 0 50px rgba(0, 196, 204, 0.3);
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: all 0.3s ease;
 }
 .progress-bar {
   width: 100%;
-  height: 10px;
+  height: 12px;
   background: #333;
   border-radius: var(--rounded);
   overflow: hidden;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 .progress {
   width: 0%;
   height: 100%;
-  background: var(--accent);
+  background: linear-gradient(90deg, var(--accent), var(--highlight));
   transition: width 0.4s ease;
 }
 .chat-section {
   width: 100%;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.07);
   border-radius: var(--rounded);
-  padding: 1rem;
-  max-height: 50vh;
+  padding: 1.5rem;
+  max-height: 55vh;
   overflow-y: auto;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+.chat-section::-webkit-scrollbar {
+  width: 10px;
+}
+.chat-section::-webkit-scrollbar-track {
+  background: #444;
+  border-radius: var(--rounded);
+}
+.chat-section::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: var(--rounded);
+}
+.chat-section::-webkit-scrollbar-thumb:hover {
+  background: var(--highlight);
 }
 .msg-box {
-  background: rgba(255,255,255,0.1);
-  padding: 0.85rem;
+  max-width: 85%;
+  background: rgba(255, 255, 255, 0.12);
+  padding: 1rem;
   border-radius: var(--rounded);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
   animation: fadeIn 0.3s ease;
-  font-size: 1rem;
+  font-size: 1.1rem;
+  line-height: 1.4;
 }
 .user-msg {
   align-self: flex-end;
-  background: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.25);
 }
 .bot-msg {
   align-self: flex-start;
 }
+.msg-box a {
+  color: var(--highlight);
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+.msg-box a:hover {
+  color: var(--link-hover);
+}
 .typing {
-  font-size: 0.85rem;
-  opacity: 0.7;
+  font-size: 1rem;
+  opacity: 0.8;
   animation: blink 1s infinite;
+  align-self: flex-start;
+  display: none;
+}
+.input-row {
+  display: none;
+}
+.input-row.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
 }
 input {
   width: 100%;
-  padding: 1rem;
+  padding: 1.2rem;
   border-radius: var(--rounded);
   border: none;
-  background: #111;
-  color: #fff;
-  font-size: 1rem;
+  background: #222;
+  color: var(--text);
+  font-size: 1.1rem;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.3s ease;
+}
+input:focus {
+  box-shadow: inset 0 0 15px var(--accent);
+  outline: none;
 }
 .btn {
   width: 100%;
-  padding: 1rem;
-  background: var(--accent);
+  max-width: 250px;
+  padding: 1.2rem;
+  background: linear-gradient(90deg, var(--accent), var(--highlight));
   color: #000;
   font-weight: 700;
   border: none;
   border-radius: var(--rounded);
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-  margin-top: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  margin-top: 1.5rem;
+  animation: buttonPulse 4s infinite;
 }
 .btn:hover {
-  background: #e0e0e0;
   transform: scale(1.05);
+  box-shadow: 0 0 25px var(--highlight);
 }
 footer {
   margin-top: auto;
   padding: 1rem;
-  font-size: 0.75rem;
-  opacity: 0.6;
+  font-size: 0.9rem;
+  opacity: 0.7;
   text-align: center;
+  color: var(--link-hover);
 }
 </style>
 </head>
 <body>
-<header>PlugBot: Unlock Your Next Level with Confidence</header>
+<header>PlugBot: Unlock Your Next Level</header>
 <div class="avatar-bg">
-  <img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot Avatar">
+  <img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot Avatar" onerror="this.src='fallback-image.png'">
 </div>
 <div class="interface">
   <div class="progress-bar"><div class="progress" id="progress"></div></div>
-  <div class="chat-section" id="chat"></div>
+  <div class="chat-section" id="chat" aria-live="polite"></div>
   <div class="input-row" id="inputRow">
-    <input type="text" id="input" placeholder="Type here..." />
+    <input type="text" id="input" placeholder="Type here..." aria-label="Type your message" />
   </div>
-  <button class="btn" id="startBtn">Start PlugBot</button>
+  <button class="btn" id="startBtn" aria-label="Start PlugBot conversation">Start PlugBot</button>
 </div>
-<footer>&copy; 2025 PlugBot | Designed with ❤️ for premium creators</footer>
+<footer>© 2025 PlugBot | Designed with ❤️ for premium creators</footer>
 <script>
 const chat = document.getElementById('chat');
 const inputRow = document.getElementById('inputRow');
@@ -163,33 +221,40 @@ const startBtn = document.getElementById('startBtn');
 const progressBar = document.getElementById('progress');
 
 let step = 0;
-let userData = {};
+let userData = JSON.parse(localStorage.getItem('plugbotUserData')) || {};
+let isSending = false;
 
-const CLIENT_CTA_LINK = 'https://your-cta-link.com';
-const CLIENT_RESOURCE_LINK = 'https://your-resource-link.com';
-const CLIENT_FALLBACK_LINK = 'https://your-fallback-link.com';
+const CLIENT_CTA_LINK = 'https://example.com/cta';
+const CLIENT_RESOURCE_LINK = 'https://example.com/resources';
+const CLIENT_FALLBACK_LINK = 'https://example.com/fallback';
 
 const questions = [
   "Hi there, I’m PlugBot. Ready to see if this opportunity is the right fit for you?",
   "What’s your name?",
   "How old are you?",
   "Have you ever worked online or been part of a program, offer, or service like this before?",
-  "Have you ever invested in coaching, mentorship, or personal growth before, or is this your first time?",
+  "Have you ever invested in coaching, mentorship, or personal growth before, or is this your first time? Are you currently considering it?",
   "What specifically about this offer caught your interest?",
   "How much are you currently making per month?",
   "How much would you like to be making after fully committing to this opportunity?",
   "Are you currently working toward a savings or financial goal?",
-  "How much do you currently have available to put toward your goals?",
-  "Are you actively building credit or near funding?",
-  "Are you serious about achieving your goals no matter what?"
+  "Just to be transparent, moving forward requires some level of financial readiness. Do you have savings or credit?",
+  "Are you currently working on building your credit or other financial resources?", // For Scenario 4
+  "What score or milestone are you aiming for?", // For Scenario 4
+  "How far away?", // For Scenario 4
+  "Are you serious about achieving your goals no matter what?" // For Scenarios 6 and 7
 ];
+
+function scrollChatToBottom() {
+  chat.scrollTop = chat.scrollHeight;
+}
 
 function appendMessage(text, isUser = false) {
   const box = document.createElement('div');
   box.className = 'msg-box ' + (isUser ? 'user-msg' : 'bot-msg');
   box.innerHTML = text;
   chat.appendChild(box);
-  chat.scrollTop = chat.scrollHeight;
+  scrollChatToBottom();
 }
 
 function appendTyping() {
@@ -198,7 +263,7 @@ function appendTyping() {
   typing.id = 'typing';
   typing.textContent = 'PlugBot is typing...';
   chat.appendChild(typing);
-  chat.scrollTop = chat.scrollHeight;
+  scrollChatToBottom();
 }
 
 function removeTyping() {
@@ -207,22 +272,31 @@ function removeTyping() {
 }
 
 function updateProgress() {
-  const percent = Math.min((step / questions.length) * 100, 100);
+  const maxSteps = 9; // Adjusted for reduced questions
+  const percent = Math.min((step / maxSteps) * 100, 100);
   progressBar.style.width = percent + '%';
 }
 
 function startChat() {
   startBtn.style.display = 'none';
-  inputRow.style.display = 'block';
-  ask(questions[step]);
+  inputRow.classList.add('active');
+  appendMessage(questions[step]); // Show first question without typing
+  updateProgress();
 }
 
 function sendInput() {
+  if (isSending) return;
+  isSending = true;
   const ans = input.value.trim();
-  if (!ans) return;
+  if (!ans) {
+    appendMessage('Please enter a response.');
+    isSending = false;
+    return;
+  }
   appendMessage(ans, true);
   input.value = '';
   handleLogic(ans);
+  setTimeout(() => (isSending = false), 500);
 }
 
 function ask(q) {
@@ -234,150 +308,145 @@ function ask(q) {
   }, 600);
 }
 
+function saveUserData() {
+  localStorage.setItem('plugbotUserData', JSON.stringify(userData));
+}
+
 function handleLogic(ans) {
   const lower = ans.toLowerCase();
 
   // Scenario 1: Ready?
   if (step === 0) {
     if (lower.includes('no')) {
-      return endFlow(`No worries! Best of luck — check this out: <a href="${CLIENT_FALLBACK_LINK}" target="_blank">Click here</a>`);
+      return endFlow(`Understood. Best of luck on your journey! Here are some other resources you can check out. <a href="${CLIENT_FALLBACK_LINK}" target="_blank">Click here</a>`);
     }
+    appendMessage(`Great! Let’s get started.`);
   }
 
   // Scenario 2: Name
   if (step === 1) {
     userData.name = ans;
+    saveUserData();
+    appendMessage(`Nice to meet you, ${ans}!`);
   }
 
   // Scenario 3: Age check
   if (step === 2) {
     const age = parseInt(ans);
-    userData.age = age;
-    if (age < 17) {
-      return endFlow(`We currently only accept applicants 17+, but we love your ambition! Check out these resources: <a href="${CLIENT_FALLBACK_LINK}" target="_blank">Click here</a>`);
+    if (isNaN(age)) {
+      appendMessage(`Please enter a valid age (e.g., 25).`);
+      isSending = false;
+      return;
     }
-    appendMessage(`${age} — that’s a great age to get started!`);
+    userData.age = age;
+    saveUserData();
+    if (age < 17) {
+      return endFlow(`Gotcha! We currently only accept applicants 17 or older, but we love your ambition. Check out these resources to prepare for the future. <a href="${CLIENT_RESOURCE_LINK}" target="_blank">Click here</a>`);
+    }
+    appendMessage(`Thanks for sharing, let’s dive deeper!`);
   }
 
   // Scenario 4: Experience
   if (step === 3) {
-    if (lower.includes('yes')) {
+    if (lower.includes('yes') || lower.includes('have')) {
       appendMessage(`That’s great experience!`);
     } else {
       appendMessage(`No worries, everyone starts somewhere.`);
     }
   }
 
-  // Scenario 5: Investment
+  // Scenarios 5 & 3: Investment and Interest check
   if (step === 4) {
     if (lower.includes('first') || lower.includes('no')) {
       appendMessage(`Congrats on stepping into your next level!`);
-    } else {
+    } else if (lower.includes('yes') || lower.includes('have')) {
       appendMessage(`Awesome, sounds like you know how to take action.`);
+    } else if (lower.includes('no') || lower.includes('not')) {
+      return endFlow(`Understood. Best of luck on your journey! Here are some other resources you can check out. <a href="${CLIENT_FALLBACK_LINK}" target="_blank">Click here</a>`);
     }
-  }
-
-  // Next step or continue
-  step++;
-  if (step < questions.length) {
-    ask(questions[step]);
-  } else {
-    updateProgress();
-  }
-}
-
-function endFlow(message) {
-  appendMessage(message);
-  inputRow.style.display = 'none';
-}
-</script>
-<script>
-function handleLogic(ans) {
-  const lower = ans.toLowerCase();
-
-  // Scenario 1: Ready?
-  if (step === 0) {
-    if (lower.includes('no')) {
-      return endFlow(`No worries! Best of luck — check this out: <a href="${CLIENT_FALLBACK_LINK}" target="_blank">Click here</a>`);
-    }
-  }
-
-  // Scenario 2: Name
-  if (step === 1) {
-    userData.name = ans;
-  }
-
-  // Scenario 3: Age check
-  if (step === 2) {
-    const age = parseInt(ans);
-    userData.age = age;
-    if (age < 17) {
-      return endFlow(`We currently only accept applicants 17+, but we love your ambition! Check out these resources: <a href="${CLIENT_FALLBACK_LINK}" target="_blank">Click here</a>`);
-    }
-    appendMessage(`${age} — that’s a great age to get started!`);
-  }
-
-  // Scenario 4: Experience
-  if (step === 3) {
-    if (lower.includes('yes')) {
-      appendMessage(`That’s great experience!`);
-    } else {
-      appendMessage(`No worries, everyone starts somewhere.`);
-    }
-  }
-
-  // Scenario 5: Investment
-  if (step === 4) {
-    if (lower.includes('first') || lower.includes('no')) {
-      appendMessage(`Congrats on stepping into your next level!`);
-    } else {
-      appendMessage(`Awesome, sounds like you know how to take action.`);
-    }
+    appendMessage(`Great to hear you’re interested!`);
   }
 
   // Scenario 6: Interest
   if (step === 5) {
-    appendMessage(`That’s awesome — thanks for sharing what caught your attention!`);
+    userData.interest = ans;
+    saveUserData();
+    appendMessage(`That’s awesome! Let’s talk about your goals.`);
   }
 
   // Scenario 7: Current income
   if (step === 6) {
-    appendMessage(`Thanks for being transparent about where you’re at right now.`);
+    if (!/(\$?\d+|\d+k|no job|none)/i.test(lower)) {
+      appendMessage(`Please enter a valid amount (e.g., $1000, 1k, or 'no job').`);
+      isSending = false;
+      return;
+    }
+    userData.currentIncome = ans;
+    saveUserData();
   }
 
   // Scenario 8: Income goal
   if (step === 7) {
-    appendMessage(`Love that goal — let’s explore how we can help you get there.`);
+    if (!/(\$?\d+|\d+k|\d+-\d+k)/i.test(lower)) {
+      appendMessage(`Please enter a valid goal amount (e.g., $10000, 10k, or 10-20k).`);
+      isSending = false;
+      return;
+    }
+    userData.incomeGoal = ans;
+    saveUserData();
   }
 
-  // Scenario 9: Savings check
+  // Scenario 9: Savings goal
   if (step === 8) {
     userData.hasSavingsGoal = lower.includes('yes');
+    saveUserData();
   }
 
-  // Scenario 10: Funds check
+  // Scenario 10: Financial readiness
   if (step === 9) {
     userData.hasFunds = /(yes|yea|yeah|yep|sure|i do|i have|credit|card|\$|\d+)/i.test(lower);
-    if (!userData.hasFunds) {
-      appendMessage(`No worries! Are you currently working on building credit or other financial resources?`);
-      step++;
-      return;
-    }
-  }
-
-  // Scenario 11: Credit check
-  if (step === 10 && !userData.hasFunds) {
-    if (lower.includes('yes')) {
-      return showAlignedCTA();
+    saveUserData();
+    if (!userData.hasFunds || lower.includes('no job') || lower.includes('none')) {
+      appendMessage(`Thanks for your honesty.`);
     } else {
-      appendMessage(`Thanks for your honesty. Are you serious about achieving your goals no matter what?`);
-      step++;
+      step = 12; // Skip to CTA for Scenario 5
+      updateProgress();
+      return showAlignedCTA();
+    }
+  }
+
+  // Scenario 4: Credit building
+  if (step === 10) {
+    if (lower.includes('yes')) {
+      appendMessage(`That’s a great step forward!`);
+    } else {
+      step = 13; // Skip to mindset check for Scenarios 6 and 7
+      ask(questions[13]);
       return;
     }
   }
 
-  // Scenario 12: Mindset check
-  if (step === 11 && !userData.hasFunds) {
+  // Scenario 4: Credit score
+  if (step === 11) {
+    if (!/\d+/.test(lower)) {
+      appendMessage(`Please enter a valid credit score or milestone (e.g., 700).`);
+      isSending = false;
+      return;
+    }
+    userData.creditScoreGoal = ans;
+    saveUserData();
+  }
+
+  // Scenario 4: Credit milestone
+  if (step === 12) {
+    userData.creditMilestone = ans;
+    saveUserData();
+    updateProgress();
+    return showAlignedCTA();
+  }
+
+  // Scenarios 6 and 7: Mindset check
+  if (step === 13) {
     if (lower.includes('yes')) {
       return showMindsetPrep();
     } else {
@@ -385,33 +454,43 @@ function handleLogic(ans) {
     }
   }
 
-  // Default advance
   step++;
   if (step < questions.length) {
     ask(questions[step]);
   } else {
+    updateProgress();
     showAlignedCTA();
   }
 }
 
 function showAlignedCTA() {
-  appendMessage(`Awesome! Based on what you’ve shared, you’re aligned. <button onclick="window.open('${CLIENT_CTA_LINK}', '_blank')">Continue Here</button>`);
+  appendMessage(`Awesome! You’re aligned. Book a call with one of our team members to explore next steps. <button onclick="window.open('${CLIENT_CTA_LINK}', '_blank')">Click here</button>`);
   inputRow.style.display = 'none';
 }
 
 function showMindsetPrep() {
-  appendMessage(`That’s the mindset it takes! Use what you have, stay focused, and check out these resources to fast-track your growth: <a href="${CLIENT_RESOURCE_LINK}" target="_blank">Click here</a>`);
+  appendMessage(`That’s the mindset it takes! Use what you have, stay focused, and check out these resources to fast-track your growth. We’ll be here when you’re ready to level up! <a href="${CLIENT_RESOURCE_LINK}" target="_blank">Click here</a>`);
   inputRow.style.display = 'none';
 }
 
 function showFallback() {
-  appendMessage(`Thanks for your honesty! Wishing you the best on your journey. Here are some other resources you can explore: <a href="${CLIENT_FALLBACK_LINK}" target="_blank">Click here</a>`);
+  appendMessage(`Understood. Best of luck on your journey! Here are some other resources you can check out. <a href="${CLIENT_FALLBACK_LINK}" target="_blank">Click here</a>`);
   inputRow.style.display = 'none';
 }
 
 function endFlow(message) {
-  appendMessage(message);
+  appendMessage(`${message} <button onclick="resetChat()">Restart</button>`);
   inputRow.style.display = 'none';
+}
+
+function resetChat() {
+  step = 0;
+  userData = {};
+  localStorage.removeItem('plugbotUserData');
+  chat.innerHTML = '';
+  inputRow.classList.remove('active');
+  progressBar.style.width = '0%';
+  startBtn.style.display = 'block';
 }
 
 document.getElementById('startBtn').addEventListener('click', startChat);
