@@ -10,45 +10,316 @@
   <meta property="og:image" content="https://plugbot.mxdenterprises.com/og-image.jpg">
   <meta property="og:url" content="https://plugbot.mxdenterprises.com/">
   <meta name="twitter:card" content="summary_large_image">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <style>
-    :root { --bg: #ffffff; --text: #111111; --dim: #555; --accent: #000000; --highlight: #ffb400; }
+    :root {
+      --bg: #0b0b0b;
+      --text: #ffffff;
+      --dim: #aaaaaa;
+      --accent: #00c4cc;
+      --highlight: #ff6b6b;
+      --card: #1a1a1a;
+      --rounded: 20px;
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Poppins', sans-serif; background-color: var(--bg); color: var(--text); overflow-x: hidden; }
-    header { position: sticky; top: 0; background: #fff; border-bottom: 1px solid #ddd; padding: 1rem; text-align: center; z-index: 999; }
-    header a { text-decoration: none; color: var(--accent); font-weight: 600; }
-    .section { max-width: 1000px; margin: 0 auto; padding: 4rem 1.5rem; text-align: center; }
-    .hero { background: #000; color: #fff; border-radius: 16px; padding: 5rem 2rem; box-shadow: 0 4px 25px rgba(0,0,0,0.2); margin-top: 2rem; }
-    .hero h1 { font-size: 3rem; font-weight: 700; margin-bottom: 1.25rem; white-space: nowrap; overflow: hidden; border-right: 3px solid #fff; width: 0; animation: typing 2.5s steps(20, end) forwards, blink 0.7s step-end infinite; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0b0b0b, #1e1e1e);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      background: #0b0b0b;
+      border-bottom: 1px solid #333;
+      padding: 1rem;
+      text-align: center;
+      z-index: 999;
+    }
+    header a {
+      text-decoration: none;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
+      text-align: center;
+    }
+    .hero {
+      background: linear-gradient(135deg, #1a1a1a, #252525);
+      color: var(--text);
+      border-radius: var(--rounded);
+      padding: 5rem 2rem;
+      box-shadow: 0 0 50px rgba(0, 196, 204, 0.3);
+      margin-top: 2rem;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid var(--accent);
+      width: 0;
+      animation: typing 2.5s steps(20, end) forwards, blink 0.7s step-end infinite;
+    }
     @keyframes typing { from { width: 0 } to { width: 100% } }
     @keyframes blink { 50% { border-color: transparent } }
     @media (min-width: 768px) { .hero h1 { font-size: 5rem; } }
-    .hero p { max-width: 700px; margin: 0 auto 1.5rem; font-size: 1.2rem; color: #ddd; }
-    .cta-button { background: #fff; color: #000; padding: 1rem 2rem; font-weight: 600; font-size: 1rem; border-radius: 8px; text-decoration: none; display: inline-block; transition: all 0.3s ease; margin-top: 1rem; }
-    .cta-button:hover { background-color: var(--highlight); color: #fff; transform: scale(1.05); }
-    .compare, .grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-top: 2rem; }
-    .compare-box, .card { flex: 1 1 300px; background: #f0f0f0; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); text-align: left; transition: transform 0.3s; }
-    .compare-box:hover, .card:hover { transform: translateY(-5px); }
-    .compare-box.bold, .compare-highlight { background: #000; color: #fff; border: 2px solid var(--highlight); }
-    .compare-box.bold h3, .compare-highlight h2 { color: #fff; }
-    .card h3, .compare-box h3 { font-size: 1.3rem; margin-bottom: 1rem; }
-    .card p, .compare-box ul li { font-size: 0.95rem; line-height: 1.5; }
-    .compare-box ul { list-style: none; padding: 0; }
-    .badge { display: inline-block; background: var(--highlight); color: #fff; padding: 0.3rem 0.8rem; border-radius: 12px; font-size: 0.8rem; margin-bottom: 1rem; letter-spacing: 0.5px; text-transform: uppercase; }
-    .table-container { width: 100%; overflow-x: auto; margin: 0 auto; }
-    .table { margin: 0 auto; border-collapse: collapse; min-width: 600px; }
-    .table th, .table td { border: 1px solid #ddd; padding: 1rem; text-align: center; }
-    .table th { background: #f5f5f5; font-size: 1rem; }
-    .table td { font-size: 0.95rem; }
-    .check { color: green; font-weight: bold; }
-    .back-to-top { position: fixed; bottom: 20px; right: 20px; background: var(--accent); color: #fff; padding: 0.7rem 1rem; border-radius: 50px; font-size: 0.9rem; text-decoration: none; display: none; }
-    .back-to-top.show { display: block; }
-    footer { text-align: center; padding: 2rem 1rem; font-size: 0.9rem; color: var(--dim); }
+    .hero p {
+      max-width: 700px;
+      margin: 0 auto 1.5rem;
+      font-size: 1.2rem;
+      color: var(--dim);
+    }
+    .cta-button {
+      background: linear-gradient(90deg, var(--accent), var(--highlight));
+      color: #000;
+      padding: 1rem 2rem;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: var(--rounded);
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
+      animation: buttonPulse 4s infinite;
+    }
+    .cta-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px var(--highlight);
+    }
+    @keyframes buttonPulse {
+      0%, 100% { box-shadow: 0 0 10px var(--accent); }
+      50% { box-shadow: 0 0 20px var(--highlight); }
+    }
+    .compare, .grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .compare-box, .card {
+      flex: 1 1 300px;
+      background: var(--card);
+      padding: 2rem;
+      border-radius: var(--rounded);
+      box-shadow: 0 0 20px rgba(0, 196, 204, 0.2);
+      text-align: left;
+      transition: transform 0.3s;
+    }
+    .compare-box:hover, .card:hover {
+      transform: translateY(-5px);
+    }
+    .compare-box.bold, .compare-highlight {
+      background: #000;
+      border: 2px solid var(--accent);
+    }
+    .compare-box.bold h3, .compare-highlight h2 {
+      color: var(--text);
+    }
+    .card h3, .compare-box h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+    .card p, .compare-box ul li {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: var(--dim);
+    }
+    .compare-box ul {
+      list-style: none;
+      padding: 0;
+    }
+    .badge {
+      display: inline-block;
+      background: var(--highlight);
+      color: #000;
+      padding: 0.3rem 0.8rem;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin: 0 auto;
+    }
+    .table {
+      margin: 0 auto;
+      border-collapse: collapse;
+      min-width: 600px;
+    }
+    .table th, .table td {
+      border: 1px solid #333;
+      padding: 1rem;
+      text-align: center;
+      color: var(--dim);
+    }
+    .table th {
+      background: #252525;
+      font-size: 1rem;
+    }
+    .table td {
+      font-size: 0.95rem;
+    }
+    .check {
+      color: #00ff00;
+      font-weight: bold;
+    }
+    .back-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--accent);
+      color: #000;
+      padding: 0.7rem 1rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      text-decoration: none;
+      display: none;
+    }
+    .back-to-top.show {
+      display: block;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+      color: var(--dim);
+    }
+    /* Demo Styles */
+    .demo-container {
+      background: linear-gradient(135deg, var(--card), #252525);
+      border-radius: var(--rounded);
+      padding: 2.5rem;
+      max-width: 650px;
+      margin: 2rem auto;
+      box-shadow: 0 0 50px rgba(0, 196, 204, 0.3);
+    }
+    .avatar-bg img {
+      width: 180px;
+      margin: 0 auto 2rem;
+      display: block;
+      animation: float 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px var(--accent));
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: #333;
+      border-radius: var(--rounded);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .progress {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--highlight));
+      transition: width 0.4s ease;
+    }
+    .chat-window {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: var(--rounded);
+      padding: 1.5rem;
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 1.5rem;
+    }
+    .chat-window::-webkit-scrollbar {
+      width: 10px;
+    }
+    .chat-window::-webkit-scrollbar-track {
+      background: #444;
+      border-radius: var(--rounded);
+    }
+    .chat-window::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: var(--rounded);
+    }
+    .chat-window::-webkit-scrollbar-thumb:hover {
+      background: var(--highlight);
+    }
+    .chat-message {
+      max-width: 85%;
+      padding: 1rem;
+      border-radius: var(--rounded);
+      margin-bottom: 0.75rem;
+      font-size: 1.1rem;
+      line-height: 1.4;
+      animation: fadeIn 0.3s ease;
+    }
+    .chat-message.bot {
+      background: rgba(255, 255, 255, 0.12);
+      align-self: flex-start;
+    }
+    .chat-message.user {
+      background: rgba(255, 255, 255, 0.25);
+      align-self: flex-end;
+    }
+    .chat-input {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .chat-input input {
+      flex: 1;
+      padding: 1.2rem;
+      border-radius: var(--rounded);
+      border: none;
+      background: #222;
+      color: var(--text);
+      font-size: 1.1rem;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    .chat-input input:focus {
+      box-shadow: inset 0 0 15px var(--accent);
+      outline: none;
+    }
+    .chat-input button {
+      background: linear-gradient(90deg, var(--accent), var(--highlight));
+      color: #000;
+      padding: 1.2rem 1.5rem;
+      border: none;
+      border-radius: var(--rounded);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      animation: buttonPulse 4s infinite;
+    }
+    .chat-input button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px var(--highlight);
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero h1 { animation: none; width: 100%; border: none; }
+      .avatar-bg img { animation: none; }
+      .cta-button, .chat-input button { animation: none; }
+    }
+    @media (max-width: 600px) {
+      .table { display: block; }
+      .table tr { display: block; margin-bottom: 1rem; }
+      .table th, .table td { display: block; text-align: left; }
+    }
   </style>
 </head>
 <body>
-  <header><a href="#">PlugBot by MXD Enterprises</a></header>
+  <header role="banner"><a href="#">PlugBot by MXD Enterprises</a></header>
 
   <section class="section hero" data-aos="fade-up">
     <h1>PlugBot</h1>
@@ -57,6 +328,25 @@
       PlugBot is a high-performance AI lead qualification agency. We specialize in setting only hot, ready-to-close leads — fully replacing appointment setters with advanced sales logic designed to drive conversions and eliminate wasted time.
     </p>
     <a href="https://whop.com/checkout/plan_90VaIA48j7qxA?d2c=true" class="cta-button">Get Your PlugBot →</a>
+  </section>
+
+  <section class="section" data-aos="fade-up">
+    <h2>Try PlugBot Basic Demo</h2>
+    <p>Experience how PlugBot qualifies leads and routes them to bookings. Purchase for $995 to customize and deploy your own!</p>
+    <div class="demo-container">
+      <div class="avatar-bg">
+        <img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot Avatar" onerror="this.src='https://via.placeholder.com/180'">
+      </div>
+      <div class="progress-bar"><div class="progress" id="progress"></div></div>
+      <div class="chat-window" id="chatWindow">
+        <div class="chat-message bot">Hi! I'm PlugBot. Are you interested in our services? (Type "Yes" or "No")</div>
+      </div>
+      <div class="chat-input">
+        <input type="text" id="userInput" placeholder="Type your response...">
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+    <a href="https://whop.com/checkout/plan_90VaIA48j7qxA?d2c=true" class="cta-button">Buy PlugBot Basic ($995) →</a>
   </section>
 
   <section class="section" data-aos="fade-up">
@@ -81,7 +371,7 @@
           <li>✅ Personalized onboarding and expert setup consultation</li>
           <li>✅ Designed for scaling brands wanting precision and control</li>
         </ul>
-        <a href="#" class="cta-button highlight">Join Custom Waitlist →</a>
+        <a href="#" class="cta-button">Join Custom Waitlist →</a>
       </div>
       <div class="compare-box bold">
         <h3>🚀 PlugBot Ultra</h3>
@@ -92,7 +382,7 @@
           <li>⭐ Enterprise-grade multi-channel power, ready for high-scale operations</li>
           <li>⭐ Built for top-tier brands demanding peak performance and domination</li>
         </ul>
-        <a href="#" class="cta-button highlight">Join Ultra Waitlist →</a>
+        <a href="#" class="cta-button">Join Ultra Waitlist →</a>
       </div>
     </div>
   </section>
@@ -102,10 +392,10 @@
     <div class="table-container">
       <table class="table">
         <tr>
-          <th>Feature</th>
-          <th>Basic</th>
-          <th>Custom</th>
-          <th>Ultra</th>
+          <th scope="col">Feature</th>
+          <th scope="col">Basic</th>
+          <th scope="col">Custom</th>
+          <th scope="col">Ultra</th>
         </tr>
         <tr>
           <td>Prebuilt Automation</td>
@@ -155,13 +445,14 @@
 
   <a href="#" class="back-to-top" id="backToTop">↑ Top</a>
 
-  <footer>
+  <footer role="contentinfo">
     <p>© 2025 PlugBot | Powered by MXD Enterprises. All rights reserved.</p>
   </footer>
 
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>AOS.init({ once: true });</script>
   <script>
+    AOS.init({ once: true });
+
     const backToTop = document.getElementById('backToTop');
     window.addEventListener('scroll', () => {
       if (window.pageYOffset > 300) {
@@ -169,6 +460,61 @@
       } else {
         backToTop.classList.remove('show');
       }
+    });
+    backToTop.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Demo Logic
+    const chatWindow = document.getElementById('chatWindow');
+    const userInput = document.getElementById('userInput');
+    const progressBar = document.getElementById('progress');
+    let demoState = 0;
+
+    function addMessage(text, sender) {
+      const message = document.createElement('div');
+      message.className = `chat-message ${sender}`;
+      message.textContent = text;
+      chatWindow.appendChild(message);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+
+    function updateProgress() {
+      const maxSteps = 2;
+      const percent = Math.min((demoState / maxSteps) * 100, 100);
+      progressBar.style.width = percent + '%';
+    }
+
+    function sendMessage() {
+      const text = userInput.value.trim();
+      if (!text) return;
+      addMessage(text, 'user');
+      userInput.value = '';
+
+      setTimeout(() => {
+        if (demoState === 0) {
+          if (text.toLowerCase() === 'yes') {
+            addMessage('Great! Are you looking to book a call or learn more? (Type "Book" or "Learn")', 'bot');
+            demoState = 1;
+            updateProgress();
+          } else {
+            addMessage('No worries! If you change your mind, I’m here to help.', 'bot');
+          }
+        } else if (demoState === 1) {
+          if (text.toLowerCase() === 'book') {
+            addMessage('Awesome! I’d redirect you to a booking link now (e.g., Calendly). Buy PlugBot Basic to set yours!', 'bot');
+          } else {
+            addMessage('PlugBot filters leads like this to save you time. Buy now to customize it!', 'bot');
+          }
+          demoState = 2;
+          updateProgress();
+        }
+      }, 1000);
+    }
+
+    userInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
     });
   </script>
 </body>
