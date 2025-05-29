@@ -1,0 +1,7 @@
+[[redirects]]
+  from = "/plugbot/:id"
+  to = "/plugbot.html?id=:id"
+  status = 200
+
+[functions]
+  directory = "functions"
