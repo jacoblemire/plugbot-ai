@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You & Setup | PlugBot by MXD Enterprises</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --text: #ffffff;
+      --dim: #aaaaaa;
+      --accent: #00c4cc;
+      --highlight: #ff6b6b;
+      --card: #1a1a1a;
+      --rounded: 20px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0b0b0b, #1e1e1e);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      max-width: 650px;
+      padding: 2.5rem;
+      background: linear-gradient(135deg, var(--card), #252525);
+      border-radius: var(--rounded);
+      box-shadow: 0 0 50px rgba(0, 196, 204, 0.3);
+      text-align: center;
+      margin: 2rem;
+    }
+    .avatar-bg img {
+      width: 180px;
+      margin: 0 auto 2rem;
+      display: block;
+      animation: float 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px var(--accent));
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    p {
+      font-size: 1.1rem;
+      color: var(--dim);
+      margin-bottom: 2rem;
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    input {
+      width: 100%;
+      padding: 1.2rem;
+      border-radius: var(--rounded);
+      border: none;
+      background: #222;
+      color: var(--text);
+      font-size: 1.1rem;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    input:focus {
+      box-shadow: inset 0 0 15px var(--accent);
+      outline: none;
+    }
+    button, .download-btn {
+      background: linear-gradient(90deg, var(--accent), var(--highlight));
+      color: #000;
+      padding: 1.2rem 2rem;
+      border: none;
+      border-radius: var(--rounded);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      animation: buttonPulse 4s infinite;
+      display: inline-block;
+      text-decoration: none;
+    }
+    button:hover, .download-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px var(--highlight);
+    }
+    @keyframes buttonPulse {
+      0%, 100% { box-shadow: 0 0 10px var(--accent); }
+      50% { box-shadow: 0 0 20px var(--highlight); }
+    }
+    #error {
+      color: var(--highlight);
+      margin-top: 1rem;
+      display: none;
+    }
+    #success {
+      color: #00ff00;
+      margin-top: 1rem;
+      display: none;
+    }
+    .support {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: var(--dim);
+    }
+    .support a {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+    .support a:hover {
+      color: var(--highlight);
+    }
+    /* Pop-Up Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: linear-gradient(135deg, var(--card), #252525);
+      border-radius: var(--rounded);
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 0 50px rgba(0, 196, 204, 0.3);
+      text-align: center;
+      animation: fadeIn 0.3s ease;
+    }
+    .modal-content h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+    .modal-content p {
+      font-size: 1rem;
+      color: var(--dim);
+      margin-bottom: 1.5rem;
+    }
+    .modal-content button {
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .avatar-bg img { animation: none; }
+      button, .download-btn { animation: none; }
+      .modal-content { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="modal-overlay" id="welcomeModal">
+    <div class="modal-content">
+      <h2>Welcome to PlugBot Setup!</h2>
+      <p>Enter your booking and payment links below to customize your PlugBot. Download the file and add it to your website to start qualifying leads.</p>
+      <button onclick="closeModal()">Got It</button>
+    </div>
+  </div>
+  <div class="container">
+    <div class="avatar-bg">
+      <img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot Avatar" onerror="this.src='https://via.placeholder.com/180'">
+    </div>
+    <h1>Thank You for Testing PlugBot!</h1>
+    <p>You’ve signed up for the free testing version of PlugBot Basic. Customize your PlugBot with your booking and payment links below.</p>
+    <div class="form-group">
+      <label for="bookingLink">Booking Link (e.g., Calendly)</label>
+      <input type="url" id="bookingLink" placeholder="https://calendly.com/your-link">
+    </div>
+    <div class="form-group">
+      <label for="paymentLink">Payment Link (e.g., Stripe)</label>
+      <input type="url" id="paymentLink" placeholder="https://stripe.com/your-link">
+    </div>
+    <button onclick="saveSettings()">Save Settings</button>
+    <p id="error">Please enter valid HTTPS URLs for both fields.</p>
+    <p id="success">Settings saved! Download your PlugBot below.</p>
+    <a id="downloadLink" class="download-btn" style="display: none;" href="#" download="plugbot.html">Download PlugBot Basic</a>
+    <p class="support">Need help? Contact us at <a href="mailto:support@mxdenterprises.com">support@mxdenterprises.com</a></p>
+  </div>
+  <script>
+    function saveSettings() {
+      const bookingLink = document.getElementById('bookingLink').value.trim();
+      const paymentLink = document.getElementById('paymentLink').value.trim();
+      const error = document.getElementById('error');
+      const success = document.getElementById('success');
+      const downloadLink = document.getElementById('downloadLink');
+
+      if (!isValidUrl(bookingLink) || !isValidUrl(paymentLink)) {
+        error.style.display = 'block';
+        success.style.display = 'none';
+        downloadLink.style.display = 'none';
+        return;
+      }
+
+      localStorage.setItem('bookingLink', bookingLink);
+      localStorage.setItem('paymentLink', paymentLink);
+
+      const plugbotHtml = generatePlugbotHtml(bookingLink, paymentLink);
+      const blob = new Blob([plugbotHtml], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      downloadLink.href = url;
+      downloadLink.style.display = 'inline-block';
+      success.style.display = 'block';
+      error.style.display = 'none';
+    }
+
+    function isValidUrl(url) {
+      try {
+        new URL(url);
+        return url.startsWith('https://');
+      } catch {
+        return false;
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('welcomeModal').style.display = 'none';
+    }
+
+    window.onload = function() {
+      document.getElementById('welcomeModal').style.display = 'flex';
+    };
+
+    function generatePlugbotHtml(bookingLink, paymentLink) {
+      return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your PlugBot Basic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --text: #ffffff;
+      --dim: #aaaaaa;
+      --accent: #00c4cc;
+      --highlight: #ff6b6b;
+      --card: #1a1a1a;
+      --rounded: 20px;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0b0b0b, #1e1e1e);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .container {
+      width: 100%;
+      max-width: 650px;
+      background: linear-gradient(135deg, var(--card), #252525);
+      border-radius: var(--rounded);
+      padding: 2.5rem;
+      margin: 2rem;
+      box-shadow: 0 0 50px rgba(0, 196, 204, 0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .avatar-bg img {
+      width: 180px;
+      margin-top: 2rem;
+      animation: float 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px var(--accent));
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: #333;
+      border-radius: var(--rounded);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .progress {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--highlight));
+      transition: width: 0.4s ease;
+    }
+    .chat-section {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: var(--rounded);
+      padding: 1.5rem;
+      max-height: 55vh;
+      overflow-y: auto;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .chat-section::-webkit-scrollbar {
+      width: 10px;
+    }
+    .chat-section::-webkit-scrollbar-track {
+      background: #444;
+      border-radius: var(--rounded);
+    }
+    .chat-section::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: var(--rounded);
+    }
+    .chat-section::-webkit-scrollbar-thumb:hover {
+      background: var(--highlight);
+    }
+    .msg-box {
+      max-width: 85%;
+      background: rgba(255, 255, 255, 0.12);
+      padding: 1rem;
+      border-radius: var(--rounded);
+      margin-bottom: 0.75rem;
+      animation: fadeIn 0.3s ease;
+      font-size: 1.1rem;
+      line-height: 1.4;
+    }
+    .user-msg {
+      align-self: flex-end;
+      background: rgba(255, 255, 255, 0.25);
+    }
+    .bot-msg {
+      align-self: flex-start;
+    }
+    .msg-box a {
+      color: var(--highlight);
+      text-decoration: underline;
+    }
+    .msg-box a:hover {
+      color: #e0e0e0;
+    }
+    .input-row {
+      display: flex;
+      gap: 1rem;
+      width: 100%;
+    }
+    input {
+      flex: 1;
+      padding: 1.2rem;
+      border-radius: var(--rounded);
+      border: none;
+      background: #222;
+      color: var(--text);
+      font-size: 1.1rem;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    input:focus {
+      box-shadow: inset 0 0 15px var(--accent);
+      outline: none;
+    }
+    button {
+      background: linear-gradient(90deg, var(--accent), var(--highlight));
+      color: #000;
+      padding: 1.2rem 1.5rem;
+      border: none;
+      border-radius: var(--rounded);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow: 0.3s ease;
+      animation: buttonPulse 4s infinite;
+    }
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px var(--highlight);
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes buttonPulse {
+      0%, 100% { box-shadow: 0 0 10px var(--accent); }
+      50% { box-shadow: 0 0 20px var(--highlight); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .avatar-bg img { animation: none; }
+      button { animation: none; }
+    }
+  </style>
+</head>
+<body>
+</body>
+</html>
+      `;
+    }
+  </script>
+</body>
+</html>
