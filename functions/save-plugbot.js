@@ -1,10 +1,14 @@
 const { v4: uuidv4 } = require('uuid');
 const admin = require('firebase-admin');
 
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_CREDENTIALS))
-  });
+try {
+  if (!admin.apps.length) {
+    admin.initializeApp({
+      credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_CREDENTIALS))
+    });
+  }
+} catch (initError) {
+  console.error('Firebase initialization failed:', initError);
 }
 
 const db = admin.firestore();
@@ -18,24 +22,24 @@ exports.handler = async (event) => {
       };
     }
 
-    let bookingLink, paymentLink;
+    let parsedBody;
     try {
-      const parsedBody = JSON.parse(event.body);
-      bookingLink = parsedBody.bookingLink;
-      paymentLink = parsedBody.paymentLink;
+      parsedBody = JSON.parse(event.body);
     } catch (jsonError) {
+      console.error('Failed to parse JSON body:', jsonError);
       return {
         statusCode: 400,
-        body: JSON.stringify({ error: 'Invalid JSON in request body' })
+        body: JSON.stringify({ error: 'Invalid JSON format in request body' })
       };
     }
 
+    const { bookingLink, paymentLink } = parsedBody;
     const urlPattern = /^https:\/\/[^\s/$.?#].[^\s]*$/;
 
     if (!urlPattern.test(bookingLink) || !urlPattern.test(paymentLink)) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ error: 'Invalid HTTPS URLs' })
+        body: JSON.stringify({ error: 'Invalid HTTPS URLs provided' })
       };
     }
 
@@ -51,10 +55,10 @@ exports.handler = async (event) => {
       body: JSON.stringify({ url: `https://your-netlify-site.netlify.app/plugbot/${uniqueId}` })
     };
   } catch (error) {
-    console.error('Error in save-plugbot:', error);
+    console.error('Unhandled error in save-plugbot:', error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Failed to generate bio link' })
+      body: JSON.stringify({ error: 'Internal server error' })
     };
   }
 };
