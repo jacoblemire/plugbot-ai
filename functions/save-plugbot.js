@@ -18,7 +18,18 @@ exports.handler = async (event) => {
       };
     }
 
-    const { bookingLink, paymentLink } = JSON.parse(event.body);
+    let bookingLink, paymentLink;
+    try {
+      const parsedBody = JSON.parse(event.body);
+      bookingLink = parsedBody.bookingLink;
+      paymentLink = parsedBody.paymentLink;
+    } catch (jsonError) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'Invalid JSON in request body' })
+      };
+    }
+
     const urlPattern = /^https:\/\/[^\s/$.?#].[^\s]*$/;
 
     if (!urlPattern.test(bookingLink) || !urlPattern.test(paymentLink)) {
