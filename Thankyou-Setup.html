@@ -171,7 +171,6 @@
       width: 90%;
       box-shadow: 0 0 50px rgba(0, 196, 204, 0.3);
       text-align: center;
-      animation: fadeIn 0.3s ease;
     }
     .modal-content h2 {
       font-size: 1.8rem;
@@ -186,10 +185,6 @@
       padding: 0.8rem 1.5rem;
       font-size: 1rem;
     }
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(10px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
     .sr-only {
       position: absolute;
       width: 1px;
@@ -201,7 +196,7 @@
       border: 0;
     }
     @media (prefers-reduced-motion: reduce) {
-      .avatar-bg img, button, .download-btn, .consultation-btn, .modal-content { animation: none; }
+      .avatar-bg img, button, .download-btn, .consultation-btn { animation: none; }
     }
   </style>
 </head>
@@ -210,7 +205,7 @@
     <div class="modal-content">
       <h2>Welcome to PlugBot Setup!</h2>
       <p>Enter your booking and payment links below to customize your PlugBot. Download the file to host yourself. Need help? Book our $50 consultation service.</p>
-      <button onclick="closeModal()" aria-label="Close welcome modal">Got It</button>
+      <button id="closeModalBtn" aria-label="Close welcome modal">Got It</button>
     </div>
   </div>
   <div class="container">
@@ -244,6 +239,28 @@
     let bookingLink = '';
     let paymentLink = '';
 
+    // Close modal function
+    function closeModal() {
+      const modal = document.getElementById('welcomeModal');
+      if (modal) {
+        modal.style.display = 'none';
+      } else {
+        console.error('Modal element not found');
+      }
+    }
+
+    // Bind close button immediately
+    const closeBtn = document.getElementById('closeModalBtn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeModal();
+      });
+    } else {
+      console.error('Close button not found');
+    }
+
+    // Validate URL
     function isValidUrl(url) {
       try {
         const parsed = new URL(url);
@@ -253,10 +270,12 @@
       }
     }
 
+    // Escape HTML to prevent XSS
     function escapeHtml(unsafe) {
-      return unsafe.replace(/[&<"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '"': '&quot;', "'": '&apos;' })[m]);
+      return unsafe.replace(/[&<"']/g, (m) => ({ '&': '&', '<': '<', '"': '"', "'": ''' })[m]);
     }
 
+    // Handle form submission
     function saveSettings(e) {
       e.preventDefault();
       const bookingLinkInput = document.getElementById('bookingLink').value.trim();
@@ -317,12 +336,22 @@
       button.textContent = 'Save Settings';
     }
 
-    function closeModal() {
-      document.getElementById('welcomeModal').style.display = 'none';
-    }
+    // Initialize page
+    window.addEventListener('load', () => {
+      // Show modal
+      const modal = document.getElementById('welcomeModal');
+      if (modal) {
+        modal.style.display = 'flex';
+      }
 
-    window.onload = function() {
-      document.getElementById('welcomeModal').style.display = 'flex';
+      // Close modal on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal && modal.style.display === 'flex') {
+          closeModal();
+        }
+      });
+
+      // Restore saved settings
       const savedBookingLink = localStorage.getItem('bookingLink');
       const savedPaymentLink = localStorage.getItem('paymentLink');
       if (savedBookingLink) document.getElementById('bookingLink').value = savedBookingLink;
@@ -342,13 +371,10 @@
         document.getElementById('downloadLink').style.display = 'inline-block';
         document.getElementById('success').style.display = 'block';
       }
+
+      // Bind form submission
       document.getElementById('setupForm').addEventListener('submit', saveSettings);
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && document.getElementById('welcomeModal').style.display === 'flex') {
-          closeModal();
-        }
-      });
-    };
+    });
 
     function generatePlugbotHtml() {
       return `
