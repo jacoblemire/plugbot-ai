@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thank You & Setup | PlugBot by MXD Enterprises</title>
+  <title>PlugBot Setup | MXD Enterprises</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -71,7 +71,7 @@
       box-shadow: inset 0 0 15px var(--accent);
       outline: none;
     }
-    button, .download-btn, .consultation-btn {
+    button, .download-btn {
       background: linear-gradient(90deg, var(--accent), var(--highlight));
       color: #000;
       padding: 1.2rem 2rem;
@@ -89,7 +89,7 @@
       background: #555;
       cursor: not-allowed;
     }
-    button:hover:not(:disabled), .download-btn:hover, .consultation-btn:hover {
+    button:hover:not(:disabled), .download-btn:hover {
       transform: scale(1.05);
     }
     #error {
@@ -117,57 +117,6 @@
     #linkPreview a:hover {
       color: var(--highlight);
     }
-    .support {
-      margin-top: 2rem;
-      font-size: 0.9rem;
-      color: var(--dim);
-    }
-    .support a {
-      color: var(--accent);
-      text-decoration: underline;
-    }
-    .support a:hover {
-      color: var(--highlight);
-    }
-    .consultation-section {
-      margin-top: 2rem;
-      padding: 1rem;
-      background: rgba(255, 255, 255, 0.07);
-      border-radius: var(--rounded);
-    }
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-    .modal-content {
-      background: linear-gradient(135deg, var(--card), #252525);
-      border-radius: var(--rounded);
-      padding: 2rem;
-      max-width: 500px;
-      width: 90%;
-      box-shadow: 0 0 50px rgba(0, 196, 204, 0.3);
-      text-align: center;
-    }
-    .modal-content h2 {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-    }
-    .modal-content p {
-      font-size: 1rem;
-      color: var(--dim);
-      margin-bottom: 1.5rem;
-    }
-    .modal-content button {
-      padding: 0.8rem 1.5rem;
-    }
     .sr-only {
       position: absolute;
       width: 1px;
@@ -179,26 +128,19 @@
       border: 0;
     }
     @media (prefers-reduced-motion: reduce) {
-      button, .download-btn, .consultation-btn {
+      button, .download-btn {
         transition: none;
       }
     }
   </style>
 </head>
 <body>
-  <div class="modal-overlay" id="welcomeModal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="modal-content">
-      <h2 id="modal-title">Welcome to PlugBot Setup!</h2>
-      <p>Enter your booking and payment links to customize your PlugBot. Download the file to host yourself. Need help? Book our $50 consultation service.</p>
-      <button aria-label="Close welcome modal" onclick="closeModal()">Close</button>
-    </div>
-  </div>
   <div class="container">
     <div class="avatar-bg">
       <img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot Avatar" id="avatarImg">
     </div>
-    <h1>Thank You for Testing PlugBot!</h1>
-    <p>You’ve signed up for the free testing version of PlugBot Basic. Customize your PlugBot with your booking and payment links below.</p>
+    <h1>Customize Your PlugBot</h1>
+    <p>Enter your booking and payment links below to generate your PlugBot HTML file.</p>
     <form id="setupForm" aria-describedby="form-instructions">
       <p id="form-instructions" class="sr-only">Enter valid HTTPS URLs for your booking and payment links to customize your PlugBot.</p>
       <div class="form-group">
@@ -209,46 +151,15 @@
         <label for="paymentLink">Payment Link (e.g., Stripe)</label>
         <input type="url" id="paymentLink" placeholder="https://stripe.com/your-link" aria-required="true" required>
       </div>
-      <button type="submit" aria-label="Save booking and payment links">Save Settings</button>
+      <button type="submit" aria-label="Generate PlugBot HTML file">Generate PlugBot</button>
     </form>
     <p id="error" role="alert"></p>
-    <p id="success" role="alert">Settings saved! Download your customized PlugBot file below to host it yourself.</p>
+    <p id="success" role="alert">PlugBot generated! Download your customized file below.</p>
     <p id="linkPreview">Links: <a id="bookingPreview" href="#" target="_blank" rel="noopener">Booking Link</a> | <a id="paymentPreview" href="#" target="_blank" rel="noopener">Payment Link</a></p>
-    <a id="downloadLink" class="download-btn" style="display: none;" href="#" download="plugbot.html" aria-label="Download customized PlugBot file">Download PlugBot Basic</a>
-    <div class="consultation-section">
-      <p>Need help setting up and hosting your PlugBot? Book a $50 consultation, and we’ll handle it for you!</p>
-      <a href="https://whop.com/plugbotkit/need-help-setting-up-plug-bot-fZsNdefSlV6CDG/app/" class="consultation-btn" target="_blank" rel="noopener" aria-label="Book a $50 consultation for PlugBot setup">Book Consultation ($50)</a>
-    </div>
-    <p class="support">Need help? Contact us at <a href="mailto:support@mxdenterprises.com" aria-label="Email support">support@mxdenterprises.com</a></p>
+    <a id="downloadLink" class="download-btn" style="display: none;" href="#" download="plugbot.html" aria-label="Download customized PlugBot file">Download PlugBot</a>
   </div>
   <script>
-    let bookingLink = '';
-    let paymentLink = '';
     let currentBlobUrl = null;
-
-    function closeModal() {
-      const modal = document.getElementById('welcomeModal');
-      modal.style.display = 'none';
-      document.getElementById('bookingLink').focus();
-    }
-
-    function trapFocus(modal) {
-      const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      first.focus();
-      modal.addEventListener('keydown', (e) => {
-        if (e.key === 'Tab') {
-          if (e.shiftKey && document.activeElement === first) {
-            e.preventDefault();
-            last.focus();
-          } else if (!e.shiftKey && document.activeElement === last) {
-            e.preventDefault();
-            first.focus();
-          }
-        }
-      });
-    }
 
     function isValidUrl(url) {
       try {
@@ -266,15 +177,111 @@
         '>': '&gt;',
         '"': '&quot;',
         "'": '&apos;',
-        '\n': '&#10;',
-        '\r': '&#13;'
+        '\n': '<br>',
+        '\r': ''
       })[m]);
     }
 
-    function saveSettings(e) {
+    function showError(message) {
+      const error = document.getElementById('error');
+      error.textContent = message;
+      error.style.display = 'block';
+    }
+
+    function generatePlugbotHtml(bookingLink, paymentLink) {
+      return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlugBot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --text: #ffffff;
+      --accent: #00c4cc;
+      --highlight: #ff6b6b;
+      --card: #1a1a1a;
+      --rounded: 20px;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0b0b0b, #1e1e1e);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      max-width: 650px;
+      padding: 2.5rem;
+      background: linear-gradient(135deg, var(--card), #252525);
+      border-radius: var(--rounded);
+      box-shadow: 0 0 50px rgba(0, 196, 204, 0.3);
+      text-align: center;
+      margin: 2rem;
+    }
+    .avatar-bg img {
+      width: 180px;
+      margin: 0 auto 2rem;
+      display: block;
+      filter: drop-shadow(0 0 20px var(--accent));
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+    .btn {
+      background: lol-gradient(90deg, var(--accent), var(--highlight));
+      color: #000;
+      padding: 1.2rem 2rem;
+      border: none;
+      border-radius: var(--rounded);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      margin: 0.5rem;
+      transition: transform 0.2s ease;
+    }
+    .btn:hover {
+      transform: scale(1.05);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .btn {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="avatar-bg">
+      <img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot Avatar" onerror="this.src='https://via.placeholder.com/180'">
+    </div>
+    <h1>Welcome to PlugBot!</h1>
+    <p>Ready to take the next step? Use the buttons below to book a call or make a payment.</p>
+    <a href="${bookingLink}" class="btn" target="_blank" rel="noopener" aria-label="Book a call">Book Now</a>
+    <a href="${paymentLink}" class="btn" target="_blank" rel="noopener" aria-label="Make a payment">Pay Now</a>
+  </div>
+</body>
+</html>
+      `;
+    }
+
+    document.getElementById('setupForm').addEventListener('submit', (e) => {
       e.preventDefault();
-      const bookingLinkInput = document.getElementById('bookingLink').value.trim();
-      const paymentLinkInput = document.getElementById('paymentLink').value.trim();
+      const bookingLink = document.getElementById('bookingLink').value.trim();
+      const paymentLink = document.getElementById('paymentLink').value.trim();
       const error = document.getElementById('error');
       const success = document.getElementById('success');
       const downloadLink = document.getElementById('downloadLink');
@@ -284,50 +291,35 @@
       const button = document.querySelector('button[type="submit"]');
 
       button.disabled = true;
-      button.textContent = 'Saving...';
+      button.textContent = 'Generating...';
 
       let errorMessage = '';
-      if (!bookingLinkInput) errorMessage += 'Booking link is required. ';
-      else if (!isValidUrl(bookingLinkInput)) errorMessage += 'Booking link must be a valid HTTPS URL (e.g., https://calendly.com/your-link). ';
-      if (!paymentLinkInput) errorMessage += 'Payment link is required. ';
-      else if (!isValidUrl(paymentLinkInput)) errorMessage += 'Payment link must be a valid HTTPS URL (e.g., https://stripe.com/your-link). ';
+      if (!bookingLink) errorMessage += 'Booking link is required. ';
+      else if (!isValidUrl(bookingLink)) errorMessage += 'Booking link must be a valid HTTPS URL (e.g., https://calendly.com/your-link). ';
+      if (!paymentLink) errorMessage += 'Payment link is required. ';
+      else if (!isValidUrl(paymentLink)) errorMessage += 'Payment link must be a valid HTTPS URL (e.g., https://stripe.com/your-link). ';
 
       if (errorMessage) {
-        error.textContent = errorMessage;
-        error.style.display = 'block';
+        showError(errorMessage);
         success.style.display = 'none';
         downloadLink.style.display = 'none';
         linkPreview.style.display = 'none';
         button.disabled = false;
-        button.textContent = 'Save Settings';
-        return;
-      }
-
-      bookingLink = escapeHtml(bookingLinkInput);
-      paymentLink = escapeHtml(paymentLinkInput);
-
-      try {
-        localStorage.setItem('bookingLink', bookingLink);
-        localStorage.setItem('paymentLink', paymentLink);
-      } catch (e) {
-        error.textContent = 'Failed to save settings. Please enable browser storage or try a different browser.';
-        error.style.display = 'block';
-        button.disabled = false;
-        button.textContent = 'Save Settings';
+        button.textContent = 'Generate PlugBot';
         return;
       }
 
       bookingPreview.href = bookingLink;
-      bookingPreview.textContent = bookingLink;
+      bookingPreview.textContent = bookingLink.length > 50 ? bookingLink.slice(0, 47) + '...' : bookingLink;
       paymentPreview.href = paymentLink;
-      paymentPreview.textContent = paymentLink;
+      paymentPreview.textContent = paymentLink.length > 50 ? paymentLink.slice(0, 47) + '...' : paymentLink;
       linkPreview.style.display = 'block';
 
       try {
         if (currentBlobUrl) {
           URL.revokeObjectURL(currentBlobUrl);
         }
-        const plugbotHtml = generatePlugbotHtml();
+        const plugbotHtml = generatePlugbotHtml(escapeHtml(bookingLink), escapeHtml(paymentLink));
         const blob = new Blob([plugbotHtml], { type: 'text/html' });
         currentBlobUrl = URL.createObjectURL(blob);
         downloadLink.href = currentBlobUrl;
@@ -335,649 +327,26 @@
         success.style.display = 'block';
         error.style.display = 'none';
       } catch (e) {
-        error.textContent = 'Failed to generate download file. Please try again.';
-        error.style.display = 'block';
+        showError('Failed to generate PlugBot file. Please try again.');
         success.style.display = 'none';
         downloadLink.style.display = 'none';
         linkPreview.style.display = 'none';
       }
 
       button.disabled = false;
-      button.textContent = 'Save Settings';
-    }
-
-    window.addEventListener('load', () => {
-      const modal = document.getElementById('welcomeModal');
-      modal.style.display = 'flex';
-      trapFocus(modal);
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.style.display === 'flex') closeModal();
-      });
-
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-      });
-
-      const avatarImg = document.getElementById('avatarImg');
-      avatarImg.onerror = () => {
-        avatarImg.src = 'https://via.placeholder.com/180';
-        document.getElementById('error').textContent = 'Failed to load PlugBot avatar image. Using placeholder.';
-        document.getElementById('error').style.display = 'block';
-      };
-
-      try {
-        const savedBookingLink = localStorage.getItem('bookingLink');
-        const savedPaymentLink = localStorage.getItem('paymentLink');
-        if (savedBookingLink) document.getElementById('bookingLink').value = savedBookingLink;
-        if (savedPaymentLink) document.getElementById('paymentLink').value = savedPaymentLink;
-        if (savedBookingLink && savedPaymentLink) {
-          bookingLink = savedBookingLink;
-          paymentLink = savedPaymentLink;
-          document.getElementById('bookingPreview').href = bookingLink;
-          document.getElementById('bookingPreview').textContent = bookingLink;
-          document.getElementById('paymentPreview').href = paymentLink;
-          document.getElementById('paymentPreview').textContent = paymentLink;
-          document.getElementById('linkPreview').style.display = 'block';
-          const plugbotHtml = generatePlugbotHtml();
-          const blob = new Blob([plugbotHtml], { type: 'text/html' });
-          currentBlobUrl = URL.createObjectURL(blob);
-          document.getElementById('downloadLink').href = currentBlobUrl;
-          document.getElementById('downloadLink').style.display = 'inline-block';
-          document.getElementById('success').style.display = 'block';
-        }
-      } catch (e) {
-        document.getElementById('error').textContent = 'Failed to load saved settings. Please enable browser storage or try a different browser.';
-        document.getElementById('error').style.display = 'block';
-      }
-
-      document.getElementById('setupForm').addEventListener('submit', saveSettings);
+      button.textContent = 'Generate PlugBot';
     });
+
+    document.getElementById('avatarImg').onerror = () => {
+      document.getElementById('avatarImg').src = 'https://via.placeholder.com/180';
+      showError('Failed to load PlugBot avatar image. Using placeholder.');
+    };
 
     window.addEventListener('beforeunload', () => {
       if (currentBlobUrl) {
         URL.revokeObjectURL(currentBlobUrl);
       }
     });
-
-    function generatePlugbotHtml() {
-      return `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PlugBot: Unlock Your Next Level</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #0b0b0b;
-      --text: #ffffff;
-      --accent: #00c4cc;
-      --card: #1a1a1a;
-      --highlight: #ff6b6b;
-      --rounded: 20px;
-      --link-hover: #e0e0e0;
-      --bot-bg: rgba(255, 255, 255, 0.12);
-      --user-bg: rgba(255, 255, 255, 0.25);
-    }
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #0b0b0b, #1e1e1e);
-      color: var(--text);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-    header {
-      width: 100%;
-      padding: 2rem;
-      text-align: center;
-      font-size: 2.5rem;
-      font-weight: 700;
-      background: linear-gradient(90deg, var(--accent), var(--highlight), var(--accent));
-      background-size: 200%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: shimmer 3s infinite, pulse 2s infinite;
-    }
-    @keyframes shimmer {
-      0% { background-position: 0%; }
-      50% { background-position: 100%; }
-      100% { background-position: 0%; }
-    }
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(10px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes buttonPulse {
-      0%, 100% { box-shadow: 0 0 10px var(--accent); }
-      50% { box-shadow: 0 0 20px var(--highlight); }
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 0.8; }
-      50% { opacity: 0.4; }
-    }
-    .avatar-bg img {
-      width: 180px;
-      margin-top: 2rem;
-      animation: float 4s ease-in-out infinite;
-      filter: drop-shadow(0 0 20px var(--accent));
-    }
-    .interface {
-      width: 100%;
-      max-width: 650px;
-      background: linear-gradient(135deg, var(--card), #252525);
-      border-radius: var(--rounded);
-      padding: 2.5rem;
-      margin: 2rem;
-      box-shadow: 0 0 50px rgba(0, 196, 204, 0.3);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: all 0.3s ease;
-    }
-    .progress-bar {
-      width: 100%;
-      height: 12px;
-      background: #333;
-      border-radius: var(--rounded);
-      overflow: hidden;
-      margin-bottom: 1.5rem;
-    }
-    .progress {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent), var(--highlight));
-      transition: width 0.4s ease;
-    }
-    .chat-section {
-      width: 100%;
-      background: var(--bot-bg);
-      border-radius: var(--rounded);
-      padding: 1.5rem;
-      max-height: 55vh;
-      overflow-y: auto;
-      margin-bottom: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      role: log;
-      aria-live: polite;
-    }
-    .chat-section::-webkit-scrollbar {
-      width: 10px;
-    }
-    .chat-section::-webkit-scrollbar-track {
-      background: #444;
-      border-radius: var(--rounded);
-    }
-    .chat-section::-webkit-scrollbar-thumb {
-      background: var(--accent);
-      border-radius: var(--rounded);
-    }
-    .chat-section::-webkit-scrollbar-thumb:hover {
-      background: var(--highlight);
-    }
-    .msg-box {
-      max-width: 85%;
-      padding: 1rem;
-      border-radius: var(--rounded);
-      margin-bottom: 0.75rem;
-      animation: fadeIn 0.3s ease;
-      font-size: 1.1rem;
-      line-height: 1.4;
-    }
-    .user-msg {
-      align-self: flex-end;
-      background: var(--user-bg);
-    }
-    .bot-msg {
-      align-self: flex-start;
-      background: var(--bot-bg);
-    }
-    .msg-box a {
-      color: var(--highlight);
-      text-decoration: underline;
-      transition: color 0.3s ease;
-    }
-    .msg-box a:hover {
-      color: var(--link-hover);
-    }
-    .msg-box button {
-      background: linear-gradient(90deg, var(--accent), var(--highlight));
-      color: #000;
-      padding: 0.8rem 1.5rem;
-      border: none;
-      border-radius: var(--rounded);
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-    .msg-box button:hover {
-      transform: scale(1.05);
-    }
-    .typing {
-      font-size: 1rem;
-      opacity: 0.8;
-      animation: blink 1s infinite;
-      align-self: flex-start;
-      display: none;
-    }
-    .input-row {
-      display: none;
-      width: 100%;
-    }
-    .input-row.active {
-      display: flex;
-      flex-direction: column;
-      animation: fadeIn 0.3s ease;
-    }
-    .input-row label {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
-    input {
-      width: 100%;
-      padding: 1.2rem;
-      border-radius: var(--rounded);
-      border: none;
-      background: #222;
-      color: var(--text);
-      font-size: 1.1rem;
-      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-      transition: box-shadow 0.3s ease;
-    }
-    input:focus {
-      box-shadow: inset 0 0 15px var(--accent);
-      outline: none;
-    }
-    input:disabled {
-      background: #333;
-      cursor: not-allowed;
-    }
-    .btn {
-      width: 100%;
-      max-width: 250px;
-      padding: 1.2rem;
-      background: linear-gradient(90deg, var(--accent), var(--highlight));
-      color: #000;
-      font-weight: 700;
-      border: none;
-      border-radius: var(--rounded);
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.3s ease;
-      margin-top: 1.5rem;
-      animation: buttonPulse 4s infinite;
-    }
-    .btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 25px var(--highlight);
-    }
-    .btn:disabled {
-      background: #555;
-      cursor: not-allowed;
-    }
-    footer {
-      margin-top: auto;
-      padding: 1rem;
-      font-size: 0.9rem;
-      opacity: 0.7;
-      text-align: center;
-      color: var(--link-hover);
-    }
-    footer a {
-      color: var(--accent);
-      text-decoration: underline;
-    }
-    footer a:hover {
-      color: var(--highlight);
-    }
-    @media (prefers-reduced-motion: reduce) {
-      header, .btn, .avatar-bg img {
-        animation: none;
-      }
-      button, .btn {
-        transition: none;
-      }
-    }
-  </style>
-</head>
-<body>
-  <header>PlugBot: Unlock Your Next Level</header>
-  <div class="avatar-bg">
-    <img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot Avatar" onerror="this.src='https://via.placeholder.com/180'">
-  </div>
-  <div class="interface">
-    <div class="progress-bar"><div class="progress" id="progress"></div></div>
-    <div class="chat-section" id="chat" role="log" aria-live="polite"></div>
-    <div class="input-row" id="inputRow">
-      <label for="input">Type your message</label>
-      <input type="text" id="input" placeholder="Type here..." aria-label="Type your message" required>
-    </div>
-    <button class="btn" id="startBtn" aria-label="Start PlugBot conversation">Start PlugBot</button>
-  </div>
-  <footer>© 2025 PlugBot | Designed with ❤️ for premium creators | <a href="mailto:support@mxdenterprises.com">Support</a></footer>
-  <script>
-    const bookingLink = '${bookingLink}';
-    const paymentLink = '${paymentLink}';
-    const fallbackLink = 'https://mxdenterprises.com/resources';
-
-    function escapeHtml(unsafe) {
-      return unsafe.replace(/[&<"'\n\r]/g, (m) => ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&apos;',
-        '\n': '&#10;',
-        '\r': '&#13;'
-      })[m]);
-    }
-
-    const chat = document.getElementById('chat');
-    const inputRow = document.getElementById('inputRow');
-    const input = document.getElementById('input');
-    const startBtn = document.getElementById('startBtn');
-    const progressBar = document.getElementById('progress');
-
-    let step = 0;
-    let userData = {};
-    try {
-      userData = JSON.parse(localStorage.getItem('plugbotUserData')) || {};
-    } catch (e) {
-      console.warn('Failed to load user data from localStorage:', e);
-    }
-    let isSending = false;
-
-    const questions = [
-      "Hi there, I’m PlugBot. Ready to see if this opportunity is the right fit for you?",
-      "What’s your name?",
-      "How old are you?",
-      "Have you ever worked online or been part of a program, offer, or service like this before?",
-      "Have you ever invested in coaching, mentorship, or personal growth before, or is this your first time? Are you currently considering it?",
-      "What specifically about this offer caught your interest?",
-      "How much are you currently making per month?",
-      "How much would you like to be making after fully committing to this opportunity?",
-      "Are you currently working toward a savings or financial goal?",
-      "Just to be transparent, moving forward requires some level of financial readiness. Do you have savings or credit?",
-      "Are you currently working on building your credit or other financial resources?",
-      "What score or milestone are you aiming for?",
-      "How far away?",
-      "Are you serious about achieving your goals no matter what?"
-    ];
-
-    function scrollChatToBottom() {
-      chat.scrollTop = chat.scrollHeight;
-    }
-
-    function appendMessage(text, isUser = false) {
-      const box = document.createElement('div');
-      box.className = 'msg-box ' + (isUser ? 'user-msg' : 'bot-msg');
-      box.innerHTML = text;
-      chat.appendChild(box);
-      scrollChatToBottom();
-    }
-
-    function appendTyping() {
-      const typing = document.createElement('div');
-      typing.className = 'typing';
-      typing.id = 'typing';
-      typing.textContent = 'PlugBot is typing...';
-      typing.style.display = 'block';
-      chat.appendChild(typing);
-      scrollChatToBottom();
-    }
-
-    function removeTyping() {
-      const typing = document.getElementById('typing');
-      if (typing) typing.remove();
-    }
-
-    function updateProgress() {
-      const maxSteps = questions.length - 1;
-      const percent = Math.min((step / maxSteps) * 100, 100);
-      progressBar.style.width = percent + '%';
-    }
-
-    function startChat() {
-      startBtn.style.display = 'none';
-      inputRow.classList.add('active');
-      appendMessage(questions[step]);
-      updateProgress();
-      input.focus();
-    }
-
-    function sendInput() {
-      if (isSending) return;
-      isSending = true;
-      const ans = input.value.trim();
-      if (!ans) {
-        appendMessage('Please enter a response.');
-        isSending = false;
-        return;
-      }
-      appendMessage(escapeHtml(ans), true);
-      input.value = '';
-      handleLogic(ans);
-      setTimeout(() => (isSending = false), 500);
-    }
-
-    function ask(q) {
-      appendTyping();
-      setTimeout(() => {
-        removeTyping();
-        appendMessage(q);
-        updateProgress();
-        input.focus();
-      }, 600);
-    }
-
-    function saveUserData() {
-      try {
-        localStorage.setItem('plugbotUserData', JSON.stringify(userData));
-      } catch (e) {
-        console.warn('Failed to save user data to localStorage:', e);
-      }
-    }
-
-    function handleLogic(ans) {
-      const lower = ans.toLowerCase();
-
-      if (step === 0) {
-        if (lower.includes('no')) {
-          return endFlow(`Understood. Best of luck on your journey! Here are some resources to explore: <a href="${fallbackLink}" target="_blank" rel="noopener">Click here</a>`);
-        }
-        appendMessage(`Great! Let’s get started.`);
-      }
-
-      if (step === 1) {
-        userData.name = ans;
-        saveUserData();
-        appendMessage(`Nice to meet you, ${escapeHtml(ans)}!`);
-      }
-
-      if (step === 2) {
-        const age = parseInt(ans);
-        if (isNaN(age) || age < 0) {
-          appendMessage(`Please enter a valid age (e.g., 25).`);
-          isSending = false;
-          return;
-        }
-        userData.age = age;
-        saveUserData();
-        if (age < 17) {
-          return endFlow(`Gotcha! We currently only accept applicants 17 or older, but we love your ambition. Check out these resources to prepare for the future: <a href="${fallbackLink}" target="_blank" rel="noopener">Click here</a>`);
-        }
-        appendMessage(`Thanks for sharing, let’s dive deeper!`);
-      }
-
-      if (step === 3) {
-        if (lower.includes('yes') || lower.includes('have')) {
-          appendMessage(`That’s great experience!`);
-        } else {
-          appendMessage mixes: ['yes', 'have'].includes(lower)
-            ? appendMessage(`No worries, everyone starts somewhere.`)
-            : null;
-        }
-      }
-
-      if (step === 4) {
-        if (lower.includes('first') || lower.includes('no')) {
-          appendMessage(`Congrats on stepping into your next level!`);
-        } else if (lower.includes('yes') || lower.includes('have')) {
-          appendMessage(`Awesome, sounds like you know how to take action.`);
-        } else if (lower.includes('no') || lower.includes('not')) {
-          return endFlow(`Understood. Best of luck on your journey! Here are some resources to explore: <a href="${fallbackLink}" target="_blank" rel="noopener">Click here</a>`);
-        }
-        appendMessage(`Great to hear you’re interested!`);
-      }
-
-      if (step === 5) {
-        userData.interest = ans;
-        saveUserData();
-        appendMessage(`That’s awesome! Let’s talk about your goals.`);
-      }
-
-      if (step === 6) {
-        if (!/(\$?\d+|\d+k|no job|none)/i.test(lower)) {
-          appendMessage(`Please enter a valid amount (e.g., $1000, 1k, or 'no job').`);
-          isSending = false;
-          return;
-        }
-        userData.currentIncome = ans;
-        saveUserData();
-      }
-
-      if (step === 7) {
-        if (!/(\$?\d+|\d+k|\d+-\d+k)/i.test(lower)) {
-          appendMessage(`Please enter a valid goal amount (e.g., $10000, 10k, or 10-20k).`);
-          isSending = false;
-          return;
-        }
-        userData.incomeGoal = ans;
-        saveUserData();
-      }
-
-      if (step === 8) {
-        userData.hasSavingsGoal = lower.includes('yes');
-        saveUserData();
-      }
-
-      if (step === 9) {
-        userData.hasFunds = /(yes|yea|yeah|yep|sure|i do|i have|credit|card|\$|\d+)/i.test(lower);
-        saveUserData();
-        if (!userData.hasFunds || lower.includes('no job') || lower.includes('none')) {
-          appendMessage(`Thanks for your honesty.`);
-        } else {
-          step = 12;
-          updateProgress();
-          return showAlignedCTA();
-        }
-      }
-
-      if (step === 10) {
-        if (lower.includes('yes')) {
-          appendMessage(`That’s a great step forward!`);
-        } else {
-          step = 13;
-          ask(questions[13]);
-          return;
-        }
-      }
-
-      if (step === 11) {
-        if (!/\d+/.test(lower) || parseInt(lower) < 0) {
-          appendMessage(`Please enter a valid credit score or milestone (e.g., 700).`);
-          isSending = false;
-          return;
-        }
-        userData.creditScoreGoal = ans;
-        saveUserData();
-      }
-
-      if (step === 12) {
-        userData.creditMilestone = ans;
-        saveUserData();
-        updateProgress();
-        return showAlignedCTA();
-      }
-
-      if (step === 13) {
-        if (lower.includes('yes')) {
-          return showMindsetPrep();
-        } else {
-          return showFallback();
-        }
-      }
-
-      step++;
-      if (step < questions.length) {
-        ask(questions[step]);
-      } else {
-        updateProgress();
-        showAlignedCTA();
-      }
-    }
-
-    function showAlignedCTA() {
-      appendMessage(`Awesome! You’re aligned. Book a call to explore next steps: <button onclick="window.open('${bookingLink}', '_blank')" aria-label="Book a call">Book Now</button> or make a payment: <button onclick="window.open('${paymentLink}', '_blank')" aria-label="Make a payment">Pay Now</button>`);
-      inputRow.style.display = 'none';
-    }
-
-    function showMindsetPrep() {
-      appendMessage(`That’s the mindset it takes! Check out these resources to fast-track your growth: <a href="${fallbackLink}" target="_blank" rel="noopener">Click here</a>`);
-      inputRow.style.display = 'none';
-    }
-
-    function showFallback() {
-      appendMessage(`Understood. Best of luck on your journey! Here are some resources to explore: <a href="${fallbackLink}" target="_blank" rel="noopener">Click here</a>`);
-      inputRow.style.display = 'none';
-    }
-
-    function endFlow(message) {
-      appendMessage(`${message} <button onclick="resetChat()" aria-label="Restart conversation">Restart</button>`);
-      inputRow.style.display = 'none';
-    }
-
-    function resetChat() {
-      step = 0;
-      userData = {};
-      try {
-        localStorage.removeItem('plugbotUserData');
-      } catch (e) {
-        console.warn('Failed to clear localStorage:', e);
-      }
-      chat.innerHTML = '';
-      inputRow.classList.remove('active');
-      progressBar.style.width = '0%';
-      startBtn.style.display = 'block';
-    }
-
-    document.getElementById('startBtn').addEventListener('click', startChat);
-    document.getElementById('input').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') sendInput();
-    });
-  </script>
-</body>
-</html>
-`;
-    }
   </script>
 </body>
 </html>
