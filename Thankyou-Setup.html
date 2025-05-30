@@ -86,13 +86,18 @@
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow: 0.3s ease;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
       animation: buttonPulse 4s infinite;
       display: inline-block;
       text-decoration: none;
       margin: 0.5rem;
     }
-    button:hover, .download-btn:hover, .consultation-btn:hover {
+    button:disabled {
+      background: #555;
+      cursor: not-allowed;
+      animation: none;
+    }
+    button:hover:not(:disabled), .download-btn:hover, .consultation-btn:hover {
       transform: scale(1.05);
       box-shadow: 0 0 25px var(--highlight);
     }
@@ -104,11 +109,13 @@
       color: var(--highlight);
       margin-top: 1rem;
       display: none;
+      font-size: 0.9rem;
     }
     #success {
       color: #00ff00;
       margin-top: 1rem;
       display: none;
+      font-size: 0.9rem;
     }
     #linkPreview {
       font-size: 0.9rem;
@@ -121,20 +128,6 @@
       text-decoration: underline;
     }
     #linkPreview a:hover {
-      color: var(--highlight);
-    }
-    #bioLink {
-      font-size: 1.2rem;
-      color: var(--accent);
-      margin-top: 1rem;
-      display: none;
-      word-break: break-all;
-    }
-    #bioLink a {
-      color: var(--accent);
-      text-decoration: underline;
-    }
-    #bioLink a:hover {
       color: var(--highlight);
     }
     .support {
@@ -197,10 +190,18 @@
       0% { opacity: 0; transform: translateY(10px); }
       100% { opacity: 1; transform: translateY(0); }
     }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
     @media (prefers-reduced-motion: reduce) {
-      .avatar-bg img { animation: none; }
-      button, .download-btn, .consultation-btn { animation: none; }
-      .modal-content { animation: none; }
+      .avatar-bg img, button, .download-btn, .consultation-btn, .modal-content { animation: none; }
     }
   </style>
 </head>
@@ -209,7 +210,7 @@
     <div class="modal-content">
       <h2>Welcome to PlugBot Setup!</h2>
       <p>Enter your booking and payment links below to customize your PlugBot. Download the file to host yourself. Need help? Book our $50 consultation service.</p>
-      <button onclick="closeModal()">Got It</button>
+      <button onclick="closeModal()" aria-label="Close welcome modal">Got It</button>
     </div>
   </div>
   <div class="container">
@@ -218,26 +219,24 @@
     </div>
     <h1>Thank You for Testing PlugBot!</h1>
     <p>You’ve signed up for the free testing version of PlugBot Basic. Customize your PlugBot with your booking and payment links below.</p>
-    <div class="form-group">
-      <label for="bookingLink">Booking Link (e.g., Calendly)</label>
-      <input type="url" id="bookingLink" placeholder="https://calendly.com/your-link">
-    </div>
-    <div class="form-group">
-      <label for="paymentLink">Payment Link (e.g., Stripe)</label>
-      <input type="url" id="paymentLink" placeholder="https://stripe.com/your-link">
-    </div>
-    <button onclick="saveSettings()">Save Settings</button>
-    <p id="error">Please enter valid HTTPS URLs for both fields.</p>
-    <p id="success">Settings saved! Download your customized PlugBot file below to host it yourself.</p>
-    <p id="linkPreview">Links: <a id="bookingPreview" href="#" target="_blank"></a> | <a id="paymentPreview" href="#" target="_blank"></a></p>
-    <!-- Temporarily disable the Generate Bio Link feature
-    <button id="generateBioLink" onclick="generateHostedLink()" style="display: none; font-size: 1.2rem; padding: 1.5rem 3rem;">Generate Bio Link</button>
-    <p id="bioLink" style="display: none;"><a href="#" id="bioLinkUrl" target="_blank"></a></p>
-    -->
-    <a id="downloadLink" class="download-btn" style="display: none; font-size: 0.9rem; padding: 0.8rem 1.5rem;" href="#" download="plugbot.html">Download PlugBot Basic</a>
+    <form id="setupForm">
+      <div class="form-group">
+        <label for="bookingLink">Booking Link (e.g., Calendly)</label>
+        <input type="url" id="bookingLink" placeholder="https://calendly.com/your-link" required>
+      </div>
+      <div class="form-group">
+        <label for="paymentLink">Payment Link (e.g., Stripe)</label>
+        <input type="url" id="paymentLink" placeholder="https://stripe.com/your-link" required>
+      </div>
+      <button type="submit">Save Settings</button>
+    </form>
+    <p id="error" role="alert"></p>
+    <p id="success" role="alert">Settings saved! Download your customized PlugBot file below to host it yourself.</p>
+    <p id="linkPreview">Links: <a id="bookingPreview" href="#" target="_blank" rel="noopener">Booking Link</a> | <a id="paymentPreview" href="#" target="_blank" rel="noopener">Payment Link</a></p>
+    <a id="downloadLink" class="download-btn" style="display: none;" href="#" download="plugbot.html">Download PlugBot Basic</a>
     <div class="consultation-section">
       <p>Need help setting up and hosting your PlugBot? Book a $50 consultation, and we’ll handle it for you!</p>
-      <a href="https://whop.com/plugbotkit/need-help-setting-up-plug-bot-fZsNdefSlV6CDG/app/" class="consultation-btn">Book Consultation ($50)</a>
+      <a href="https://whop.com/plugbotkit/need-help-setting-up-plug-bot-fZsNdefSlV6CDG/app/" class="consultation-btn" target="_blank" rel="noopener">Book Consultation ($50)</a>
     </div>
     <p class="support">Need help? Contact us at <a href="mailto:support@mxdenterprises.com">support@mxdenterprises.com</a></p>
   </div>
@@ -245,32 +244,66 @@
     let bookingLink = '';
     let paymentLink = '';
 
-    function saveSettings() {
-      bookingLink = document.getElementById('bookingLink').value.trim();
-      paymentLink = document.getElementById('paymentLink').value.trim();
+    function isValidUrl(url) {
+      try {
+        const parsed = new URL(url);
+        return parsed.protocol === 'https:' && /^[a-zA-Z0-9\/\-\.\_\~\:]*$/.test(url);
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function escapeHtml(unsafe) {
+      return unsafe.replace(/[&<"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '"': '&quot;', "'": '&apos;' })[m]);
+    }
+
+    function saveSettings(e) {
+      e.preventDefault();
+      const bookingLinkInput = document.getElementById('bookingLink').value.trim();
+      const paymentLinkInput = document.getElementById('paymentLink').value.trim();
       const error = document.getElementById('error');
       const success = document.getElementById('success');
       const downloadLink = document.getElementById('downloadLink');
       const linkPreview = document.getElementById('linkPreview');
       const bookingPreview = document.getElementById('bookingPreview');
       const paymentPreview = document.getElementById('paymentPreview');
+      const button = document.querySelector('button[type="submit"]');
 
-      if (!isValidUrl(bookingLink) || !isValidUrl(paymentLink)) {
+      button.disabled = true;
+      button.textContent = 'Saving...';
+
+      let errorMessage = '';
+      if (!bookingLinkInput) {
+        errorMessage += 'Booking link is required. ';
+      } else if (!isValidUrl(bookingLinkInput)) {
+        errorMessage += 'Booking link must be a valid HTTPS URL. ';
+      }
+      if (!paymentLinkInput) {
+        errorMessage += 'Payment link is required. ';
+      } else if (!isValidUrl(paymentLinkInput)) {
+        errorMessage += 'Payment link must be a valid HTTPS URL. ';
+      }
+
+      if (errorMessage) {
+        error.textContent = errorMessage;
         error.style.display = 'block';
         success.style.display = 'none';
         downloadLink.style.display = 'none';
         linkPreview.style.display = 'none';
-        document.getElementById('bioLink').style.display = 'none';
+        button.disabled = false;
+        button.textContent = 'Save Settings';
         return;
       }
 
+      bookingLink = escapeHtml(bookingLinkInput);
+      paymentLink = escapeHtml(paymentLinkInput);
       localStorage.setItem('bookingLink', bookingLink);
       localStorage.setItem('paymentLink', paymentLink);
 
       bookingPreview.href = bookingLink;
-      bookingPreview.textContent = 'Booking Link';
+      bookingPreview.textContent = bookingLink;
       paymentPreview.href = paymentLink;
-      paymentPreview.textContent = 'Payment Link';
+      paymentPreview.textContent = paymentLink;
       linkPreview.style.display = 'block';
 
       const plugbotHtml = generatePlugbotHtml();
@@ -280,15 +313,8 @@
       downloadLink.style.display = 'inline-block';
       success.style.display = 'block';
       error.style.display = 'none';
-    }
-
-    function isValidUrl(url) {
-      try {
-        new URL(url);
-        return url.startsWith('https://');
-      } catch {
-        return false;
-      }
+      button.disabled = false;
+      button.textContent = 'Save Settings';
     }
 
     function closeModal() {
@@ -297,6 +323,31 @@
 
     window.onload = function() {
       document.getElementById('welcomeModal').style.display = 'flex';
+      const savedBookingLink = localStorage.getItem('bookingLink');
+      const savedPaymentLink = localStorage.getItem('paymentLink');
+      if (savedBookingLink) document.getElementById('bookingLink').value = savedBookingLink;
+      if (savedPaymentLink) document.getElementById('paymentLink').value = savedPaymentLink;
+      if (savedBookingLink && savedPaymentLink) {
+        bookingLink = savedBookingLink;
+        paymentLink = savedPaymentLink;
+        document.getElementById('bookingPreview').href = bookingLink;
+        document.getElementById('bookingPreview').textContent = bookingLink;
+        document.getElementById('paymentPreview').href = paymentLink;
+        document.getElementById('paymentPreview').textContent = paymentLink;
+        document.getElementById('linkPreview').style.display = 'block';
+        const plugbotHtml = generatePlugbotHtml();
+        const blob = new Blob([plugbotHtml], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        document.getElementById('downloadLink').href = url;
+        document.getElementById('downloadLink').style.display = 'inline-block';
+        document.getElementById('success').style.display = 'block';
+      }
+      document.getElementById('setupForm').addEventListener('submit', saveSettings);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && document.getElementById('welcomeModal').style.display === 'flex') {
+          closeModal();
+        }
+      });
     };
 
     function generatePlugbotHtml() {
@@ -317,16 +368,18 @@
       --highlight: #ff6b6b;
       --card: #1a1a1a;
       --rounded: 20px;
+      --bot-bg: rgba(255, 255, 255, 0.12);
+      --user-bg: rgba(0, 196, 204, 0.25);
     }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      margin: 0;
       font-family: 'Inter', sans-serif;
       background: linear-gradient(135deg, #0b0b0b, #1e1e1e);
       color: var(--text);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       overflow-x: hidden;
     }
     .container {
@@ -343,13 +396,17 @@
     }
     .avatar-bg img {
       width: 180px;
-      margin-top: 2rem;
+      margin: 2rem 0;
       animation: float 4s ease-in-out infinite;
       filter: drop-shadow(0 0 20px var(--accent));
     }
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
     }
     .progress-bar {
       width: 100%;
@@ -363,7 +420,7 @@
       width: 0%;
       height: 100%;
       background: linear-gradient(90deg, var(--accent), var(--highlight));
-      transition: width: 0.4s ease;
+      transition: width 0.4s ease;
     }
     .chat-section {
       width: 100%;
@@ -392,20 +449,23 @@
     }
     .msg-box {
       max-width: 85%;
-      background: rgba(255, 255, 255, 0.12);
       padding: 1rem;
       border-radius: var(--rounded);
       margin-bottom: 0.75rem;
       animation: fadeIn 0.3s ease;
       font-size: 1.1rem;
       line-height: 1.4;
+      position: relative;
     }
     .user-msg {
       align-self: flex-end;
-      background: rgba(255, 255, 255, 0.25);
+      background: var(--user-bg);
+      border: 1px solid var(--accent);
     }
     .bot-msg {
       align-self: flex-start;
+      background: var(--bot-bg);
+      border: 1px solid var(--dim);
     }
     .msg-box a {
       color: var(--highlight);
@@ -414,10 +474,26 @@
     .msg-box a:hover {
       color: #e0e0e0;
     }
+    .timestamp {
+      font-size: 0.8rem;
+      color: var(--dim);
+      margin-top: 0.5rem;
+      opacity: 0.7;
+    }
     .input-row {
       display: flex;
       gap: 1rem;
       width: 100%;
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
     }
     input {
       flex: 1;
@@ -433,6 +509,10 @@
       box-shadow: inset 0 0 15px var(--accent);
       outline: none;
     }
+    input:disabled {
+      background: #333;
+      cursor: not-allowed;
+    }
     button {
       background: linear-gradient(90deg, var(--accent), var(--highlight));
       color: #000;
@@ -440,12 +520,29 @@
       border: none;
       border-radius: var(--rounded);
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow: 0.3s ease;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
       animation: buttonPulse 4s infinite;
     }
     button:hover {
       transform: scale(1.05);
       box-shadow: 0 0 25px var(--highlight);
+    }
+    button:disabled {
+      background: #555;
+      cursor: not-allowed;
+      animation: none;
+    }
+    .instructions-link {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: var(--dim);
+    }
+    .instructions-link a {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+    .instructions-link a:hover {
+      color: var(--highlight);
     }
     @keyframes fadeIn {
       0% { opacity: 0; transform: translateY(10px); }
@@ -456,25 +553,32 @@
       50% { box-shadow: 0 0 20px var(--highlight); }
     }
     @media (prefers-reduced-motion: reduce) {
-      .avatar-bg img { animation: none; }
-      button { animation: none; }
+      .avatar-bg img, button { animation: none; }
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <h1>Your PlugBot Basic</h1>
     <div class="avatar-bg">
       <img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot Avatar" onerror="this.src='https://via.placeholder.com/180'">
     </div>
     <div class="progress-bar">
       <div class="progress" id="progress"></div>
     </div>
-    <div class="chat-section" id="chatSection">
-      <div class="msg-box bot-msg">Hi! I'm PlugBot. Are you interested in our services? (Type "Yes" or "No")</div>
+    <div class="chat-section" id="chatSection" role="log" aria-live="polite">
+      <div class="msg-box bot-msg">
+        Hi! I'm PlugBot, created by MXD Enterprises. Are you interested in our services? (Type "Yes" or "No")
+        <div class="timestamp">${new Date().toLocaleTimeString()}</div>
+      </div>
     </div>
     <div class="input-row">
-      <input type="text" id="userInput" placeholder="Type your message...">
+      <label for="userInput" class="sr-only">Type your message</label>
+      <input type="text" id="userInput" placeholder="Type your message..." aria-describedby="chat-instructions">
       <button onclick="sendMessage()">Send</button>
+    </div>
+    <div class="instructions-link" id="chat-instructions">
+      Need help using PlugBot? <a href="https://docs.google.com/document/d/1YkH5zA1fZ9oX0YkH5zA1fZ9oX0YkH5zA1fZ9oX0YkH5" target="_blank" rel="noopener">View Instructions</a>
     </div>
   </div>
   <script>
@@ -482,16 +586,17 @@
     const userInput = document.getElementById('userInput');
     const progress = document.getElementById('progress');
     let step = 0;
+    const totalSteps = 3;
     const bookingLink = "${bookingLink}";
     const paymentLink = "${paymentLink}";
 
     function sendMessage() {
-      const message = userInput.value.trim().toLowerCase();
+      const message = userInput.value.trim();
       if (!message) return;
 
       const userMsg = document.createElement('div');
       userMsg.className = 'msg-box user-msg';
-      userMsg.textContent = message;
+      userMsg.innerHTML = \`\${message}<div class="timestamp">\${new Date().toLocaleTimeString()}</div>\`;
       chatSection.appendChild(userMsg);
       userInput.value = '';
       chatSection.scrollTop = chatSection.scrollHeight;
@@ -505,33 +610,40 @@
       const botMsg = document.createElement('div');
       botMsg.className = 'msg-box bot-msg';
       step++;
-      progress.style.width = `${step * 33}%`;
+      progress.style.width = \`\${(step / totalSteps) * 100}%\`;
+
+      const normalized = message.toLowerCase();
+      const yesResponses = ['yes', 'y', 'sure', 'ok', 'okay', 'yep'];
+      const noResponses = ['no', 'n', 'nope', 'nah'];
 
       if (step === 1) {
-        if (message === 'yes') {
-          botMsg.textContent = 'Great! Would you like to book a consultation? (Type "Yes" or "No")';
-        } else if (message === 'no') {
-          botMsg.textContent = 'Thanks for your time! If you change your mind, feel free to come back.';
+        if (yesResponses.includes(normalized)) {
+          botMsg.innerHTML = \`Great! Would you like to book a consultation? (Type "Yes" or "No")<div class="timestamp">\${new Date().toLocaleTimeString()}</div>\`;
+        } else if (noResponses.includes(normalized)) {
+          botMsg.innerHTML = \`Thanks for your time! If you change your mind, feel free to come back.<div class="timestamp">\${new Date().toLocaleTimeString()}</div>\`;
           userInput.disabled = true;
+          document.querySelector('button[onclick="sendMessage()"]').disabled = true;
           progress.style.width = '100%';
         } else {
-          botMsg.textContent = 'Please type "Yes" or "No".';
+          botMsg.innerHTML = \`Please type "Yes" or "No".<div class="timestamp">\${new Date().toLocaleTimeString()}</div>\`;
           step--;
           progress.style.width = '0%';
         }
       } else if (step === 2) {
-        if (message === 'yes') {
-          botMsg.innerHTML = `Awesome! You can book a consultation here: <a href="${bookingLink}" target="_blank">${bookingLink}</a>`;
-          progress.style.width = '100%';
+        if (yesResponses.includes(normalized)) {
+          botMsg.innerHTML = \`Awesome! You can book a consultation here: <a href="\${bookingLink}" target="_blank" rel="noopener">\${bookingLink}</a><div class="timestamp">\${new Date().toLocaleTimeString()}</div>\`;
           userInput.disabled = true;
-        } else if (message === 'no') {
-          botMsg.innerHTML = `No worries! If you're interested, you can make a payment here: <a href="${paymentLink}" target="_blank">${paymentLink}</a>`;
+          document.querySelector('button[onclick="sendMessage()"]').disabled = true;
           progress.style.width = '100%';
+        } else if (noResponses.includes(normalized)) {
+          botMsg.innerHTML = \`No worries! If you're interested, you can make a payment here: <a href="\${paymentLink}" target="_blank" rel="noopener">\${paymentLink}</a><div class="timestamp">\${new Date().toLocaleTimeString()}</div>\`;
           userInput.disabled = true;
+          document.querySelector('button[onclick="sendMessage()"]').disabled = true;
+          progress.style.width = '100%';
         } else {
-          botMsg.textContent = 'Please type "Yes" or "No".';
+          botMsg.innerHTML = \`Please type "Yes" or "No".<div class="timestamp">\${new Date().toLocaleTimeString()}</div>\`;
           step--;
-          progress.style.width = '33%';
+          progress.style.width = \`\${(1 / totalSteps) * 100}%\`;
         }
       }
 
@@ -540,7 +652,7 @@
     }
 
     userInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') sendMessage();
+      if (e.key === 'Enter' && !userInput.disabled) sendMessage();
     });
   </script>
 </body>
