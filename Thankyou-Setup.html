@@ -3,350 +3,87 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PlugBot Setup | MXD Enterprises</title>
+  <title>PlugBot Setup</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #0b0b0b;
       --text: #ffffff;
-      --dim: #cccccc;
       --accent: #00c4cc;
       --highlight: #ff6b6b;
-      --card: #1a1a1a;
       --rounded: 20px;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
+      margin: 0;
       font-family: 'Inter', sans-serif;
       background: linear-gradient(135deg, #0b0b0b, #1e1e1e);
       color: var(--text);
-      min-height: 100vh;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
+      min-height: 100vh;
     }
-    .container {
-      max-width: 650px;
-      padding: 2.5rem;
-      background: linear-gradient(135deg, var(--card), #252525);
+    header {
+      padding: 2rem;
+      font-size: 2rem;
+      font-weight: 700;
+      text-align: center;
+    }
+    .setup-form {
+      background: rgba(255, 255, 255, 0.07);
+      padding: 2rem;
       border-radius: var(--rounded);
       box-shadow: 0 0 50px rgba(0, 196, 204, 0.3);
-      text-align: center;
+      max-width: 500px;
+      width: 100%;
       margin: 2rem;
-    }
-    .avatar-bg img {
-      width: 180px;
-      margin: 0 auto 2rem;
-      display: block;
-      filter: drop-shadow(0 0 20px var(--accent));
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-    p {
-      font-size: 1.1rem;
-      color: var(--dim);
-      margin-bottom: 2rem;
-    }
-    .form-group {
-      margin-bottom: 1.5rem;
-      text-align: left;
-    }
-    label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
     }
     input {
       width: 100%;
-      padding: 1.2rem;
+      padding: 1rem;
+      margin: 0.5rem 0;
       border-radius: var(--rounded);
       border: none;
       background: #222;
       color: var(--text);
-      font-size: 1.1rem;
+      font-size: 1rem;
     }
-    input:focus {
-      box-shadow: inset 0 0 15px var(--accent);
-      outline: none;
-    }
-    button, .download-btn {
+    button {
+      width: 100%;
+      padding: 1rem;
       background: linear-gradient(90deg, var(--accent), var(--highlight));
       color: #000;
-      padding: 1.2rem 2rem;
+      font-weight: 700;
       border: none;
       border-radius: var(--rounded);
-      font-size: 1rem;
-      font-weight: 600;
       cursor: pointer;
-      transition: transform 0.2s ease;
-      display: inline-block;
-      text-decoration: none;
-      margin: 0.5rem;
+      margin-top: 1rem;
     }
-    button:disabled {
-      background: #555;
-      cursor: not-allowed;
-    }
-    button:hover:not(:disabled), .download-btn:hover {
+    button:hover {
       transform: scale(1.05);
+      box-shadow: 0 0 25px var(--highlight);
     }
-    #error {
-      color: var(--highlight);
-      margin-top: 1rem;
-      display: none;
+    footer {
+      padding: 1rem;
       font-size: 0.9rem;
-    }
-    #success {
-      color: #00ff00;
-      margin-top: 1rem;
-      display: none;
-      font-size: 0.9rem;
-    }
-    #linkPreview {
-      font-size: 0.9rem;
-      color: var(--dim);
-      margin-top: 0.5rem;
-      display: none;
-    }
-    #linkPreview a {
-      color: var(--accent);
-      text-decoration: underline;
-    }
-    #linkPreview a:hover {
-      color: var(--highlight);
-    }
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
-    @media (prefers-reduced-motion: reduce) {
-      button, .download-btn {
-        transition: none;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="avatar-bg">
-      <img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot Avatar" id="avatarImg">
-    </div>
-    <h1>Customize Your PlugBot</h1>
-    <p>Enter your booking and payment links below to generate your PlugBot HTML file.</p>
-    <form id="setupForm" aria-describedby="form-instructions">
-      <p id="form-instructions" class="sr-only">Enter valid HTTPS URLs for your booking and payment links to customize your PlugBot.</p>
-      <div class="form-group">
-        <label for="bookingLink">Booking Link (e.g., Calendly)</label>
-        <input type="url" id="bookingLink" placeholder="https://calendly.com/your-link" aria-required="true" required>
-      </div>
-      <div class="form-group">
-        <label for="paymentLink">Payment Link (e.g., Stripe)</label>
-        <input type="url" id="paymentLink" placeholder="https://stripe.com/your-link" aria-required="true" required>
-      </div>
-      <button type="submit" aria-label="Generate PlugBot HTML file">Generate PlugBot</button>
-    </form>
-    <p id="error" role="alert"></p>
-    <p id="success" role="alert">PlugBot generated! Download your customized file below.</p>
-    <p id="linkPreview">Links: <a id="bookingPreview" href="#" target="_blank" rel="noopener">Booking Link</a> | <a id="paymentPreview" href="#" target="_blank" rel="noopener">Payment Link</a></p>
-    <a id="downloadLink" class="download-btn" style="display: none;" href="#" download="plugbot.html" aria-label="Download customized PlugBot file">Download PlugBot</a>
-  </div>
-  <script>
-    let currentBlobUrl = null;
-
-    function isValidUrl(url) {
-      try {
-        const parsed = new URL(url);
-        return parsed.protocol === 'https:' && url.length <= 2048 && /^https:\/\/[a-zA-Z0-9][a-zA-Z0-9.-]*\.[a-zA-Z]{2,}/.test(url);
-      } catch (e) {
-        return false;
-      }
-    }
-
-    function escapeHtml(unsafe) {
-      return unsafe.replace(/[&<"'\n\r]/g, (m) => ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&apos;',
-        '\n': '<br>',
-        '\r': ''
-      })[m]);
-    }
-
-    function showError(message) {
-      const error = document.getElementById('error');
-      error.textContent = message;
-      error.style.display = 'block';
-    }
-
-    function generatePlugbotHtml(bookingLink, paymentLink) {
-      return `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PlugBot</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #0b0b0b;
-      --text: #ffffff;
-      --accent: #00c4cc;
-      --highlight: #ff6b6b;
-      --card: #1a1a1a;
-      --rounded: 20px;
-    }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #0b0b0b, #1e1e1e);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .container {
-      max-width: 650px;
-      padding: 2.5rem;
-      background: linear-gradient(135deg, var(--card), #252525);
-      border-radius: var(--rounded);
-      box-shadow: 0 0 50px rgba(0, 196, 204, 0.3);
+      opacity: 0.7;
       text-align: center;
-      margin: 2rem;
-    }
-    .avatar-bg img {
-      width: 180px;
-      margin: 0 auto 2rem;
-      display: block;
-      filter: drop-shadow(0 0 20px var(--accent));
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-    p {
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
-    }
-    .btn {
-      background: lol-gradient(90deg, var(--accent), var(--highlight));
-      color: #000;
-      padding: 1.2rem 2rem;
-      border: none;
-      border-radius: var(--rounded);
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      margin: 0.5rem;
-      transition: transform 0.2s ease;
-    }
-    .btn:hover {
-      transform: scale(1.05);
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .btn {
-        transition: none;
-      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="avatar-bg">
-      <img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot Avatar" onerror="this.src='https://via.placeholder.com/180'">
-    </div>
-    <h1>Welcome to PlugBot!</h1>
-    <p>Ready to take the next step? Use the buttons below to book a call or make a payment.</p>
-    <a href="${bookingLink}" class="btn" target="_blank" rel="noopener" aria-label="Book a call">Book Now</a>
-    <a href="${paymentLink}" class="btn" target="_blank" rel="noopener" aria-label="Make a payment">Pay Now</a>
-  </div>
-</body>
-</html>
-      `;
-    }
-
-    document.getElementById('setupForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const bookingLink = document.getElementById('bookingLink').value.trim();
-      const paymentLink = document.getElementById('paymentLink').value.trim();
-      const error = document.getElementById('error');
-      const success = document.getElementById('success');
-      const downloadLink = document.getElementById('downloadLink');
-      const linkPreview = document.getElementById('linkPreview');
-      const bookingPreview = document.getElementById('bookingPreview');
-      const paymentPreview = document.getElementById('paymentPreview');
-      const button = document.querySelector('button[type="submit"]');
-
-      button.disabled = true;
-      button.textContent = 'Generating...';
-
-      let errorMessage = '';
-      if (!bookingLink) errorMessage += 'Booking link is required. ';
-      else if (!isValidUrl(bookingLink)) errorMessage += 'Booking link must be a valid HTTPS URL (e.g., https://calendly.com/your-link). ';
-      if (!paymentLink) errorMessage += 'Payment link is required. ';
-      else if (!isValidUrl(paymentLink)) errorMessage += 'Payment link must be a valid HTTPS URL (e.g., https://stripe.com/your-link). ';
-
-      if (errorMessage) {
-        showError(errorMessage);
-        success.style.display = 'none';
-        downloadLink.style.display = 'none';
-        linkPreview.style.display = 'none';
-        button.disabled = false;
-        button.textContent = 'Generate PlugBot';
-        return;
-      }
-
-      bookingPreview.href = bookingLink;
-      bookingPreview.textContent = bookingLink.length > 50 ? bookingLink.slice(0, 47) + '...' : bookingLink;
-      paymentPreview.href = paymentLink;
-      paymentPreview.textContent = paymentLink.length > 50 ? paymentLink.slice(0, 47) + '...' : paymentLink;
-      linkPreview.style.display = 'block';
-
-      try {
-        if (currentBlobUrl) {
-          URL.revokeObjectURL(currentBlobUrl);
-        }
-        const plugbotHtml = generatePlugbotHtml(escapeHtml(bookingLink), escapeHtml(paymentLink));
-        const blob = new Blob([plugbotHtml], { type: 'text/html' });
-        currentBlobUrl = URL.createObjectURL(blob);
-        downloadLink.href = currentBlobUrl;
-        downloadLink.style.display = 'inline-block';
-        success.style.display = 'block';
-        error.style.display = 'none';
-      } catch (e) {
-        showError('Failed to generate PlugBot file. Please try again.');
-        success.style.display = 'none';
-        downloadLink.style.display = 'none';
-        linkPreview.style.display = 'none';
-      }
-
-      button.disabled = false;
-      button.textContent = 'Generate PlugBot';
-    });
-
-    document.getElementById('avatarImg').onerror = () => {
-      document.getElementById('avatarImg').src = 'https://via.placeholder.com/180';
-      showError('Failed to load PlugBot avatar image. Using placeholder.');
-    };
-
-    window.addEventListener('beforeunload', () => {
-      if (currentBlobUrl) {
-        URL.revokeObjectURL(currentBlobUrl);
-      }
-    });
+  <header>Customize Your PlugBot</header>
+  <form class="setup-form">
+    <label for="bookingLink">Booking Link (e.g., Calendly URL):</label>
+    <input type="text" id="bookingLink" placeholder="https://your-booking-link.com" required>
+    <label for="paymentLink">Payment Link (e.g., Stripe/PayPal URL):</label>
+    <input type="text" id="paymentLink" placeholder="https://your-payment-link.com" required>
+    <button type="submit">Generate & Download PlugBot</button>
+  </form>
+  <footer>© 2025 PlugBot | Designed with ❤️ for premium creators</footer>
+  <script>
+    // JavaScript to be added after receiving thankyousetup.html code
+    // Will include URL validation, template replacement, and download logic
   </script>
 </body>
 </html>
