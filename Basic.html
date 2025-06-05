@@ -5,13 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PlugBot: Unlock Your Next Level</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
 :root {
   --bg: #0b0b0b;
   --text: #ffffff;
-  --accent: #00c4cc; /* Cyan accent for a modern feel */
+  --accent: #00c4cc;
   --card: #1a1a1a;
-  --highlight: #ff6b6b; /* Red highlight for contrast */
+  --highlight: #ff6b6b;
   --rounded: 20px;
   --link-hover: #e0e0e0;
 }
@@ -59,8 +60,12 @@ header {
   0%, 100% { box-shadow: 0 0 10px var(--accent); }
   50% { box-shadow: 0 0 20px var(--highlight); }
 }
+@keyframes buttonGlow {
+  0%, 100% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
+  50% { box-shadow: 0 0 25px rgba(255, 255, 255, 0.6); }
+}
 .avatar-bg img {
-  width: 180px; /* Slightly larger for emphasis */
+  width: 180px;
   margin-top: 2rem;
   animation: float 4s ease-in-out infinite;
   filter: drop-shadow(0 0 20px var(--accent));
@@ -189,6 +194,41 @@ input:focus {
   transform: scale(1.05);
   box-shadow: 0 0 25px var(--highlight);
 }
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+.book-btn, .pay-btn {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--rounded);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+.book-btn {
+  background: linear-gradient(90deg, var(--accent), #00a1a7);
+  color: #000;
+  animation: buttonGlow 3s infinite;
+}
+.pay-btn {
+  background: linear-gradient(90deg, var(--highlight), #ff4f4f);
+  color: #fff;
+  animation: buttonGlow 3s infinite;
+}
+.book-btn:hover, .pay-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.7);
+}
+.book-btn i, .pay-btn i {
+  font-size: 1.2rem;
+}
 footer {
   margin-top: auto;
   padding: 1rem;
@@ -225,6 +265,7 @@ let userData = JSON.parse(localStorage.getItem('plugbotUserData')) || {};
 let isSending = false;
 
 const CLIENT_CTA_LINK = 'https://example.com/cta';
+const CLIENT_PAYMENT_LINK = 'https://example.com/payment';
 const CLIENT_RESOURCE_LINK = 'https://example.com/resources';
 const CLIENT_FALLBACK_LINK = 'https://example.com/fallback';
 
@@ -239,10 +280,11 @@ const questions = [
   "How much would you like to be making after fully committing to this opportunity?",
   "Are you currently working toward a savings or financial goal?",
   "Just to be transparent, moving forward requires some level of financial readiness. Do you have savings or credit?",
-  "Are you currently working on building your credit or other financial resources?", // For Scenario 4
-  "What score or milestone are you aiming for?", // For Scenario 4
-  "How far away?", // For Scenario 4
-  "Are you serious about achieving your goals no matter what?" // For Scenarios 6 and 7
+  "Awesome, you're a great fit! When would you prefer to book your call: morning, afternoon, or evening?",
+  "Are you currently working on building your credit or other financial resources?",
+  "What score or milestone are you aiming for?",
+  "How far away?",
+  "Are you serious about achieving your goals no matter what?"
 ];
 
 function scrollChatToBottom() {
@@ -272,7 +314,7 @@ function removeTyping() {
 }
 
 function updateProgress() {
-  const maxSteps = 9; // Adjusted for reduced questions
+  const maxSteps = 15;
   const percent = Math.min((step / maxSteps) * 100, 100);
   progressBar.style.width = percent + '%';
 }
@@ -280,7 +322,7 @@ function updateProgress() {
 function startChat() {
   startBtn.style.display = 'none';
   inputRow.classList.add('active');
-  appendMessage(questions[step]); // Show first question without typing
+  appendMessage(questions[step]);
   updateProgress();
 }
 
@@ -409,25 +451,40 @@ function handleLogic(ans) {
     if (!userData.hasFunds || lower.includes('no job') || lower.includes('none')) {
       appendMessage(`Thanks for your honesty.`);
     } else {
-      step = 12; // Skip to CTA for Scenario 5
-      updateProgress();
-      return showAlignedCTA();
-    }
-  }
-
-  // Scenario 4: Credit building
-  if (step === 10) {
-    if (lower.includes('yes')) {
-      appendMessage(`That’s a great step forward!`);
-    } else {
-      step = 13; // Skip to mindset check for Scenarios 6 and 7
-      ask(questions[13]);
+      step = 10;
+      ask(questions[10]);
       return;
     }
   }
 
-  // Scenario 4: Credit score
+  // Scenario 11: Scheduling preference
+  if (step === 10) {
+    if (!/(morning|afternoon|evening)/i.test(lower)) {
+      appendMessage(`Please choose a valid time: morning, afternoon, or evening.`);
+      isSending = false;
+      return;
+    }
+    userData.schedulePreference = ans;
+    saveUserData();
+    appendMessage(`Perfect, we’re excited to get you scheduled! Our representatives’ time is valuable, so come ready to shine—dress sharp, have notes prepared, and bring your A-game to make the most of this opportunity.`);
+    step = 13;
+    updateProgress();
+    return showAlignedCTA();
+  }
+
+  // Scenario 12: Credit building
   if (step === 11) {
+    if (lower.includes('yes')) {
+      appendMessage(`That’s a great step forward!`);
+    } else {
+      step = 14;
+      ask(questions[14]);
+      return;
+    }
+  }
+
+  // Scenario 13: Credit score
+  if (step === 12) {
     if (!/\d+/.test(lower)) {
       appendMessage(`Please enter a valid credit score or milestone (e.g., 700).`);
       isSending = false;
@@ -437,8 +494,8 @@ function handleLogic(ans) {
     saveUserData();
   }
 
-  // Scenario 4: Credit milestone
-  if (step === 12) {
+  // Scenario 14: Credit milestone
+  if (step === 13) {
     userData.creditMilestone = ans;
     saveUserData();
     updateProgress();
@@ -446,7 +503,7 @@ function handleLogic(ans) {
   }
 
   // Scenarios 6 and 7: Mindset check
-  if (step === 13) {
+  if (step === 14) {
     if (lower.includes('yes')) {
       return showMindsetPrep();
     } else {
@@ -464,7 +521,7 @@ function handleLogic(ans) {
 }
 
 function showAlignedCTA() {
-  appendMessage(`Awesome! You’re aligned. Book a call with one of our team members to explore next steps. <button onclick="window.open('${CLIENT_CTA_LINK}', '_blank')">Click here</button>`);
+  appendMessage(`Take the next step by booking a call or securing your spot now.<div class="action-buttons"><button class="book-btn" onclick="window.open('${CLIENT_CTA_LINK}', '_blank')" aria-label="Book a consultation call"><i class="fas fa-calendar-check"></i> Book a Call</button><button class="pay-btn" onclick="window.open('${CLIENT_PAYMENT_LINK}', '_blank')" aria-label="Make a payment"><i class="fas fa-credit-card"></i> Pay Now</button></div>`);
   inputRow.style.display = 'none';
 }
 
