@@ -30,7 +30,7 @@
       padding: 2rem;
       max-width: 700px;
       margin: 2rem auto;
-      box-shadow: 0 0 25px rgba(0, 196, 204, 0.15);
+      box-shadow: 0 0 25px rgba(192, 192, 192, 0.15);
     }
     label {
       display: block;
@@ -55,7 +55,7 @@
     .submit-btn {
       margin-top: 2rem;
       padding: 1rem 2rem;
-      background: linear-gradient(90deg, #00c4cc, #ff6b6b);
+      background: linear-gradient(90deg, silver, white);
       color: black;
       font-weight: 600;
       font-size: 1rem;
@@ -66,7 +66,7 @@
     }
     .submit-btn:hover {
       transform: scale(1.03);
-      box-shadow: 0 0 20px #ff6b6b;
+      box-shadow: 0 0 20px silver;
     }
   </style>
 </head>
@@ -94,13 +94,43 @@
       <label for="niche">Your Niche</label>
       <input type="text" name="niche" required />
 
-      <label for="voice">Preferred Tone/Voice (e.g., casual, professional)</label>
-      <input type="text" name="voice" />
+      <label for="voice">Voice Tone</label>
+      <select name="voice">
+        <option>Chill but Confident</option>
+        <option>Direct and Bold</option>
+        <option>Friendly and Warm</option>
+        <option>Professional</option>
+        <option>Other</option>
+      </select>
 
-      <label for="filtering">Lead Filter Customization<br><small>How should PlugBot qualify or disqualify leads? (age, savings, credit, etc.)</small></label>
+      <label for="personality">Bot Personality</label>
+      <select name="personality">
+        <option>Digital Closer</option>
+        <option>Cool Assistant</option>
+        <option>Elite Sales Rep</option>
+        <option>Other</option>
+      </select>
+
+      <label for="theme">Theme Color</label>
+      <select name="theme">
+        <option>Jet Black + Silver (Default)</option>
+        <option>Matte Charcoal + White</option>
+        <option>Stealth Mode</option>
+        <option>Other</option>
+      </select>
+
+      <label for="mascot">Mascot Style</label>
+      <select name="mascot">
+        <option>Hoodie w/ "PLUG"</option>
+        <option>Futuristic Avatar</option>
+        <option>Simple Icon</option>
+        <option>Other</option>
+      </select>
+
+      <label for="filtering">Lead Filtering Criteria<br><small>How should PlugBot qualify or disqualify leads? (age, savings, credit, etc.)</small></label>
       <textarea name="filtering" required></textarea>
 
-      <label for="notes">Any other requests or notes?</label>
+      <label for="notes">Other Notes or Requests</label>
       <textarea name="notes"></textarea>
 
       <button class="submit-btn" type="submit">Submit My PlugBot</button>
