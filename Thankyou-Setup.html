@@ -10,23 +10,23 @@
       margin: 0;
       font-family: 'Inter', sans-serif;
       background-color: #0b0b0b;
-      color: white;
+      color: #ededed;
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 2rem;
     }
     .container {
-      max-width: 600px;
+      max-width: 700px;
       width: 100%;
       background-color: #111;
       padding: 2rem;
       border-radius: 16px;
-      box-shadow: 0 0 20px #0ff;
+      box-shadow: 0 0 20px #c0c0c0;
     }
     h1 {
       font-size: 2rem;
-      color: #00ffff;
+      color: #c0c0c0;
     }
     p {
       color: #ccc;
@@ -39,7 +39,7 @@
       margin-bottom: 0.5rem;
       font-weight: 600;
     }
-    select, button {
+    select, input, button {
       width: 100%;
       padding: 0.75rem;
       border: none;
@@ -47,26 +47,26 @@
       font-size: 1rem;
       background-color: #222;
       color: white;
-      box-shadow: 0 0 5px #0ff;
+      box-shadow: 0 0 5px #c0c0c0;
     }
     button {
       margin-top: 2rem;
-      background-color: #00ffff;
+      background-color: #c0c0c0;
       color: #000;
       font-weight: bold;
       cursor: pointer;
       transition: all 0.3s ease;
     }
     button:hover {
-      background-color: #0ff;
-      box-shadow: 0 0 15px #0ff;
+      background-color: #ededed;
+      box-shadow: 0 0 15px #c0c0c0;
     }
     .footer {
       margin-top: 2rem;
       text-align: center;
     }
     .footer a {
-      color: #00ffff;
+      color: #c0c0c0;
       text-decoration: none;
       font-weight: bold;
     }
@@ -80,14 +80,32 @@
   <div class="container">
     <img src="/path-to-your-mascot.png" alt="PlugBot Mascot">
     <h1>✅ You’re Plugged In.</h1>
-    <p>Your AI assistant is locked and loaded. Now customize your PlugBot experience.</p>
+    <p>Your AI assistant is locked and loaded. Customize your PlugBot experience below.</p>
     <form action="https://formspree.io/f/xwpbrgyk" method="POST">
+      <label for="name">Your Name</label>
+      <input type="text" id="name" name="name" placeholder="John Doe" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" required>
+
+      <label for="confirmEmail">Confirm Email</label>
+      <input type="email" id="confirmEmail" name="confirmEmail" placeholder="Re-enter your email" required>
+
+      <label for="botname">Custom PlugBot Name</label>
+      <input type="text" id="botname" name="botname" placeholder="e.g. SalesPlug, GhostCloser" required>
+
+      <label for="booking">Booking Link</label>
+      <input type="url" id="booking" name="booking" placeholder="https://calendly.com/your-link" required>
+
+      <label for="payment">Optional Payment Link</label>
+      <input type="url" id="payment" name="payment" placeholder="https://buy.stripe.com/...">
+
       <label for="theme">Theme Color</label>
       <select id="theme" name="theme">
-        <option>Jet Black + Neon Blue</option>
-        <option>Charcoal + Electric Green</option>
-        <option>White + Gold</option>
-        <option>Midnight Purple + Ice Blue</option>
+        <option>Jet Black + Silver (Default)</option>
+        <option>Charcoal + Steel</option>
+        <option>White + Silver</option>
+        <option>Midnight Purple + Chrome</option>
       </select>
 
       <label for="tone">Voice Tone</label>
