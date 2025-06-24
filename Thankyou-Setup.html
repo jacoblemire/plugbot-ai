@@ -1,117 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Design Your PlugBot</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You're Plugged In – Customize Your PlugBot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
-      background-color: #000;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #0b0b0b;
       color: white;
-      font-family: 'Poppins', sans-serif;
       display: flex;
-      align-items: center;
-      justify-content: center;
       flex-direction: column;
+      align-items: center;
       padding: 2rem;
-      min-height: 100vh;
     }
-    .form-container {
-      background: #111;
-      border-radius: 16px;
-      padding: 2rem;
+    .container {
       max-width: 600px;
       width: 100%;
-      box-shadow: 0 0 20px rgba(0,255,200,0.1);
+      background-color: #111;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 0 20px #0ff;
     }
     h1 {
       font-size: 2rem;
-      margin-bottom: 0.5rem;
+      color: #00ffff;
     }
     p {
       color: #ccc;
-      font-size: 0.95rem;
+      margin-top: 0.5rem;
       margin-bottom: 1.5rem;
     }
     label {
       display: block;
       margin-top: 1rem;
-      font-weight: bold;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
     }
-    input, textarea, select {
+    select, button {
       width: 100%;
-      margin-top: 0.5rem;
       padding: 0.75rem;
-      border-radius: 8px;
       border: none;
-      background: #222;
-      color: white;
+      border-radius: 8px;
       font-size: 1rem;
+      background-color: #222;
+      color: white;
+      box-shadow: 0 0 5px #0ff;
     }
     button {
       margin-top: 2rem;
-      background: #00ffcc;
+      background-color: #00ffff;
       color: #000;
-      border: none;
-      padding: 1rem 2rem;
-      border-radius: 8px;
-      cursor: pointer;
       font-weight: bold;
-      transition: background 0.2s ease-in-out;
+      cursor: pointer;
+      transition: all 0.3s ease;
     }
     button:hover {
-      background: #00ccaa;
+      background-color: #0ff;
+      box-shadow: 0 0 15px #0ff;
     }
-    footer {
-      margin-top: 3rem;
-      color: #555;
-      font-size: 0.8rem;
+    .footer {
+      margin-top: 2rem;
+      text-align: center;
+    }
+    .footer a {
+      color: #00ffff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    img {
+      max-width: 150px;
+      margin-bottom: 1rem;
     }
   </style>
 </head>
 <body>
-
-  <div class="form-container">
-    <h1>🎛️ Design Your PlugBot</h1>
-    <p>You’re building your own AI assistant for high-ticket sales. Once submitted, we’ll deliver your custom PlugBot within 24–48 hours.</p>
-
+  <div class="container">
+    <img src="/path-to-your-mascot.png" alt="PlugBot Mascot">
+    <h1>✅ You’re Plugged In.</h1>
+    <p>Your AI assistant is locked and loaded. Now customize your PlugBot experience.</p>
     <form action="https://formspree.io/f/xwpbrgyk" method="POST">
-      <label for="name">Your Name</label>
-      <input type="text" name="Name" id="name" required>
-
-      <label for="email">Your Email</label>
-      <input type="email" name="Email" id="email" required>
-
-      <label for="booking">Booking Link (Calendly, etc.)</label>
-      <input type="url" name="Booking Link" id="booking" required>
-
-      <label for="payment">Payment Link (optional)</label>
-      <input type="url" name="Payment Link" id="payment">
-
-      <label for="assistantName">Assistant Name</label>
-      <input type="text" name="Assistant Name" id="assistantName" placeholder="e.g. Nova, Zion">
-
-      <label for="tone">Bot Tone</label>
-      <select name="Bot Tone" id="tone">
-        <option value="Chill + Real (MXD style)">Chill + Real (MXD style)</option>
-        <option value="Professional + Warm">Professional + Warm</option>
-        <option value="Playful + Bold">Playful + Bold</option>
-        <option value="Dark Luxury">Dark Luxury</option>
+      <label for="theme">Theme Color</label>
+      <select id="theme" name="theme">
+        <option>Jet Black + Neon Blue</option>
+        <option>Charcoal + Electric Green</option>
+        <option>White + Gold</option>
+        <option>Midnight Purple + Ice Blue</option>
       </select>
 
-      <label for="ideal">Ideal Client Filter</label>
-      <textarea name="Ideal Client Filter" id="ideal" placeholder="Who should your bot qualify? Age, income, savings, mindset, etc."></textarea>
+      <label for="tone">Voice Tone</label>
+      <select id="tone" name="tone">
+        <option>Chill but Confident</option>
+        <option>Hype Closer Energy</option>
+        <option>Calm Spiritual Advisor</option>
+        <option>Witty & Playful</option>
+        <option>Corporate Professional</option>
+      </select>
 
-      <label for="notes">Notes for Our Team (optional)</label>
-      <textarea name="Notes" id="notes" placeholder="Anything else we should know?"></textarea>
+      <label for="personality">Bot Personality</label>
+      <select id="personality" name="personality">
+        <option>Digital Closer</option>
+        <option>Soft-Spoken Trust-Builder</option>
+        <option>Creator Assistant</option>
+        <option>Luxury Brand Concierge</option>
+        <option>No-BS Filter Bot</option>
+      </select>
 
-      <button type="submit">Send My Build</button>
+      <label for="style">Mascot Style</label>
+      <select id="style" name="style">
+        <option>Hoodie w/ "PLUG"</option>
+        <option>Futuristic Sales Armor</option>
+        <option>Minimalist Suit</option>
+        <option>Streetwear Variant</option>
+        <option>No Visual Bot (Text Only)</option>
+      </select>
+
+      <button type="submit">🔧 Lock In My PlugBot Settings</button>
     </form>
+
+    <div class="footer">
+      <p><a href="https://plugbot.mxdenterprises.com/">⬅ Back to PlugBot Homepage</a></p>
+    </div>
   </div>
-
-  <footer>
-    PlugBot™ by MXD Enterprises
-  </footer>
-
 </body>
 </html>
