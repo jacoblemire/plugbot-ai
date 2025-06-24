@@ -14,25 +14,25 @@
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <style>
     :root {
-      --bg: #0b0b0b;
-      --text: #ffffff;
-      --dim: #aaaaaa;
-      --accent: #00c4cc;
-      --highlight: #ff6b6b;
-      --card: #1a1a1a;
+      --bg: #0B0B0B; /* Jet Black Background */
+      --text: #EDEDED; /* Light Silver/White */
+      --dim: #CCCCCC; /* Lightened for better contrast (was #AAAAAA) */
+      --accent: #D9D9D9; /* Chrome/Silver Glow */
+      --highlight: rgba(217, 217, 217, 0.4); /* Soft Silver Blur Glow */
+      --card: #222222; /* Dark Gray UI Boxes */
       --rounded: 20px;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #0b0b0b, #1e1e1e);
+      background: linear-gradient(135deg, var(--bg), #1A1A1A);
       color: var(--text);
       overflow-x: hidden;
     }
     header {
       position: sticky;
       top: 0;
-      background: #0b0b0b;
+      background: var(--bg);
       border-bottom: 1px solid #333;
       padding: 1rem;
       text-align: center;
@@ -50,11 +50,11 @@
       text-align: center;
     }
     .hero {
-      background: linear-gradient(135deg, #1a1a1a, #252525);
+      background: linear-gradient(135deg, var(--card), #2A2A2A);
       color: var(--text);
       border-radius: var(--rounded);
       padding: 5rem 2rem;
-      box-shadow: 0 0 50px rgba(0, 196, 204, 0.3);
+      box-shadow: 0 0 50px var(--highlight);
       margin-top: 2rem;
     }
     .hero h1 {
@@ -77,7 +77,7 @@
       color: var(--dim);
     }
     .cta-button {
-      background: linear-gradient(90deg, var(--accent), var(--highlight));
+      background: linear-gradient(90deg, var(--accent), #FFFFFF);
       color: #000;
       padding: 1rem 2rem;
       font-weight: 600;
@@ -85,7 +85,7 @@
       border-radius: var(--rounded);
       text-decoration: none;
       display: inline-block;
-      transition: all: 0.3s ease;
+      transition: all 0.3s ease;
       margin-top: 1rem;
       animation: buttonPulse 4s infinite;
     }
@@ -94,7 +94,7 @@
       box-shadow: 0 0 25px var(--highlight);
     }
     @keyframes buttonPulse {
-      0%, 100% { box-shadow: 0 0 10px var(--accent); }
+      0%, 100% { box-shadow: 0 0 10px var(--highlight); }
       50% { box-shadow: 0 0 20px var(--highlight); }
     }
     .compare, .grid {
@@ -109,15 +109,16 @@
       background: var(--card);
       padding: 2rem;
       border-radius: var(--rounded);
-      box-shadow: 0 0 20px rgba(0, 196, 204, 0.2);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
       text-align: left;
-      transition: transform 0.3s;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
     .compare-box:hover, .card:hover {
       transform: translateY(-5px);
+      box-shadow: 0 0 20px var(--highlight);
     }
     .compare-box.bold, .compare-highlight {
-      background: #000;
+      background: var(--bg);
       border: 2px solid var(--accent);
     }
     .compare-box.bold h3, .compare-highlight h2 {
@@ -138,7 +139,7 @@
     }
     .badge {
       display: inline-block;
-      background: var(--highlight);
+      background: var(--accent);
       color: #000;
       padding: 0.3rem 0.8rem;
       border-radius: 12px;
@@ -164,7 +165,7 @@
       color: var(--dim);
     }
     .table th {
-      background: #252525;
+      background: var(--card);
       font-size: 1rem;
     }
     .table td {
@@ -197,19 +198,19 @@
     }
     /* Demo Styles */
     .demo-container {
-      background: linear-gradient(135deg, var(--card), #252525);
+      background: linear-gradient(135deg, var(--card), #2A2A2A);
       border-radius: var(--rounded);
       padding: 2.5rem;
       max-width: 650px;
       margin: 2rem auto;
-      box-shadow: 0 0 50px rgba(0, 196, 204, 0.3);
+      box-shadow: 0 0 50px var(--highlight);
     }
     .avatar-bg img {
       width: 180px;
       margin: 0 auto 2rem;
       display: block;
       animation: float 4s ease-in-out infinite;
-      filter: drop-shadow(0 0 20px var(--accent));
+      filter: drop-shadow(0 0 20px var(--highlight));
     }
     @keyframes float {
       0%, 100% { transform: translateY(0); }
@@ -226,8 +227,8 @@
     .progress {
       width: 0%;
       height: 100%;
-      background: linear-gradient(90deg, var(--accent), var(--highlight));
-      transition: width 0.4s ease;
+      background: linear-gradient(90deg, var(--accent), #FFFFFF);
+      transition: width: 0.4s ease;
     }
     .chat-window {
       width: 100%;
@@ -250,7 +251,7 @@
       border-radius: var(--rounded);
     }
     .chat-window::-webkit-scrollbar-thumb:hover {
-      background: var(--highlight);
+      background: #FFFFFF;
     }
     .chat-message {
       max-width: 85%;
@@ -262,11 +263,11 @@
       animation: fadeIn 0.3s ease;
     }
     .chat-message.bot {
-      background: rgba(255, 255, 255, 0.12);
+      background: rgba(217, 217, 217, 0.12);
       align-self: flex-start;
     }
     .chat-message.user {
-      background: rgba(255, 255, 255, 0.25);
+      background: rgba(217, 217, 217, 0.25);
       align-self: flex-end;
     }
     .chat-input {
@@ -279,17 +280,17 @@
       padding: 1.2rem;
       border-radius: var(--rounded);
       border: none;
-      background: #222;
+      background: var(--card);
       color: var(--text);
       font-size: 1.1rem;
       box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
     }
     .chat-input input:focus {
-      box-shadow: inset 0 0 15px var(--accent);
+      box-shadow: inset 0 0 15px var(--highlight);
       outline: none;
     }
     .chat-input button {
-      background: linear-gradient(90deg, var(--accent), var(--highlight));
+      background: linear-gradient(90deg, var(--accent), #FFFFFF);
       color: #000;
       padding: 1.2rem 1.5rem;
       border: none;
@@ -327,26 +328,26 @@
     <p style="margin-top: 1rem; font-weight: 500; max-width: 680px; margin-left: auto; margin-right: auto;">
       PlugBot is a high-performance AI lead qualification agency. We specialize in setting only hot, ready-to-close leads — fully replacing appointment setters with advanced sales logic designed to drive conversions and eliminate wasted time.
     </p>
-    <a href="https://whop.com/checkout/plan_mSdAop1LuIY20?d2c=true" class="cta-button">Get Your PlugBot →</a>
+    <a href="https://whop.com/checkout/plan_90VaIA48j7qxA?d2c=true" class="cta-button">Get Your PlugBot →</a>
   </section>
 
   <section class="section" data-aos="fade-up">
-    <h2>Try PlugBot Basic Demo</h2>
-    <p>Experience how PlugBot qualifies leads and routes them to bookings. Try PlugBot Basic for free to customize and deploy your own!</p>
+    <h2>Try PlugBot Demo</h2>
+    <p>Experience how PlugBot qualifies leads and routes them to bookings. Try PlugBot for free to customize and deploy your own!</p>
     <div class="demo-container">
       <div class="avatar-bg">
-        <img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot Avatar" onerror="this.src='https://via.placeholder.com/180'">
+        <img src="https://raw.githubusercontent.com/jacoblemire/plugbot-ai/main/PlugBot.png" alt="PlugBot Avatar" onerror="this.src='https://via.placeholder.com/180'" loading="lazy">
       </div>
       <div class="progress-bar"><div class="progress" id="progress"></div></div>
       <div class="chat-window" id="chatWindow">
-        <div class="chat-message bot">Hi! I'm PlugBot. Are you interested in our services? (Type "Yes" or "No")</div>
+        <div class="chat-message bot">Hi! I'm PlugBot, your AI lead qualifier. May I have your name?</div>
       </div>
       <div class="chat-input">
-        <input type="text" id="userInput" placeholder="Type your response...">
+        <input type="text" id="userInput" placeholder="Type your response..." aria-label="Chat input for PlugBot demo">
         <button onclick="sendMessage()">Send</button>
       </div>
     </div>
-    <a href="https://whop.com/checkout/plan_mSdAop1LuIY20?d2c=true" class="cta-button">Test PlugBot Basic (Free) →</a>
+    <a href="https://whop.com/checkout/plan_90VaIA48j7qxA?d2c=true" class="cta-button">Buy PlugBot Now →</a>
   </section>
 
   <section class="section" data-aos="fade-up">
@@ -371,7 +372,6 @@
           <li>✅ Personalized onboarding and expert setup consultation</li>
           <li>✅ Designed for scaling brands wanting precision and control</li>
         </ul>
-        <a href="#" class="cta-button">Join Custom Waitlist →</a>
       </div>
       <div class="compare-box bold">
         <h3>🚀 PlugBot Ultra</h3>
@@ -382,7 +382,6 @@
           <li>⭐ Enterprise-grade multi-channel power, ready for high-scale operations</li>
           <li>⭐ Built for top-tier brands demanding peak performance and domination</li>
         </ul>
-        <a href="#" class="cta-button">Join Ultra Waitlist →</a>
       </div>
     </div>
   </section>
@@ -393,51 +392,45 @@
       <table class="table">
         <tr>
           <th scope="col">Feature</th>
-          <th scope="col">Basic</th>
-          <th scope="col">Custom</th>
-          <th scope="col">Ultra</th>
+          <th scope="col">PlugBot ($995)</th>
+          <th scope="col">Custom (Coming Soon)</th>
+          <th scope="col">Ultra (Waitlist)</th>
         </tr>
         <tr>
-          <td>Prebuilt Automation</td>
-          <td class="check">✔</td>
-          <td class="check">✔</td>
-          <td class="check">✔</td>
+          <td>Done-for-You Build</td>
+          <td>Fully prebuilt & personalized setup</td>
+          <td>Tailored build + deeper customization</td>
+          <td>White-glove priority build w/ advanced setup</td>
         </tr>
         <tr>
-          <td>Brand Customization</td>
-          <td>—</td>
-          <td class="check">✔</td>
-          <td class="check">✔</td>
+          <td>Assistant Branding</td>
+          <td>You choose name, tone, & color</td>
+          <td>Full voice & aesthetic matching</td>
+          <td>Custom visuals, personality & tone stacking</td>
         </tr>
         <tr>
-          <td>Advanced AI Learning</td>
-          <td>—</td>
-          <td>—</td>
-          <td class="check">✔</td>
+          <td>Sales Filtering</td>
+          <td>Filters leads by your ideal client profile</td>
+          <td>Personalized logic & buyer type branches</td>
+          <td>Multi-layered AI logic w/ adaptive responses</td>
         </tr>
         <tr>
-          <td>Human-Like Sales Closing</td>
-          <td>—</td>
-          <td>—</td>
-          <td class="check">✔</td>
+          <td>Lead Engagement</td>
+          <td>Confident convo flow + call-to-action</td>
+          <td>Custom convo structure</td>
+          <td>Human-like qualifying + deep rapport</td>
         </tr>
         <tr>
-          <td>Advanced Sales Logic</td>
-          <td>Basic Filtering</td>
-          <td>Custom Logic</td>
-          <td class="check">Elite Multi-Branch Logic</td>
+          <td>Booking & Routing</td>
+          <td>Connects to your calendar link instantly</td>
+          <td>Dynamic routing setup</td>
+          <td>Multi-platform routing (email, site, DMs)</td>
         </tr>
         <tr>
-          <td>Multi-Channel Mastery</td>
-          <td>—</td>
-          <td>—</td>
-          <td class="check">✔</td>
-        </tr>
-        <tr>
-          <td>Personalized Onboarding</td>
-          <td>Basic Setup</td>
-          <td class="check">✔</td>
-          <td class="check">✔ (priority)</td>
+          <td>Client Delivery</td>
+          <td>Delivered in 24–48h with setup support</td>
+          <td>Fast-track + integration support</td>
+          <td>Private delivery w/ ongoing optimization tools</td>
         </tr>
       </table>
     </div>
@@ -471,6 +464,7 @@
     const userInput = document.getElementById('userInput');
     const progressBar = document.getElementById('progress');
     let demoState = 0;
+    let userData = { name: '', interested: false, businessType: '', leadVolume: '' };
 
     function addMessage(text, sender) {
       const message = document.createElement('div');
@@ -481,33 +475,65 @@
     }
 
     function updateProgress() {
-      const maxSteps = 2;
+      const maxSteps = 4;
       const percent = Math.min((demoState / maxSteps) * 100, 100);
       progressBar.style.width = percent + '%';
     }
 
     function sendMessage() {
       const text = userInput.value.trim();
-      if (!text) return;
+      if (!text) {
+        addMessage("Please enter a response to continue.", "bot");
+        return;
+      }
       addMessage(text, 'user');
       userInput.value = '';
 
       setTimeout(() => {
         if (demoState === 0) {
+          userData.name = text;
+          addMessage(`Nice to meet you, ${userData.name}! Are you interested in scaling your sales? (Type 'Yes' or 'No')`, "bot");
+          demoState = 1;
+          updateProgress();
+        } else if (demoState === 1) {
           if (text.toLowerCase() === 'yes') {
-            addMessage('Great! Are you looking to book a call or learn more? (Type "Book" or "Learn")', 'bot');
-            demoState = 1;
+            userData.interested = true;
+            addMessage(`Great, ${userData.name}! What type of business are you running? (e.g., Coaching, E-commerce, Agency)`, "bot");
+            demoState = 2;
             updateProgress();
           } else {
-            addMessage('No worries! If you change your mind, I’m here to help.', 'bot');
+            addMessage(`No worries, ${userData.name}! If you change your mind, PlugBot can help streamline your sales. Try again anytime!`, "bot");
+            return;
           }
-        } else if (demoState === 1) {
-          if (text.toLowerCase() === 'book') {
-            addMessage('Awesome! I’d redirect you to a booking link now (e.g., Calendly). Test PlugBot Basic for free to set yours!', 'bot');
+        } else if (demoState === 2) {
+          userData.businessType = text;
+          addMessage(`Got it, a ${userData.businessType} business! How many leads do you typically handle per month? (e.g., '50', '100+', 'Not sure')`, "bot");
+          demoState = 3;
+          updateProgress();
+        } else if (demoState === 3) {
+          userData.leadVolume = text;
+          const volume = text.toLowerCase();
+          let response = `Thanks for sharing, ${userData.name}! With your ${userData.businessType} business handling ${userData.leadVolume} leads, PlugBot can filter and qualify them to save you time. `;
+          if (volume.includes('not sure') || volume === '') {
+            response += `Since you're unsure about lead volume, would you like to learn how PlugBot tracks and optimizes leads? (Type 'Learn') Or ready to book a call? (Type 'Book')`;
+          } else if (parseInt(volume) > 100 || volume.includes('100+')) {
+            response += `That’s a solid volume! Are you ready to book a call to see how PlugBot can handle high lead flows? (Type 'Book') Or want to learn more? (Type 'Learn')`;
           } else {
-            addMessage('PlugBot filters leads like this to save you time. Test now for free to customize it!', 'bot');
+            response += `Perfect for PlugBot’s precision filtering! Want to book a call to customize it for your needs? (Type 'Book') Or learn more? (Type 'Learn')`;
           }
-          demoState = 2;
+          addMessage(response, "bot");
+          demoState = 4;
+          updateProgress();
+        } else if (demoState === 4) {
+          if (text.toLowerCase() === 'book') {
+            addMessage(`Fantastic, ${userData.name}! I’d send you to a booking link (e.g., Calendly) now. Buy PlugBot to set up yours and start qualifying leads like this!`, "bot");
+          } else if (text.toLowerCase() === 'learn') {
+            addMessage(`PlugBot automates lead qualification for your ${userData.businessType} business, ensuring only hot leads reach you. Buy now to customize it for your ${userData.leadVolume} leads!`, "bot");
+          } else {
+            addMessage(`Not sure what you meant, ${userData.name}. Type 'Book' to schedule a call or 'Learn' to hear more about PlugBot!`, "bot");
+            return;
+          }
+          demoState = 5; // End state
           updateProgress();
         }
       }, 1000);
