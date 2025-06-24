@@ -3,138 +3,249 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlugBot Setup | Thank You</title>
-  <meta name="description" content="Welcome to PlugBot by MXD. Customize your assistant to start filtering and qualifying leads automatically." />
+  <title>PlugBot Setup | Your AI Plug</title>
+  <meta name="description" content="PlugBot by MXD is your AI plug for high-ticket leads. Customize it to filter fluff and book bags." />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
     body {
       font-family: 'Inter', sans-serif;
       background: #0b0b0b;
-      color: white;
-      padding: 3rem 1.5rem;
+      color: #ffffff;
+      padding: 4rem 1.5rem;
       text-align: center;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, #0b0b0b, #1a1a1a);
+      animation: bgPulse 10s infinite ease-in-out;
+    }
+    @keyframes bgPulse {
+      0% { background-position: 0% 0%; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0% 0%; }
     }
     h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
+      font-size: 2.8rem;
+      margin-bottom: 1.5rem;
+      color: #d1d1d1;
+      font-weight: 700;
+      letter-spacing: 1px;
+      overflow: hidden;
+      white-space: nowrap;
+      animation: typing 3s steps(20, end) forwards, blink 0.75s step-end 3s 1;
     }
-    p {
-      color: #aaa;
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    @keyframes blink {
+      50% { border-right: 3px solid #d1d1d1; }
+      100% { border-right: 3px solid transparent; }
+    }
+    .subheading {
+      font-size: 1.3rem;
       max-width: 700px;
-      margin: 0.75rem auto 2rem;
+      margin: 0 auto 2.5rem;
       line-height: 1.6;
+      color: #cccccc;
+      font-weight: 700;
+      opacity: 0;
+      animation: subheadingAnim 2s ease-out 3.5s forwards;
+    }
+    @keyframes subheadingAnim {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
     }
     .card {
       background: #1a1a1a;
       border-radius: 20px;
-      padding: 2rem;
+      padding: 2.5rem;
       max-width: 700px;
-      margin: 2rem auto;
-      box-shadow: 0 0 25px rgba(192, 192, 192, 0.15);
+      margin: 3rem auto;
+      box-shadow: 0 0 25px rgba(209, 209, 209, 0.15);
+      border: 2px solid #d1d1d1;
+      animation: slideUp 1s ease-out;
+      transition: box-shadow 0.3s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .card:hover {
+      box-shadow: 0 0 30px rgba(209, 209, 209, 0.3);
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
     }
     label {
       display: block;
       text-align: left;
-      margin-top: 1rem;
-      margin-bottom: 0.25rem;
-      color: #ddd;
+      margin-bottom: 0.5rem;
+      color: #d1d1d1;
+      font-size: 1rem;
+      font-weight: 500;
     }
     input, select, textarea {
       width: 100%;
-      padding: 0.75rem;
+      padding: 1rem;
       border-radius: 12px;
-      border: none;
+      border: 1px solid #d1d1d1;
       background: #2a2a2a;
-      color: white;
+      color: #ffffff;
       font-size: 1rem;
+      box-sizing: border-box;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      transform: scale(1.02);
+      box-shadow: 0 0 10px rgba(209, 209, 209, 0.5);
     }
     textarea {
       resize: vertical;
-      min-height: 100px;
+      min-height: 120px;
     }
     .submit-btn {
-      margin-top: 2rem;
-      padding: 1rem 2rem;
-      background: linear-gradient(90deg, silver, white);
-      color: black;
+      margin-top: 2.5rem;
+      padding: 1rem 2.5rem;
+      background: #d1d1d1;
+      color: #0b0b0b;
       font-weight: 600;
       font-size: 1rem;
       border-radius: 14px;
       cursor: pointer;
       border: none;
-      transition: 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
     .submit-btn:hover {
       transform: scale(1.03);
-      box-shadow: 0 0 20px silver;
+      box-shadow: 0 0 20px rgba(209, 209, 209, 0.6);
+    }
+    .submit-btn.loading {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+    #custom_filtering, #custom_theme {
+      display: none;
+      margin-top: 1rem;
+    }
+    .highlight-label {
+      font-weight: 600;
+      color: #ffffff;
     }
   </style>
 </head>
 <body>
-  <h1>✅ Purchase Confirmed</h1>
-  <p>Thank you for locking in PlugBot. You’re now ready to customize your assistant and activate your build. We’ll deliver your PlugBot within 24–48 hours.</p>
+  <h1>You Secured PlugBot</h1>
+  <div class="subheading">This isn’t just software. It’s your 24/7 appointment sniper — your unfair advantage. Let’s customize it and lock in conversions within 24–48 hours.</div>
 
   <div class="card">
-    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-      <label for="name">Your Name</label>
-      <input type="text" name="name" required />
+    <form action="https://formspree.io/f/xwpbrgyk" method="POST" id="setupForm">
+      <div class="form-group">
+        <label for="name">What’s Your Name?</label>
+        <input type="text" id="name" name="name" required />
+      </div>
 
-      <label for="email">Your Email</label>
-      <input type="email" name="email" required />
+      <div class="form-group">
+        <label for="email">Your Email?</label>
+        <input type="email" id="email" name="email" required />
+      </div>
 
-      <label for="brand">Your Brand / Business Name</label>
-      <input type="text" name="brand" required />
+      <div class="form-group">
+        <label for="brand">Your Brand or Business Name?</label>
+        <input type="text" id="brand" name="brand" required />
+      </div>
 
-      <label for="booking_link">Booking Link (e.g., Calendly)</label>
-      <input type="url" name="booking_link" required />
+      <div class="form-group">
+        <label for="booking_link">Booking Link (e.g., Calendly)?</label>
+        <input type="url" id="booking_link" name="booking_link" required />
+      </div>
 
-      <label for="payment_link">Payment Link (optional)</label>
-      <input type="url" name="payment_link" />
+      <div class="form-group">
+        <label for="payment_link">Payment Link? (Optional)</label>
+        <input type="url" id="payment_link" name="payment_link" />
+      </div>
 
-      <label for="niche">Your Niche</label>
-      <input type="text" name="niche" required />
+      <div class="form-group">
+        <label for="niche">What’s Your Niche?</label>
+        <select id="niche" name="niche" required>
+          <option value="High Ticket Coaching">High Ticket Coaching</option>
+          <option value="Sales Closer">Sales Closer</option>
+          <option value="Agency Owner">Agency Owner</option>
+          <option value="Service Business">Service Business</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
 
-      <label for="voice">Voice Tone</label>
-      <select name="voice">
-        <option>Chill but Confident</option>
-        <option>Direct and Bold</option>
-        <option>Friendly and Warm</option>
-        <option>Professional</option>
-        <option>Other</option>
-      </select>
+      <div class="form-group">
+        <label for="voice">Voice Tone?</label>
+        <select id="voice" name="voice" required>
+          <option value="Chill but Confident">Chill but Confident</option>
+          <option value="Bold + Direct">Bold + Direct</option>
+          <option value="Smooth & Persuasive">Smooth & Persuasive</option>
+          <option value="Playful and Smart">Playful and Smart</option>
+        </select>
+      </div>
 
-      <label for="personality">Bot Personality</label>
-      <select name="personality">
-        <option>Digital Closer</option>
-        <option>Cool Assistant</option>
-        <option>Elite Sales Rep</option>
-        <option>Other</option>
-      </select>
+      <div class="form-group">
+        <label for="theme">Color/Theme Palette?</label>
+        <select id="theme" name="theme" required>
+          <option value="White + Gold Luxe">White + Gold Luxe (Crisp White & Rich Gold)</option>
+          <option value="Black + Emerald Noir">Black + Emerald Noir (Deep Black & Vibrant Emerald)</option>
+          <option value="Pink + Teal Pop">Pink + Teal Pop (Bright Pink & Teal)</option>
+          <option value="Navy + Copper Retro">Navy + Copper Retro (Dark Navy & Copper)</option>
+          <option value="Cream + Lavender Dream">Cream + Lavender Dream (Soft Cream & Lavender)</option>
+          <option value="Other">Other</option>
+        </select>
+        <textarea id="custom_theme" name="custom_theme" placeholder="Drop your custom vibe, like ‘Matte Black + Neon Red’"></textarea>
+      </div>
 
-      <label for="theme">Theme Color</label>
-      <select name="theme">
-        <option>Jet Black + Silver (Default)</option>
-        <option>Matte Charcoal + White</option>
-        <option>Stealth Mode</option>
-        <option>Other</option>
-      </select>
+      <div class="form-group">
+        <label for="filtering" class="highlight-label">Lead Filter Preferences? (No Fluff)</label>
+        <select id="filtering" name="filtering" required>
+          <option value="Must be 18+ and have $500+ in savings or credit">Must be 18+ and have $500+ in savings or credit</option>
+          <option value="Only qualify if they mention credit">Only qualify if they mention credit</option>
+          <option value="Disqualify anyone under 17 or without financial intent">Disqualify anyone under 17 or without financial intent</option>
+          <option value="Other">Other</option>
+        </select>
+        <textarea id="custom_filtering" name="custom_filtering" placeholder="Write your custom filtering rules (e.g., ‘Only leads with $1k+ budget’)"></textarea>
+      </div>
 
-      <label for="mascot">Mascot Style</label>
-      <select name="mascot">
-        <option>Hoodie w/ "PLUG"</option>
-        <option>Futuristic Avatar</option>
-        <option>Simple Icon</option>
-        <option>Other</option>
-      </select>
+      <div class="form-group">
+        <label for="notes">Any Other Requests or Notes?</label>
+        <textarea id="notes" name="notes" placeholder="Drop any extra details or vibes you want us to nail"></textarea>
+      </div>
 
-      <label for="filtering">Lead Filtering Criteria<br><small>How should PlugBot qualify or disqualify leads? (age, savings, credit, etc.)</small></label>
-      <textarea name="filtering" required></textarea>
-
-      <label for="notes">Other Notes or Requests</label>
-      <textarea name="notes"></textarea>
-
-      <button class="submit-btn" type="submit">Submit My PlugBot</button>
+      <button class="submit-btn" type="submit">Plug It In</button>
     </form>
   </div>
+
+  <script>
+    const filterSelect = document.getElementById('filtering');
+    const customFilterInput = document.getElementById('custom_filtering');
+    const themeSelect = document.getElementById('theme');
+    const customThemeInput = document.getElementById('custom_theme');
+    const form = document.getElementById('setupForm');
+    const submitBtn = document.querySelector('.submit-btn');
+
+    filterSelect.addEventListener('change', () => {
+      customFilterInput.style.display = filterSelect.value === 'Other' ? 'block' : 'none';
+    });
+
+    themeSelect.addEventListener('change', () => {
+      customThemeInput.style.display = themeSelect.value === 'Other' ? 'block' : 'none';
+    });
+
+    form.addEventListener('submit', (e) => {
+      submitBtn.classList.add('loading');
+      submitBtn.textContent = 'Plugging In...';
+      submitBtn.disabled = true;
+      setTimeout(() => {
+        submitBtn.classList.remove('loading');
+        submitBtn.textContent = 'Plug It In';
+        submitBtn.disabled = false;
+      }, 2000);
+    });
+  </script>
 </body>
 </html>
