@@ -273,6 +273,7 @@ const CLIENT_FALLBACK_LINK = 'https://example.com/fallback';
 const questions = [
   "hey, i’m plugbot. ready to lock in your next move?",
   "what’s your name?",
+  "what’s your email?",
   "how old are you?",
   "ever worked online or joined a program like this?",
   "invested in coaching or growth before, or is this your first shot?",
@@ -316,7 +317,7 @@ function removeTyping() {
 }
 
 function updateProgress() {
-  const maxSteps = 15;
+  const maxSteps = 16; // Updated for new email question
   const percent = Math.min((step / maxSteps) * 100, 100);
   progressBar.style.width = percent + '%';
 }
@@ -356,6 +357,38 @@ function saveUserData() {
   localStorage.setItem('plugbotUserData', JSON.stringify(userData));
 }
 
+async function submitToFormspree() {
+  try {
+    const response = await fetch('https://formspree.io/f/xdkzyjer', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        _replyto: userData.email,
+        name: userData.name,
+        age: userData.age,
+        interest: userData.interest,
+        currentIncome: userData.currentIncome,
+        incomeGoal: userData.incomeGoal,
+        hasSavingsGoal: userData.hasSavingsGoal,
+        hasFunds: userData.hasFunds,
+        schedulePreference: userData.schedulePreference,
+        creditScoreGoal: userData.creditScoreGoal,
+        creditMilestone: userData.creditMilestone
+      })
+    });
+    if (response.ok) {
+      console.log('Data sent to Formspree successfully');
+    } else {
+      console.error('Formspree submission failed:', response.status);
+    }
+  } catch (error) {
+    console.error('Error submitting to Formspree:', error);
+  }
+}
+
 function handleLogic(ans) {
   const lower = ans.toLowerCase().trim();
 
@@ -378,9 +411,20 @@ function handleLogic(ans) {
   }
 
   if (step === 2) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ans)) {
+      appendMessage('please enter a valid email, like example@domain.com.');
+      isSending = false;
+      return;
+    }
+    userData.email = ans;
+    saveUserData();
+    appendMessage(`thanks, ${ans}.`);
+  }
+
+  if (step === 3) {
     const age = parseInt(ans);
-    if (isNaN(age)) {
-      appendMessage(`enter a number, like 25.`);
+    if (isNaN(age) || age < 17 || age > 120) {
+      appendMessage(`enter a number between 17 and 120, like 25.`);
       isSending = false;
       return;
     }
@@ -392,7 +436,7 @@ function handleLogic(ans) {
     appendMessage(`solid, let’s keep it moving.`);
   }
 
-  if (step === 3) {
+  if (step === 4) {
     if (lower.includes('yes') || lower.includes('have')) {
       appendMessage(`that’s experience we can build on.`);
     } else {
@@ -400,7 +444,7 @@ function handleLogic(ans) {
     }
   }
 
-  if (step === 4) {
+  if (step === 5) {
     if (lower.includes('first') || lower.includes('no')) {
       appendMessage(`first moves are big. respect.`);
     } else if (lower.includes('yes') || lower.includes('have')) {
@@ -411,15 +455,15 @@ function handleLogic(ans) {
     appendMessage(`let’s talk why you’re here.`);
   }
 
-  if (step === 5) {
+  if (step === 6) {
     userData.interest = ans;
     saveUserData();
     appendMessage(`that’s what we like to hear. now, your goals.`);
   }
 
-  if (step === 6) {
-    if (!/(\$?\d+|\d+k|no job|none)/i.test(lower)) {
-      appendMessage(`use a number, like $1000, 1k, or ‘no job’.`);
+  if (step === 7) {
+    if (!/(\$?\d+([kKmM])?|\d+-\d+[kKmM]?|no job|none)/i.test(lower)) {
+      appendMessage(`use a number like $1000, 1k, 10-20k, or ‘no job’.`);
       isSending = false;
       return;
     }
@@ -427,8 +471,8 @@ function handleLogic(ans) {
     saveUserData();
   }
 
-  if (step === 7) {
-    if (!/(\$?\d+|\d+k|\d+-\d+k)/i.test(lower)) {
+  if (step === 8) {
+    if (!/(\$?\d+([kKmM])?|\d+-\d+[kKmM]?)/i.test(lower)) {
       appendMessage(`aim for a number, like $10000, 10k, or 10-20k.`);
       isSending = false;
       return;
@@ -437,24 +481,24 @@ function handleLogic(ans) {
     saveUserData();
   }
 
-  if (step === 8) {
+  if (step === 9) {
     userData.hasSavingsGoal = lower.includes('yes');
     saveUserData();
   }
 
-  if (step === 9) {
+  if (step === 10) {
     userData.hasFunds = /(yes|yea|yeah|yep|sure|i do|i have|credit|card|\$|\d+)/i.test(lower);
     saveUserData();
     if (!userData.hasFunds || lower.includes('no job') || lower.includes('none')) {
       appendMessage(`thanks for being real.`);
     } else {
-      step = 10;
-      ask(questions[10]);
+      step = 11;
+      ask(questions[11]);
       return;
     }
   }
 
-  if (step === 10) {
+  if (step === 11) {
     if (!/(morning|afternoon|evening)/i.test(lower)) {
       appendMessage(`pick a time: morning, afternoon, or evening.`);
       isSending = false;
@@ -463,22 +507,22 @@ function handleLogic(ans) {
     userData.schedulePreference = ans;
     saveUserData();
     appendMessage(`locked in. bring your best—sharp look, notes ready, full focus.`);
-    step = 13;
+    step = 14;
     updateProgress();
     return showAlignedCTA();
   }
 
-  if (step === 11) {
+  if (step === 12) {
     if (lower.includes('yes')) {
       appendMessage(`smart move, building that foundation.`);
     } else {
-      step = 14;
-      ask(questions[14]);
+      step = 15;
+      ask(questions[15]);
       return;
     }
   }
 
-  if (step === 12) {
+  if (step === 13) {
     if (!/\d+/.test(lower)) {
       appendMessage(`need a number, like 700.`);
       isSending = false;
@@ -488,14 +532,14 @@ function handleLogic(ans) {
     saveUserData();
   }
 
-  if (step === 13) {
+  if (step === 14) {
     userData.creditMilestone = ans;
     saveUserData();
     updateProgress();
     return showAlignedCTA();
   }
 
-  if (step === 14) {
+  if (step === 15) {
     if (lower.includes('yes')) {
       return showMindsetPrep();
     } else {
@@ -513,6 +557,7 @@ function handleLogic(ans) {
 }
 
 function showAlignedCTA() {
+  submitToFormspree(); // Send data to Formspree
   const ctaMessage = document.createElement('div');
   ctaMessage.className = 'msg-box bot-msg';
   ctaMessage.innerHTML = `ready to close the deal? book your call or secure your spot.<div class="action-buttons"><button class="book-btn" onclick="window.open('${CLIENT_CTA_LINK}', '_blank')" aria-label="book a consultation call"><i class="fas fa-calendar-check"></i> book call</button><button class="pay-btn" onclick="window.open('${CLIENT_PAYMENT_LINK}', '_blank')" aria-label="make a payment"><i class="fas fa-credit-card"></i> pay now</button></div>`;
@@ -523,11 +568,13 @@ function showAlignedCTA() {
 
 function showMindsetPrep() {
   appendMessage(`that’s the mindset. stay sharp, use what you got, and level up with these resources. we’re here when you’re ready. <a href="${CLIENT_RESOURCE_LINK}" target="_blank">click here</a>`);
+  submitToFormspree(); // Send data to Formspree
   inputRow.style.display = 'none';
 }
 
 function showFallback() {
   appendMessage(`all good. best of luck out there. check these resources to keep moving. <a href="${CLIENT_FALLBACK_LINK}" target="_blank">click here</a>`);
+  submitToFormspree(); // Send data to Formspree
   inputRow.style.display = 'none';
 }
 
@@ -538,6 +585,7 @@ function endFlow(message) {
   chat.appendChild(endMessage);
   scrollChatToBottom();
   inputRow.style.display = 'none';
+  submitToFormspree(); // Send data to Formspree
 }
 
 function resetChat() {
